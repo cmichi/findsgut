@@ -2,7 +2,6 @@ var config = require('./config');
 var express = require('express');
 var http = require('http');
 var sanitize = require('validator').sanitize
-var langs = require('./modules/language-list');
 
 var cradle = require('cradle');
 var db = new(cradle.Connection)('127.0.0.1', 5984).database('findsgut');
