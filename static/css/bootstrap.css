@@ -1690,19 +1690,19 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 .form-control:-moz-placeholder {
-  color: #ffffff;
+  color: #555;
 }
 
 .form-control::-moz-placeholder {
-  color: #ffffff;
+  color: #555;
 }
 
 .form-control:-ms-input-placeholder {
-  color: #ffffff;
+  color: #555;
 }
 
 .form-control::-webkit-input-placeholder {
-  color: #ffffff;
+  color: #555;
 }
 
 .form-control {
@@ -3774,6 +3774,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .nav {
+  font-size: 17px;
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
@@ -4157,7 +4158,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 
 .navbar-fixed-top,
 .navbar-fixed-bottom {
-  position: fixed;
+  position: absolute;
   right: 0;
   left: 0;
   border-width: 0 0 1px;
@@ -4183,7 +4184,6 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .navbar-brand {
   float: left;
   padding: 15px 15px;
-  font-size: 18px;
   line-height: 20px;
 }
 

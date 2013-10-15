@@ -4,23 +4,63 @@ block content
 	div.navbar.navbar-inverse.navbar-fixed-top
 		div.container
 			div.navbar-header.
-				<a class="navbar-brand" href="#">Project name</a>
+				<a class="navbar-brand" href="#">
+					<!--
+					<img src="/img/findsgut.png" height="40" />
+					-->
+					findsgut.de
+				</a>
 
 			div.navbar-collapse.collapse.
 				<ul class="nav navbar-nav">
 					<li class="active"><a href="#">Home</a></li>
-					<li><a href="#about">About</a></li>
-					<li><a href="#contact">Contact</a></li>
+					<li><a href="#about">Idee</a></li>
+					<li><a href="#contact">Mitmachen</a></li>
+					<li><a href="#contact">Anregungen</a></li>
 				</ul>
 
 	div.jumbotron
+		div.container(style="height:380px;text-align:center;")
+			img(src="/img/index.png",style="height:150px;width:474px;margin-top:30px;")
+
+			div(style="margin-top:75px;width:70%;margin-left:15%;").
+				<div style="float:left">
+						<button type="button" class="btn default btn-lg"
+						>
+						<img src="/img/wabe.png" style="height:20px;margin-right:15px;" />
+						Neuer Eintrag
+						</button>
+				</div>
+
+				<div style="float:right">
+				<form class="bs-example">
+				<div class="col-lg-10">
+					<input class="form-control input-lg" type="text" placeholder="Kleidung in Ulm" />
+				</div>
+				<div class="col-lg-2">
+						<button type="button" class="btn default btn-lg" >
+						<img src="/img/wabe.png" style="height:20px" />
+						Suchen
+						</button>
+					</div>
+				</form>
+				</div>
+
+	div.jumbotron(style="display:none")
 		div.container
 			h1.
 				Hello, world!
 			p.
 				This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.
 			p.
-				<a class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+				<a class="btn btn-primary btn-lg">Learn more &raquo;</a>
+
+
+	div.container
+		div.
+			<form class="bs-example">
+				<input class="form-control" type="text" placeholder="Lorem" />
+			</form>
 
 	div.container
 		div.row
@@ -41,5 +81,9 @@ block content
 		hr
 
 		footer.
-			<p class="pull-right"><a href="#">Back to top</a></p>
-			<p>&copy; 2013 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+			<p class="pull-right">
+				<a href="/impressum">Kontakt</a>
+				&middot;
+				<a href="/impressum">Impressum</a>
+			</p>
+			12 Views
