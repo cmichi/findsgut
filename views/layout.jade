@@ -1,0 +1,32 @@
+html
+	head
+		block head
+
+		link(rel='shortcut icon',type='image/png',href='/img/wabe.png')
+		title.
+			findsgut.de | Verzeichnis für verantwortungsvolle Produkte und Dienstleistungen
+
+		meta(name="description",content="findsgut.de ist ein gemeinschaftlich gepflegtes Verzeichnis für verantwortungsvolle Produkte und Dienstleistungen. ")
+		meta(name="viewport",content="width=device-width, initial-scale=1.0")
+
+		link(href="css/bootstrap.css",rel="stylesheet", rel="stylesheet")
+		link(href="css/jumbotron.css",rel="stylesheet", rel="stylesheet")
+
+		style#holderjs-style(type="text/css").
+			.holderjs-fluid {font-size:16px;font-weight:bold;text-align:center;font-family:sans-serif;margin:0}
+
+		//if lt IE 9].
+			<script src="/js/html5shiv.js"></script>
+			<script src="/js/respond.min.js"></script>
+
+
+	body
+
+		block content
+		block scripts
+
+		script(src='/js/jquery-1.10.1.min.js') 
+		script(src='/js/bootstrap.js') 
+
+		script(src='/js/main.js') 
+		script(src='/js/holder.js')
