@@ -44,6 +44,10 @@ app.get('/kontakt', function(req, res) {
 	res.render('kontakt', { });
 });
 
+app.get('/neu', function(req, res) {
+	res.render('neu', { });
+});
+
 app.post('/kontakt', function(req, res) {
 	var content = "Name:\t" + req.param('inputName') + "\n";
 	content += "E-Mail:\t" + req.param('inputEmail') + "\n\n";
@@ -64,21 +68,20 @@ app.post('/kontakt', function(req, res) {
 
 function navi(k, req) {
 	var navi = {
-		login: 0
-		, home: ""
-		, new: ""
-		, user: ""
+		  home: ""
+		, entries: ""
+		, feedback: ""
 	};
 
 	if (req.session.user != null)
 		navi.login = 1;
 
-	if (k === "index") 
+	if (k === "entries")
+		navi.entries = "active";
+	else if (k === "feedback")
+		navi.feedback = "active";
+	else
 		navi.home = "active";
-	else if (k === "new")
-		navi.new = "active";
-	else 
-		navi.user = "active";
 
 	return navi;
 }

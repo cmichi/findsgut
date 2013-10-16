@@ -3818,12 +3818,12 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .nav > li.disabled > a {
-  color: #ffffff;
+  color: #000;
 }
 
 .nav > li.disabled > a:hover,
 .nav > li.disabled > a:focus {
-  color: #ffffff;
+  color: #000;
   text-decoration: none;
   cursor: not-allowed;
   background-color: transparent;
@@ -3921,7 +3921,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .nav-pills > li.active > a,
 .nav-pills > li.active > a:hover,
 .nav-pills > li.active > a:focus {
-  color: #ffffff;
+  color: #000;
   background-color: #428bca;
 }
 
@@ -4500,7 +4500,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse .navbar-brand {
-  color: #ffffff;
+  color: #000;
 }
 
 .navbar-inverse .navbar-brand:hover,
@@ -4514,19 +4514,19 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse .navbar-nav > li > a {
-  color: #ffffff;
+  color: #000;
 }
 
 .navbar-inverse .navbar-nav > li > a:hover,
 .navbar-inverse .navbar-nav > li > a:focus {
-  color: #ffffff;
+  color: #000;
   background-color: transparent;
 }
 
 .navbar-inverse .navbar-nav > .active > a,
 .navbar-inverse .navbar-nav > .active > a:hover,
 .navbar-inverse .navbar-nav > .active > a:focus {
-  color: #ffffff;
+  color: #000;
 }
 
 .navbar-inverse .navbar-nav > .disabled > a,
@@ -4557,7 +4557,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .navbar-inverse .navbar-nav > .open > a,
 .navbar-inverse .navbar-nav > .open > a:hover,
 .navbar-inverse .navbar-nav > .open > a:focus {
-  color: #ffffff;
+  color: #000;
 }
 
 .navbar-inverse .navbar-nav > .dropdown > a:hover .caret {
@@ -4603,7 +4603,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse .navbar-link {
-  color: #ffffff;
+  color: #000;
 }
 
 .navbar-inverse .navbar-link:hover {
@@ -4928,7 +4928,7 @@ a.list-group-item.active > .badge,
   /*
   background-color: #eeeeee;
   */
-  background: url(/img/bg.png) repeat-y;
+  background: url(/img/bg2.png) repeat-y;
 }
 
 .jumbotron h1 {

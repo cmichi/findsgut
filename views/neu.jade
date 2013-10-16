@@ -1,0 +1,115 @@
+extends layout
+
+block jumbotron
+	div.jumbotron
+		div.container
+			h1 Neuer Eintrag
+
+			div.sub.
+				Lorem Ipsum dolor sit amet
+
+block content
+	div.row
+		div.col-lg-12
+			h2 Neuer Eintrag
+
+
+	div.row
+		div.col-lg-12
+			- if (success === true) 
+				div.alert.alert-success(style="") Deine Nachricht wurde versendet!
+			- else
+				p.
+					Senden Sie uns einfach eine Nachricht!
+					Wir versuchen schnellstm&ouml;glich
+					darauf zu reagieren.
+
+				p &nbsp;
+
+				form(role="form",method="POST",action="#").form-horizontal.
+					<div class="form-group">
+						<label for="inputEmail1" class="col-lg-2 control-label">Anbieter</label>
+						<div class="col-lg-10">
+							<input type="text" name="inputName" class="form-control" id="inputName" placeholder="">
+						</div>
+					</div>
+					<!--
+					Kategorie
+					Einordnung
+						ueberwiegend fair 
+						ueberwiegend biologisch
+						ueberwiegend regional
+					Online vs Lokal
+					URI
+					Adresse (abh von online vs lokal)
+					Beschreibung (max 500)
+					AGB
+					-->
+
+					<div class="form-group">
+						<label for="inputUri" class="col-lg-2 control-label">Kategorie</label>
+						<div class="col-lg-2">
+							<input type="checkbox" /> Foo
+						</div>
+						<div class="col-lg-2">
+							<input type="checkbox" /> Foo
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="inputUri" class="col-lg-2 control-label">Einordnung</label>
+						<div class="col-lg-3">
+							<input type="checkbox" /> überwiegend faire Produkte
+						</div>
+						<div class="col-lg-3">
+							<input type="checkbox" /> überwiegend biologische Produkte
+						</div>
+						<div class="col-lg-3">
+							<input type="checkbox" /> überwiegend regionale Produkte
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="inputUri" class="col-lg-2 control-label">Online oder lokal?</label>
+						<div class="col-lg-2">
+							<input type="radio" /> Online-Angebot
+						</div>
+						<div class="col-lg-2">
+							<input type="radio" /> Lokales Angebot
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="inputUri" class="col-lg-2 control-label">Internet-Adresse</label>
+						<div class="col-lg-10">
+							<input type="url" name="inputUri" class="form-control" id="inputUri" placeholder="">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="inputDescription" class="col-lg-2 control-label">Adresse</label>
+						<div class="col-lg-10">
+							<textarea id="inputDescription" name="inputDescription" class="form-control" rows="3" maxlength="500"></textarea>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="inputDescription" class="col-lg-2 control-label">Beschreibung</label>
+						<div class="col-lg-10">
+							<textarea id="inputDescription" name="inputDescription" class="form-control" rows="3" maxlength="500"></textarea>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="inputUri" class="col-lg-2 control-label">AGB</label>
+						<div class="col-lg-10">
+							<input type="checkbox" /> Ich habe die AGB gelesen und stimme diesen zu.
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-lg-offset-2 col-lg-10">
+							<button type="submit" class="btn btn-default">Absenden</button>
+						</div>
+					</div>
+			- endif
