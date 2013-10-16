@@ -1,0 +1,62 @@
+extends layout
+
+block jumbotron
+	div.jumbotron
+		div.container
+			h1 Anregungen
+
+			div.sub.
+				Vorschl&auml;ge, Ideen, Kritik, Feedback, Anfragen?
+
+	div.jumbotron(style="display:none")
+		div.container
+			h1.
+				Hello, world!
+			p.
+				This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.
+			p.
+				<a class="btn btn-primary btn-lg">Learn more &raquo;</a>
+
+block content
+	div.row
+		div.col-lg-12
+			h2 Kontaktformular
+
+
+	div.row
+		div.col-lg-12
+			- if (success === true) 
+				div.alert.alert-success(style="") Deine Nachricht wurde versendet!
+			- else
+				p.
+					Senden Sie uns einfach eine Nachricht!
+					Wir versuchen schnellstm&ouml;glich
+					darauf zu reagieren.
+
+				p &nbsp;
+
+				form(role="form",method="POST",action="#").form-horizontal.
+					<div class="form-group">
+						<label for="inputEmail1" class="col-lg-2 control-label">Name</label>
+						<div class="col-lg-10">
+							<input type="text" name="inputName" class="form-control" id="inputName" placeholder="">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputEmail1" class="col-lg-2 control-label">E-Mail</label>
+						<div class="col-lg-10">
+							<input type="email" name="inputEmail" class="form-control" id="inputEmail1" placeholder="">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputMsg" class="col-lg-2 control-label">Deine Nachricht</label>
+						<div class="col-lg-10">
+							<textarea id="inputMsg" name="inputMsg" class="form-control" rows="3"></textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-lg-offset-2 col-lg-10">
+							<button type="submit" class="btn btn-default">Absenden</button>
+						</div>
+					</div>
+			- endif

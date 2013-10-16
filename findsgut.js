@@ -6,6 +6,8 @@ var sanitize = require('validator').sanitize
 var cradle = require('cradle');
 var db = new(cradle.Connection)('127.0.0.1', 5984).database('findsgut');
 
+var EM = require('./modules/email-dispatcher');
+
 var app = express();
 app.configure(function () {
 	app.set('views', __dirname + '/views');
@@ -34,6 +36,32 @@ app.get('/', function(req, res) {
 	res.render('index', { });
 });
 
+app.get('/impressum', function(req, res) {
+	res.render('impressum', { });
+});
+
+app.get('/kontakt', function(req, res) {
+	res.render('kontakt', { });
+});
+
+app.post('/kontakt', function(req, res) {
+	var content = "Name:\t" + req.param('inputName') + "\n";
+	content += "E-Mail:\t" + req.param('inputEmail') + "\n\n";
+	content += "Nachricht:\n" + req.param('inputMsg') + "\n";
+	console.log(content);
+
+	EM.send({
+		to           : 'mich@elmueller.net',
+		subject      : 'www.findsgut.de Kontaktformular',
+		text         : content
+	}, function(e, m){
+		console.log(e || m);
+
+		res.render('kontakt', { success: true });
+		return;
+	});
+});
+
 function navi(k, req) {
 	var navi = {
 		login: 0
@@ -55,3 +83,6 @@ function navi(k, req) {
 	return navi;
 }
 
+app.use(function(req,res){
+	res.render('404', { status: 404, missingurl: req.url });
+});

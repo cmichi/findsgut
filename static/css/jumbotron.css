@@ -4,3 +4,20 @@ body {
     padding-bottom: 20px;
 }
 
+.jumbotron h1 {
+	color: #E6B364;
+	font-family: ff-meta-web-pro-1,ff-meta-web-pro-2,"Century Schoolbook",Century,Garamond,serif;
+	font-style:italic;
+	font-size:2.1em;   
+	font-weight:400;
+	line-height:40px;
+}
+
+.jumbotron .sub, .foo {
+	color: #DDD;
+	font-family: ff-meta-web-pro-1,ff-meta-web-pro-2,"Century Schoolbook",Century,Garamond,serif;
+	font-style:italic;
+	font-size:1.3em;   
+	font-weight:400;
+	line-height:40px;
+}

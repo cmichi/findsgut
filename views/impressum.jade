@@ -1,5 +1,12 @@
 extends layout
 
+block jumbotron
+	div.jumbotron
+		div.container
+			h1 Impressum
+
 block content
-	.row-fluid
-		include ./impressum_de
+	div.container
+		div.row
+			div.col-lg-12
+				include ./impressum_de

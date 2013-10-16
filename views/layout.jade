@@ -9,8 +9,8 @@ html
 		meta(name="description",content="findsgut.de ist ein gemeinschaftlich gepflegtes Verzeichnis für verantwortungsvolle Produkte und Dienstleistungen. ")
 		meta(name="viewport",content="width=device-width, initial-scale=1.0")
 
-		link(href="css/bootstrap.css",rel="stylesheet", rel="stylesheet")
-		link(href="css/jumbotron.css",rel="stylesheet", rel="stylesheet")
+		link(href="/css/bootstrap.css",rel="stylesheet", rel="stylesheet")
+		link(href="/css/jumbotron.css",rel="stylesheet", rel="stylesheet")
 
 		style#holderjs-style(type="text/css").
 			.holderjs-fluid {font-size:16px;font-weight:bold;text-align:center;font-family:sans-serif;margin:0}
@@ -22,7 +22,20 @@ html
 
 	body
 
-		block content
+		include ./navi
+
+		block jumbotron
+
+		div.container
+			block content
+
+			hr
+
+			footer.
+				<p class="pull-right">
+					<a href="/impressum">Impressum</a>
+				</p>
+
 		block scripts
 
 		script(src='/js/jquery-1.10.1.min.js') 
