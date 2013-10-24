@@ -86,14 +86,24 @@ block content
 							span überwiegend regionale Produkte
 						- endif
 
-				div(class="form-group #{error_fields.online_local}").
-					<label for="online_local" class="col-lg-2 control-label">Online oder lokal?</label>
-					<div class="col-lg-2">
-						<input type="radio" name="online_local" value="online" /> Online-Angebot
-					</div>
-					<div class="col-lg-2">
-						<input type="radio" name="online_local" value="local" /> Lokales Angebot
-					</div>
+				div(class="form-group #{error_fields.online_local}")
+					label.col-lg-2.control-label(for="online_local") Online oder lokal?
+					div.col-lg-2
+						- if (values["online_local"] === "online")
+							input(type="radio",name="online_local",value="online",checked="checked") 
+							span Online-Angebot
+						- else
+							input(type="radio",name="online_local",value="online") 
+							span Online-Angebot
+						- endif
+					div.col-lg-2
+						- if (values["online_local"] === "local")
+							input(type="radio",name="online_local",value="local",checked="checked") 
+							span Lokales Angebot
+						- else
+							input(type="radio",name="online_local",value="local") 
+							span Lokales Angebot
+						- endif
 
 				div(class="form-group #{error_fields.uri}").
 					<label for="uri" class="col-lg-2 control-label">Internet-Adresse</label>

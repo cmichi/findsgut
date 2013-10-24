@@ -91,7 +91,7 @@ app.post('/entries/new', function(req, res) {
 
 	if (errors != undefined && errors.length > 0) {
 		// console.log(errors);
-		console.log(validation_results.values)
+		//console.log(validation_results.values)
 		// render site again, show errors, show previously entered input
 		var additional_params = {
 			  "errors": errors
@@ -157,15 +157,20 @@ function validate(body) {
 	var error_fields = get_error_fields();
 	
 	var name = prepare(body.name)
+	var chk_cnt = 0;
 	var chk = validator.check(name, "Bitte geben Sie einen Namen an.").notEmpty();
-	if (chk._errors.length > 0)
+	if (chk._errors.length > chk_cnt)
 		error_fields.name = "has-error";
 	values.name = body.name;
 
+	chk_cnt = chk._errors.length;
+
 	var description = prepare(body.description)
 	var chk = validator.check(description, "Bitte geben Sie eine Beschreibung an.").notEmpty();
-	if (chk._errors.length > 0)
+	if (chk._errors.length > chk_cnt)
 		error_fields.description = "has-error";
+
+	chk_cnt = chk._errors.length;
 
 	var uri = prepare(body.uri);
 	if (body.local_online && uri === "") {
@@ -173,20 +178,29 @@ function validate(body) {
 	}
 	if (uri != "") {
 		var chk = validator.check(body.uri, "Bitte überprüfen Sie die Internetadresse").isUrl();
-		if (chk._errors.length > 0)
+		if (chk._errors.length > chk_cnt)
 			error_fields.uri = "has-error";
 	}
 
-	var chk = validator.check(body.online_local, "Bitte geben Sie an, ob das Angebot online oder lokal ist.").notEmpty();
-	if (chk._errors.length > 0)
+	chk_cnt = chk._errors.length;
+
+	var chk = validator
+		.check(body.online_local, "Bitte geben Sie an, ob das Angebot online oder lokal ist.")
+		.isIn(["online", "local"]);
+	if (chk._errors.length > chk_cnt)
 		error_fields.online_local = "has-error";
+	else 
+		values.online_local = body.online_local;
+
+	chk_cnt = chk._errors.length;
 
 	var chk = validator.check(body.agb, "Bitte akzeptieren Sie die AGB.").equals("on");
-	if (chk._errors.length > 0)
+	if (chk._errors.length > chk_cnt)
 		error_fields.agb = "has-error";
 	else
 		values.agb = "checked='checked'";
 
+	chk_cnt = chk._errors.length;
 
 	var cats_chosen = [];
 	for (var c in categories) {
@@ -200,7 +214,7 @@ function validate(body) {
 		for (var c in cats_chosen) 
 			values["category_" + cats_chosen[c]] = true;
 	}
-	console.log( JSON.stringify(cats_chosen));
+	//console.log( JSON.stringify(cats_chosen));
 
 	var classifications_chosen = [];
 	var classifications = ["fair", "bio", "regional"];
@@ -215,8 +229,8 @@ function validate(body) {
 		for (var c in classifications_chosen) 
 			values[classifications_chosen[c]] = true;
 	}
-	console.log("chosen " +  JSON.stringify(classifications_chosen));
-	console.log("errorfields " +  (error_fields));
+	//console.log("chosen " +  JSON.stringify(classifications_chosen));
+	//console.log("errorfields " +  (error_fields));
 
 	return {
 		"validator": validator
