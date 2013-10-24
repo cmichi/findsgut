@@ -105,29 +105,31 @@ block content
 							span Lokales Angebot
 						- endif
 
-				div(class="form-group #{error_fields.uri}").
-					<label for="uri" class="col-lg-2 control-label">Internet-Adresse</label>
-					<div class="col-lg-10">
-						<input type="url" name="uri" class="form-control" id="uri" placeholder="">
-					</div>
+				div(class="form-group #{error_fields.uri}")
+					label.col-lg-2.control-label(for="uri") Internet-Adresse
+					div.col-lg-10
+						input.form-control(type="url", name="uri", id="uri",value="#{values.uri}")
 
-				div(class="form-group #{error_fields.address}").
-					<label for="address" class="col-lg-2 control-label">Adresse</label>
-					<div class="col-lg-10">
-						<textarea id="address" name="address" class="form-control" rows="3" maxlength="500"></textarea>
-					</div>
+				div(class="form-group #{error_fields.address}")
+					label.col-lg-2.control-label(for="address") Adresse
+					div.col-lg-10
+						textarea.form-control(id="address", name="address",rows="3", maxlength="500") #{values.address}
 
-				div(class="form-group #{error_fields.description}").
-					<label for="description" class="col-lg-2 control-label">Beschreibung</label>
-					<div class="col-lg-10">
-						<textarea id="description" name="description" class="form-control" rows="3" maxlength="500"></textarea>
-					</div>
+				div(class="form-group #{error_fields.description}")
+					label.col-lg-2.control-label(for="description") Beschreibung
+					div.col-lg-10
+						textarea.form-control(id="description", name="description",rows="3", maxlength="500") #{values.description}
 
-				div(class="form-group #{error_fields.agb}").
-					<label for="agb" class="col-lg-2 control-label">AGB</label>
-					<div class="col-lg-10">
-						<input name="agb" id="agb" type="checkbox" /> Ich habe die AGB gelesen und stimme diesen zu.
-					</div>
+				div(class="form-group #{error_fields.agb}")
+					label.col-lg-2.control-label(for="agb") AGB
+					div.col-lg-10
+						- if (values["agb"] === true)
+							input(id="agb", name="agb", type="checkbox", checked="checked") 
+						- else
+							input(id="agb", name="agb", type="checkbox") 
+						-endif
+
+						span Ich habe die AGB gelesen und stimme diesen zu.
 
 				div.form-group.
 					<div class="col-lg-offset-2 col-lg-10">

@@ -76,6 +76,7 @@ var categories = [];
 app.get('/entries/new', function(req, res) {
 	res.render('entries/new', layout.get_vars('entries_new',
 		{"error_fields": get_error_fields()
+		, errors: []
 		, categories: categories
 		, values: get_global_values()
 	 }));
@@ -105,29 +106,43 @@ app.post('/entries/new', function(req, res) {
 
 		return;
 	} else {
-		newEntry(res, req.body)
+		newEntry(res, req.body, validation_results)
 	}
 });
+app.get('/entries/:id', function(req, res) {
+	var id = req.params.id;
 
-function newEntry(res, body) {
+	db.get(id, function (err, doc) {
+		console.log(doc);
+		var additional_params = {"doc": doc};
+		res.render('entries/detail', layout.get_vars('entries_all', additional_params));
+	});
+});
+
+function newEntry(res, body, validation_results) {
 	var new_obj = {
 		  type: "entry"
-		, beschreibung: body.inputDescription + "bar"
+		, name: body.name
+		, description: body.description
+		, address: body.address
+		, uri: body.uri
+		, online_local: body.online_local
+		, categories: validation_results.cats_chosen
+		, classifications: validation_results.classifications_chosen
 		, created_at: (new Date().getTime())
 	};
 
+	console.log(JSON.stringify(new_obj));
 	db.save(new_obj, function(err, res_created) {
 		if (err) {
 			// show error note 
 			// render site with previous input
 			//console.log(JSON.stringify(err));
 		}
+		console.log(JSON.stringify(res_created));
 
-		//console.log(JSON.stringify(res_created));
-		
-		//getSlug(obj.topic, function(slug) {
-			//res.redirect('/de/entry/' + slug + "?opinion_added");
-		//});
+		res.redirect('/entries/' + res_created.id);
+		return;
 	});
 }
 
@@ -161,7 +176,7 @@ function validate(body) {
 	var chk = validator.check(name, "Bitte geben Sie einen Namen an.").notEmpty();
 	if (chk._errors.length > chk_cnt)
 		error_fields.name = "has-error";
-	values.name = body.name;
+	values.name = name;
 
 	chk_cnt = chk._errors.length;
 
@@ -170,16 +185,31 @@ function validate(body) {
 	if (chk._errors.length > chk_cnt)
 		error_fields.description = "has-error";
 
+	values.description = description;
+
 	chk_cnt = chk._errors.length;
 
+	if (body.online_local === "local" || (body.address != null && body.address.length > 0)) {
+		var address = prepare(body.address)
+		var chk = validator.check(address, "Bitte geben Sie eine Adresse an.").notEmpty();
+		if (chk._errors.length > chk_cnt)
+			error_fields.address = "has-error";
+
+		values.address = address;
+		console.log(JSON.stringify(values));
+
+		chk_cnt = chk._errors.length;
+	}
+
 	var uri = prepare(body.uri);
-	if (body.local_online && uri === "") {
+	if (body.online_local === "online" && uri === "") {
 		validator.error("Bei Online-Angeboten ist die Angabe einer Internet-Adresse verpflichtend.");
 	}
 	if (uri != "") {
 		var chk = validator.check(body.uri, "Bitte überprüfen Sie die Internetadresse").isUrl();
 		if (chk._errors.length > chk_cnt)
 			error_fields.uri = "has-error";
+		values.uri = uri;
 	}
 
 	chk_cnt = chk._errors.length;
@@ -198,7 +228,7 @@ function validate(body) {
 	if (chk._errors.length > chk_cnt)
 		error_fields.agb = "has-error";
 	else
-		values.agb = "checked='checked'";
+		values.agb = true;
 
 	chk_cnt = chk._errors.length;
 
