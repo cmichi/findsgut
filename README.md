@@ -41,7 +41,7 @@ zu erleichtern.
 
 # Aufsetzen einer Instanz
 
-Make sure you have node.js installed
+Make sure you have node.js, npm, CouchDB and couchapp installed.
 
 
 	git clone ...
@@ -53,7 +53,7 @@ Make sure you have node.js installed
 	# create a config file. adapt the config_local.js later.
 	cp config.js config_local.js
 
-	cd couchapp/
+	cd db/
 
 	# this will create a database `findsgut` within 
 	make initdb

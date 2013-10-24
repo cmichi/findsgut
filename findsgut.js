@@ -1,4 +1,5 @@
-var config = require('./config');
+var config = require('./config_local.js');
+var layout = require('./layout.js');
 var express = require('express');
 var http = require('http');
 var sanitize = require('validator').sanitize
@@ -14,7 +15,6 @@ app.configure(function () {
 	app.set('view engine', 'jade');
 	app.locals.pretty = true;
 
-	//app.use(express.static(__dirname + '/static'));
 	app.use(express.bodyParser());
 	app.use(express.cookieParser());
 	app.use(express.session({ secret: config.session_secret }));
@@ -24,28 +24,28 @@ app.configure(function () {
 });
 
 var server = require('http').createServer(app);
-
 server.listen(process.env.PORT || 5001, function() {
 	console.log('Listening on port ' + server.address().port);
 });
 
-var _navi = {};
-
-
 app.get('/', function(req, res) {
-	res.render('index', { });
+	res.render('index', layout.get_vars('index'));
+});
+
+app.get('/entries/all', function(req, res) {
+	res.render('entries/all', layout.get_vars('entries'));
 });
 
 app.get('/impressum', function(req, res) {
-	res.render('impressum', { });
+	res.render('impressum', layout.get_vars('index'));
 });
 
 app.get('/kontakt', function(req, res) {
-	res.render('kontakt', { });
+	res.render('kontakt', layout.get_vars('feedback'));
 });
 
 app.get('/neu', function(req, res) {
-	res.render('neu', { });
+	res.render('entries/new', layout.get_vars('entries'));
 });
 
 app.post('/kontakt', function(req, res) {
@@ -61,31 +61,15 @@ app.post('/kontakt', function(req, res) {
 	}, function(e, m){
 		console.log(e || m);
 
-		res.render('kontakt', { success: true });
+		res.render('kontakt', layout.get_vars('feedback', { success: true }) );
 		return;
 	});
 });
 
-function navi(k, req) {
-	var navi = {
-		  home: ""
-		, entries: ""
-		, feedback: ""
-	};
-
-	if (req.session.user != null)
-		navi.login = 1;
-
-	if (k === "entries")
-		navi.entries = "active";
-	else if (k === "feedback")
-		navi.feedback = "active";
-	else
-		navi.home = "active";
-
-	return navi;
-}
-
 app.use(function(req,res){
-	res.render('404', { status: 404, missingurl: req.url });
+	res.render('404', layout.get_vars('', { status: 404, missingurl: req.url }));
 });
+
+(function initApp() {
+	layout.init(db);
+})();
