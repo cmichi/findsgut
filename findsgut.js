@@ -135,10 +135,20 @@ function newEntry(res, body, validation_results) {
 	console.log(JSON.stringify(new_obj));
 	db.save(new_obj, function(err, res_created) {
 		if (err) {
-			// show error note 
-			// render site with previous input
-			//console.log(JSON.stringify(err));
+			// show error note, render site with previous input
+			var additional_params = {
+				  "errors": ["Es gab einen Fehler beim Speichern des Eintrags."
+					  + "Bitte versuchen Sie es in Kuerze erneut."]
+				, previous_input: body
+				, error_fields: validation_results.error_fields
+				, categories: categories
+				, values: validation_results.values
+			};
+
+			res.render('entries/new', layout.get_vars('entries_new', additional_params));
+			console.log(JSON.stringify(err));
 		}
+
 		console.log(JSON.stringify(res_created));
 
 		res.redirect('/entries/' + res_created.id);
