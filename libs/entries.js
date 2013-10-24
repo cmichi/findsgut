@@ -1,35 +1,22 @@
-var app, db, layout, categories = [];
 var sanitize = require('validator').sanitize
+var app, db, layout, categories = [];
 
-function get_error_fields() {
-return {
-	  name: ""
-	, uri: ""
-	, categories: ""
-	, classifications: ""
-	, online_local: ""
-	, address: ""
-	, description: ""
-	, agb: ""
-}
-}
-function get_global_values() {
+exports.init = function(_app, _db, _layout) {
+	app = _app;
+	db = _db;
+	layout = _layout;
 
-return  {
-	  name: ""
-	, uri: ""
-	, classifications: ""
-	, online_local: ""
-	, address: ""
-	, description: ""
-	, agb: false
-	, bio: false
-	, regional: false
-	, fair: false
-};
-}
-var categories = [];
+	db.view('db/categories', {reduce: false}, function (err, res) {
+		if (err) {
+			console.dir(err);
+			return;
+		}
 
+		if (res.length > 0)
+			categories = res
+	});
+	return;
+}
 
 exports.get_new = function(req, res) {
 	res.render('entries/new', layout.get_vars('entries_new',
@@ -240,19 +227,30 @@ function validate(body) {
 	};
 } 
 
-exports.init = function(_app, _db, _layout) {
-	app = _app;
-	db = _db;
-	layout = _layout;
+function get_error_fields() {
+	return {
+		  name: ""
+		, uri: ""
+		, categories: ""
+		, classifications: ""
+		, online_local: ""
+		, address: ""
+		, description: ""
+		, agb: ""
+	};
+}
 
-	db.view('db/categories', {reduce: false}, function (err, res) {
-		if (err) {
-			console.dir(err);
-			return;
-		}
-
-		if (res.length > 0)
-			categories = res
-	});
-	return;
+function get_global_values() {
+	return  {
+		  name: ""
+		, uri: ""
+		, classifications: ""
+		, online_local: ""
+		, address: ""
+		, description: ""
+		, agb: false
+		, bio: false
+		, regional: false
+		, fair: false
+	};
 }

@@ -1,9 +1,8 @@
 var config = require('./config_local.js');
-var layout = require('./layout.js');
-var entries = require('./entries.js');
+var layout = require('./lib/layout.js');
+var entries = require('./lib/entries.js');
 var express = require('express');
 var http = require('http');
-var sanitize = require('validator').sanitize
 
 var cradle = require('cradle');
 var db = new(cradle.Connection)('127.0.0.1', 5984).database('findsgut');
@@ -48,6 +47,7 @@ app.get('/entries/:id', function(req, res) {
 app.post('/entries/new', function(req, res) {
 	entries.post_new(req, res);
 });
+
 app.get('/impressum', function(req, res) {
 	res.render('impressum', layout.get_vars('index'));
 });
@@ -55,7 +55,6 @@ app.get('/impressum', function(req, res) {
 app.get('/kontakt', function(req, res) {
 	res.render('kontakt', layout.get_vars('feedback'));
 });
-
 
 app.post('/kontakt', function(req, res) {
 	var content = "Name:\t" + req.param('inputName') + "\n";
@@ -81,6 +80,5 @@ app.use(function(req,res){
 
 (function initApp() {
 	layout.init(db);
-
 	entries.init(app, db, layout);
 })();
