@@ -16,100 +16,90 @@ block content
 
 	div.row
 		div.col-lg-12
-			- if (success === true) 
-				div.alert.alert-success(style="") Deine Nachricht wurde versendet!
+			- if (errors != undefined && errors.length > 0) 
+				div.alert.alert-danger(style="") 
+					strong Oops!
+					span.
+						Irgendetwas passt noch nicht ganz!
+						Schau dir deine Eingabe
+						nochmal in Ruhe an.
+
+					p
+						ul
+							each error in errors
+								li.
+									#{error}
 			- else
 				p.
 					Senden Sie uns einfach eine Nachricht!
 					Wir versuchen schnellstm&ouml;glich
 					darauf zu reagieren.
+			- endif
 
 				p &nbsp;
 
-				form(role="form",method="POST",action="#").form-horizontal.
-					<div class="form-group">
-						<label for="inputEmail1" class="col-lg-2 control-label">Anbieter</label>
-						<div class="col-lg-10">
-							<input type="text" name="inputName" class="form-control" id="inputName" placeholder="">
-						</div>
-					</div>
-					<!--
-					Kategorie
-					Einordnung
-						ueberwiegend fair 
-						ueberwiegend biologisch
-						ueberwiegend regional
-					Online vs Lokal
-					URI
-					Adresse (abh von online vs lokal)
-					Beschreibung (max 500)
-					AGB
-					-->
-
-					<div class="form-group">
-						<label for="inputUri" class="col-lg-2 control-label">Kategorie</label>
-						<div class="col-lg-2">
-							<input type="checkbox" /> Foo
-						</div>
-						<div class="col-lg-2">
-							<input type="checkbox" /> Foo
-						</div>
+			form(role="form",method="POST",action="#").form-horizontal
+				div(class="form-group #{error_fields.name}").
+					<label for="name" class="col-lg-2 control-label">Anbieter</label>
+					<div class="col-lg-10">
+						<input type="text" name="name" class="form-control" id="name" placeholder="">
+						<p class="help-block"></p>
 					</div>
 
-					<div class="form-group">
-						<label for="inputUri" class="col-lg-2 control-label">Einordnung</label>
-						<div class="col-lg-3">
-							<input type="checkbox" /> überwiegend faire Produkte
-						</div>
-						<div class="col-lg-3">
-							<input type="checkbox" /> überwiegend biologische Produkte
-						</div>
-						<div class="col-lg-3">
-							<input type="checkbox" /> überwiegend regionale Produkte
-						</div>
+				div(class="form-group #{error_fields.categories}")
+					label.col-lg-2.control-label(for="categories") Kategorie
+					each category in categories
+						div.col-lg-2
+							input(name="category_#{category.value.key}", type="checkbox") 
+							span.
+								#{category.value.value}
+
+				div(class="form-group #{error_fields.classification}").
+					<label for="inputUri" class="col-lg-2 control-label">Einordnung</label>
+					<div class="col-lg-3">
+						<input type="checkbox" /> überwiegend faire Produkte
+					</div>
+					<div class="col-lg-3">
+						<input type="checkbox" /> überwiegend biologische Produkte
+					</div>
+					<div class="col-lg-3">
+						<input type="checkbox" /> überwiegend regionale Produkte
 					</div>
 
-					<div class="form-group">
-						<label for="inputUri" class="col-lg-2 control-label">Online oder lokal?</label>
-						<div class="col-lg-2">
-							<input type="radio" /> Online-Angebot
-						</div>
-						<div class="col-lg-2">
-							<input type="radio" /> Lokales Angebot
-						</div>
+				div(class="form-group #{error_fields.online_local}").
+					<label for="online_local" class="col-lg-2 control-label">Online oder lokal?</label>
+					<div class="col-lg-2">
+						<input type="radio" name="online_local" value="online" /> Online-Angebot
+					</div>
+					<div class="col-lg-2">
+						<input type="radio" name="online_local" value="local" /> Lokales Angebot
 					</div>
 
-					<div class="form-group">
-						<label for="inputUri" class="col-lg-2 control-label">Internet-Adresse</label>
-						<div class="col-lg-10">
-							<input type="url" name="inputUri" class="form-control" id="inputUri" placeholder="">
-						</div>
+				div(class="form-group #{error_fields.uri}").
+					<label for="uri" class="col-lg-2 control-label">Internet-Adresse</label>
+					<div class="col-lg-10">
+						<input type="url" name="uri" class="form-control" id="uri" placeholder="">
 					</div>
 
-					<div class="form-group">
-						<label for="inputDescription" class="col-lg-2 control-label">Adresse</label>
-						<div class="col-lg-10">
-							<textarea id="inputDescription" name="inputDescription" class="form-control" rows="3" maxlength="500"></textarea>
-						</div>
+				div(class="form-group #{error_fields.address}").
+					<label for="address" class="col-lg-2 control-label">Adresse</label>
+					<div class="col-lg-10">
+						<textarea id="address" name="address" class="form-control" rows="3" maxlength="500"></textarea>
 					</div>
 
-					<div class="form-group">
-						<label for="inputDescription" class="col-lg-2 control-label">Beschreibung</label>
-						<div class="col-lg-10">
-							<textarea id="inputDescription" name="inputDescription" class="form-control" rows="3" maxlength="500"></textarea>
-						</div>
+				div(class="form-group #{error_fields.description}").
+					<label for="description" class="col-lg-2 control-label">Beschreibung</label>
+					<div class="col-lg-10">
+						<textarea id="description" name="description" class="form-control" rows="3" maxlength="500"></textarea>
 					</div>
 
-					<div class="form-group">
-						<label for="inputUri" class="col-lg-2 control-label">AGB</label>
-						<div class="col-lg-10">
-							<input type="checkbox" /> Ich habe die AGB gelesen und stimme diesen zu.
-						</div>
+				div(class="form-group #{error_fields.agb}").
+					<label for="agb" class="col-lg-2 control-label">AGB</label>
+					<div class="col-lg-10">
+						<input name="agb" id="agb" type="checkbox" /> Ich habe die AGB gelesen und stimme diesen zu.
 					</div>
 
-					<div class="form-group">
-						<div class="col-lg-offset-2 col-lg-10">
-							<button type="submit" class="btn btn-default">Absenden</button>
-						</div>
+				div.form-group.
+					<div class="col-lg-offset-2 col-lg-10">
+						<button type="submit" class="btn btn-default">Absenden</button>
 					</div>
-			- endif

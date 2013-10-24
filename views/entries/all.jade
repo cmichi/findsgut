@@ -6,12 +6,14 @@ block jumbotron
 			h1 Alle Eintr&auml;ge
 
 			div.sub.
-				Hello.
+				Lorem.
 
 block content
 	div.row
-		div.col-lg-6
-			h2 Lorem
+		div.col-lg-12
+			h2 Alle Eintraege
 
-			p.
-				Ipsum
+			ul
+				each entry in entries
+					li.
+						#{entry.value.beschreibung}
