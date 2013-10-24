@@ -1,7 +1,6 @@
 var layout_vars = {
 	navi: {}
 	, count_entries: 0
-	, categories: []
 };
 
 var db;
@@ -14,7 +13,7 @@ exports.get_vars = function(navi_key, additional_vars) {
 		vars[i] = additional_vars[i];
 	}
 
-	console.log(JSON.stringify(vars));
+	//console.log(JSON.stringify(vars));
 
 	return vars;
 }
@@ -32,18 +31,6 @@ exports.init = function(d) {
 		layout_vars.entries = res;
 	});
 
-	db.view('db/categories', {reduce: false}, function (err, res) {
-		if (err) {
-			console.dir(err);
-			return;
-		}
-
-		if (res.length > 0)
-			layout_vars.categories = res
-			//layout_vars.categories = res[0].value;
-
-		console.log(JSON.stringify(layout_vars.categories))
-	});
 }
 
 function get_navi(k, req) {

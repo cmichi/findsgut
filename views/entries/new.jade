@@ -42,7 +42,7 @@ block content
 				div(class="form-group #{error_fields.name}").
 					<label for="name" class="col-lg-2 control-label">Anbieter</label>
 					<div class="col-lg-10">
-						<input type="text" name="name" class="form-control" id="name" placeholder="">
+						<input type="text" value="#{values.name}" name="name" class="form-control" id="name" placeholder="">
 						<p class="help-block"></p>
 					</div>
 
@@ -50,21 +50,41 @@ block content
 					label.col-lg-2.control-label(for="categories") Kategorie
 					each category in categories
 						div.col-lg-2
-							input(name="category_#{category.value.key}", type="checkbox") 
+							- if (values["category_" + category.value.key] === true)
+								input(name="category_#{category.value.key}", type="checkbox", checked="checked") 
+							- else
+								input(name="category_#{category.value.key}", type="checkbox") 
+							- endif
 							span.
 								#{category.value.value}
 
-				div(class="form-group #{error_fields.classification}").
-					<label for="inputUri" class="col-lg-2 control-label">Einordnung</label>
-					<div class="col-lg-3">
-						<input type="checkbox" /> überwiegend faire Produkte
-					</div>
-					<div class="col-lg-3">
-						<input type="checkbox" /> überwiegend biologische Produkte
-					</div>
-					<div class="col-lg-3">
-						<input type="checkbox" /> überwiegend regionale Produkte
-					</div>
+				div(class="form-group #{error_fields.classifications}")
+					label.col-lg-2.control-label(for="classifications") Einordnung
+
+					div.col-lg-3
+						- if (values["fair"] === true)
+							input(name="fair", type="checkbox", checked="checked").
+							span überwiegend faire Produkte
+						- else
+							input(name="fair", type="checkbox").
+							span überwiegend faire Produkte
+						- endif
+					div.col-lg-3
+						- if (values["bio"] === true)
+							input(name="bio", type="checkbox", checked="checked").
+							span überwiegend biologische Produkte
+						- else
+							input(name="bio", type="checkbox").
+							span überwiegend biologische Produkte
+						- endif
+					div.col-lg-3
+						- if (values["regional"] === true)
+							input(name="regional", type="checkbox", checked="checked").
+							span überwiegend regionale Produkte
+						- else
+							input(name="regional", type="checkbox").
+							span überwiegend regionale Produkte
+						- endif
 
 				div(class="form-group #{error_fields.online_local}").
 					<label for="online_local" class="col-lg-2 control-label">Online oder lokal?</label>

@@ -44,39 +44,65 @@ app.get('/kontakt', function(req, res) {
 	res.render('kontakt', layout.get_vars('feedback'));
 });
 
-var error_fields = {
+function get_error_fields() {
+return {
 	  name: ""
 	, uri: ""
 	, categories: ""
-	, classification: ""
+	, classifications: ""
 	, online_local: ""
 	, address: ""
 	, description: ""
 	, agb: ""
 }
+}
+function get_global_values() {
+
+return  {
+	  name: ""
+	, uri: ""
+	, classifications: ""
+	, online_local: ""
+	, address: ""
+	, description: ""
+	, agb: false
+	, bio: false
+	, regional: false
+	, fair: false
+};
+}
+var categories = [];
+
 app.get('/entries/new', function(req, res) {
 	res.render('entries/new', layout.get_vars('entries_new',
-	{"error_fields": error_fields}));
+		{"error_fields": get_error_fields()
+		, categories: categories
+		, values: get_global_values()
+	 }));
 });
 
 app.post('/entries/new', function(req, res) {
-	console.log(JSON.stringify(req.body));
-	console.log("\n");
+	//console.log(JSON.stringify(req.body));
+	//console.log("\n");
 
-	var validation_results = validate(req.body, error_fields);
+	var validation_results = validate(req.body);
 	var validator = validation_results.validator;
 	var errors = validator.getErrors();
 
 	if (errors != undefined && errors.length > 0) {
-		//console.log(errors);
+		// console.log(errors);
+		console.log(validation_results.values)
 		// render site again, show errors, show previously entered input
 		var additional_params = {
 			  "errors": errors
 			, previous_input: req.body
 			, error_fields: validation_results.error_fields
+			, categories: categories
+			, values: validation_results.values
 		};
 
 		res.render('entries/new', layout.get_vars('entries_new', additional_params));
+
 		return;
 	} else {
 		newEntry(res, req.body)
@@ -94,7 +120,7 @@ function newEntry(res, body) {
 		if (err) {
 			// show error note 
 			// render site with previous input
-			console.log(JSON.stringify(err));
+			//console.log(JSON.stringify(err));
 		}
 
 		//console.log(JSON.stringify(res_created));
@@ -113,7 +139,7 @@ function prepare(foo) {
 	return bar;
 }
 
-function validate(body, error_fields) {
+function validate(body) {
 	var Validator = require('validator').Validator;
 
 	Validator.prototype.error = function (msg) {
@@ -127,15 +153,18 @@ function validate(body, error_fields) {
 
 	var validator = new Validator();
 	var check = validator.check;
+	var values = get_global_values();
+	var error_fields = get_error_fields();
 	
 	var name = prepare(body.name)
 	var chk = validator.check(name, "Bitte geben Sie einen Namen an.").notEmpty();
-	if (chk.msg != "") 
+	if (chk._errors.length > 0)
 		error_fields.name = "has-error";
-		
+	values.name = body.name;
+
 	var description = prepare(body.description)
 	var chk = validator.check(description, "Bitte geben Sie eine Beschreibung an.").notEmpty();
-	if (chk.msg != "") 
+	if (chk._errors.length > 0)
 		error_fields.description = "has-error";
 
 	var uri = prepare(body.uri);
@@ -144,23 +173,57 @@ function validate(body, error_fields) {
 	}
 	if (uri != "") {
 		var chk = validator.check(body.uri, "Bitte überprüfen Sie die Internetadresse").isUrl();
-		if (chk.msg != "") 
+		if (chk._errors.length > 0)
 			error_fields.uri = "has-error";
 	}
 
 	var chk = validator.check(body.online_local, "Bitte geben Sie an, ob das Angebot online oder lokal ist.").notEmpty();
-	if (chk.msg != "") 
+	if (chk._errors.length > 0)
 		error_fields.online_local = "has-error";
 
-
-
 	var chk = validator.check(body.agb, "Bitte akzeptieren Sie die AGB.").equals("on");
-	if (chk.msg != "") 
+	if (chk._errors.length > 0)
 		error_fields.agb = "has-error";
+	else
+		values.agb = "checked='checked'";
+
+
+	var cats_chosen = [];
+	for (var c in categories) {
+		if (body["category_" + categories[c].value.key] === "on")
+			cats_chosen.push(categories[c].value.key)
+	}
+	if (cats_chosen.length === 0) {
+		validator.error("Bitte wählen Sie eine Kategorie.");
+		error_fields.categories = "has-error";
+	} else {
+		for (var c in cats_chosen) 
+			values["category_" + cats_chosen[c]] = true;
+	}
+	console.log( JSON.stringify(cats_chosen));
+
+	var classifications_chosen = [];
+	var classifications = ["fair", "bio", "regional"];
+	for (var c in classifications) {
+		if (body[classifications[c]] === "on")
+			classifications_chosen.push(classifications[c])
+	}
+	if (classifications_chosen.length === 0) {
+		validator.error("Bitte ordnen Sie das Angebot ein.");
+		error_fields.classifications = "has-error";
+	} else {
+		for (var c in classifications_chosen) 
+			values[classifications_chosen[c]] = true;
+	}
+	console.log("chosen " +  JSON.stringify(classifications_chosen));
+	console.log("errorfields " +  (error_fields));
 
 	return {
 		"validator": validator
 		, "error_fields": error_fields
+		, cats_chosen: cats_chosen
+		, classifications_chosen: cats_chosen
+		, "values": values
 	};
 } 
 
@@ -188,4 +251,14 @@ app.use(function(req,res){
 
 (function initApp() {
 	layout.init(db);
+
+	db.view('db/categories', {reduce: false}, function (err, res) {
+		if (err) {
+			console.dir(err);
+			return;
+		}
+
+		if (res.length > 0)
+			categories = res
+	});
 })();
