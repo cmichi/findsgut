@@ -13,7 +13,11 @@ block content
 		div.col-lg-12
 			h2 Alle Eintraege
 
-			ul
-				each entry in entries
-					li.
-						#{entry.value.beschreibung}
+			- if (entries != undefined && entries.length > 0)
+				ul
+					each entry in entries
+						li.
+							#{entry.value.beschreibung}
+			- else
+				p Es sind leider noch keine Eintr&auml;ge vorhanden.
+			- endif
