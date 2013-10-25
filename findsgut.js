@@ -33,7 +33,7 @@ app.get('/', function(req, res) {
 });
 
 app.get('/entries/all', function(req, res) {
-	res.render('entries/all', layout.get_vars('entries_all'));
+	entries.all(req, res);
 });
 
 app.get('/entries/new', function(req, res) {

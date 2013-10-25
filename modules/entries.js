@@ -19,9 +19,24 @@ exports.init = function(_app, _db, _layout) {
 	return;
 }
 
+exports.all = function(req, res) {
+	db.view('db/entries', {reduce: false}, function (err, res_entries) {
+		if (err) {
+			console.dir(err);
+			res.render('505', layout.get_vars('entries_all'));
+
+			return;
+		}
+
+		var entries = res_entries;
+
+		res.render('entries/all', layout.get_vars('entries_all', {entries: entries}));
+	});
+}
+
 exports.get_new = function(req, res) {
-	res.render('entries/new', layout.get_vars('entries_new',
-		{"error_fields": get_error_fields()
+	res.render('entries/new', layout.get_vars('entries_new', {
+		  error_fields: get_error_fields()
 		, errors: []
 		, categories: categories
 		, values: get_global_values()
@@ -38,7 +53,7 @@ exports.post_new = function(req, res) {
 
 		// render site again, show error note, show previously entered input
 		var additional_params = {
-			  "errors": errors
+			  errors: errors
 			, previous_input: req.body
 			, error_fields: validation_results.error_fields
 			, categories: categories
@@ -247,11 +262,11 @@ function validate(body) {
 	}
 
 	return {
-		"validator": validator
-		, "error_fields": error_fields
+		validator: validator
+		, error_fields: error_fields
 		, cats_chosen: cats_chosen
 		, classifications_chosen: cats_chosen
-		, "values": values
+		, values: values
 	};
 } 
 

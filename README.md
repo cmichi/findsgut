@@ -13,6 +13,8 @@ Verzeichnis zum Gelingen dieses Projektes beizutragen.
 Im [Wiki](http://wiki.findsgut.de) finden sind weitere Infos zu dem 
 Konzept, beteiligten Personen und der Mailingliste.
 
+**Project Status:** Very early stage. Heavy WIP.
+
 
 # Aufsetzen einer Instanz
 
