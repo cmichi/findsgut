@@ -3,48 +3,22 @@
 findsgut wird ein gemeinschaftlich gepflegtes Verzeichnis im Internet
 für verantwortungsvolle Produkte und Dienstleistungen. Ziel der
 Internetseite ist es, die Suche nach fair, ökologisch und regional
-hergestellten Produkten sowie an Nachhaltigkeit ausgerichteten Marken und
-Dienstleistungen zu erleichtern. 
+hergestellten Produkten sowie an Nachhaltigkeit ausgerichteten Marken 
+und Dienstleistungen zu erleichtern. 
 
-Die Internetseite ist als
-Gemeinschaftsprojekt (vergleiche Wikipedia) ausgelegt. Jede und jeder ist
-daher eingeladen mit Einträgen in das Verzeichnis zum Gelingen dieses
-Projektes beizutragen.
+Die Internetseite ist als Gemeinschaftsprojekt (vergleiche Wikipedia) 
+ausgelegt. Jede und jeder ist daher eingeladen mit Einträgen in das 
+Verzeichnis zum Gelingen dieses Projektes beizutragen.
 
-## Hintergrund
-
-Mit Konsum die Welt verändern. Wir Menschen brauchen Lebensmittel,
-Kleidung, Alltagsgegenstände wie Papier und Bleistift. Aber auch auf
-Dienstleistungen wie ein Bankkonto oder Versicherungen sind wir angewiesen.
-
-Die Auswahl ist riesengroß. Mit der Wahl des Produktes oder der
-Dienstleistung entscheiden wir uns für eine bestimmte
-Entstehungsgeschichte. Wo kommen die Produkte her? Werden die
-Arbeiter*Innen gerecht bezahlt? Wird auf umweltfreundliche Standards
-geachtet? Mit allem, was wir konsumieren, entscheiden wir uns für oder
-gegen Umweltschutz, für oder gegen soziale Gerechtigkeit. Für oder gegen
-ein verantwortungsvolles Miteinander.
-
-
-## Unser Ziel
-
-Immer mehr Menschen, wollen bewusst verantwortungsvoll konsumieren.
-Umweltschutz, soziale Gerechtigkeit und Qualität aus der Region sind ihnen
-beim Einkauf wichtig. Zwar wächst das Angebot verantwortungsvoller Produkte
-und Dienstleistungen kontinuierlich, allerdings ist es immer noch sehr
-klein. Die Suche nach diesen Wenigen gestaltet sich oft als anstrengend.
-
-Mit findsgut soll ein Beitrag geleistet werden, diese Suche zu vereinfachen
-und damit den Zugang zu verantwortungsvollen Produkten und Dienstleistungen
-zu erleichtern.
+Im [Wiki](http://wiki.findsgut.de) finden sind weitere Infos zu dem 
+Konzept, Beteiligten Personen und der Mailingliste.
 
 
 # Aufsetzen einer Instanz
 
 Make sure you have node.js, npm, CouchDB and couchapp installed.
 
-
-	git clone ...
+	git clone https://github.com/cmichi/findsgut.git
 	cd findsgut/
 
 	# this will install dependencies
@@ -55,7 +29,8 @@ Make sure you have node.js, npm, CouchDB and couchapp installed.
 
 	cd db/
 
-	# this will create a database `findsgut` within 
+	# this will create a database `findsgut` and fill it with some
+	# basic entries
 	make initdb
 
 	# this will create views, etc..
