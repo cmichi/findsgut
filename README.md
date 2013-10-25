@@ -11,7 +11,7 @@ ausgelegt. Jede und jeder ist daher eingeladen mit Einträgen in das
 Verzeichnis zum Gelingen dieses Projektes beizutragen.
 
 Im [Wiki](http://wiki.findsgut.de) finden sind weitere Infos zu dem 
-Konzept, Beteiligten Personen und der Mailingliste.
+Konzept, beteiligten Personen und der Mailingliste.
 
 
 # Aufsetzen einer Instanz
