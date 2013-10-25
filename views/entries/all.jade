@@ -16,8 +16,9 @@ block content
 			- if (entries != undefined && entries.length > 0)
 				ul
 					each entry in entries
-						li.
-							#{entry.value.name}
+						li
+							a(href="/eintraege/#{entry.value._id}/").
+								#{entry.value.name}
 			- else
 				p Es sind leider noch keine Eintr&auml;ge vorhanden.
 			- endif

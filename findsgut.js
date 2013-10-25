@@ -32,23 +32,23 @@ app.get('/', function(req, res) {
 	res.render('index', layout.get_vars('index'));
 });
 
-app.get('/entries/all', function(req, res) {
+app.get('/eintraege/alle', function(req, res) {
 	entries.all(req, res);
 });
 
-app.get('/entries/new', function(req, res) {
+app.get('/eintraege/neu', function(req, res) {
 	entries.get_new(req, res);
 });
 
-app.post('/entries/new', function(req, res) {
+app.post('/eintraege/neu', function(req, res) {
 	entries.post_new(req, res);
 });
 
-app.get('/entries/search', function(req, res) {
+app.get('/suche', function(req, res) {
 	entries.search(req, res);
 });
 
-app.get('/entries/:id', function(req, res) {
+app.get('/eintraege/:id', function(req, res) {
 	entries.get(req, res);
 });
 
@@ -56,11 +56,11 @@ app.get('/impressum', function(req, res) {
 	res.render('impressum', layout.get_vars('index'));
 });
 
-app.get('/kontakt', function(req, res) {
-	res.render('kontakt', layout.get_vars('feedback'));
+app.get('/feedback', function(req, res) {
+	res.render('feedback', layout.get_vars('feedback'));
 });
 
-app.post('/kontakt', function(req, res) {
+app.post('/feedback', function(req, res) {
 	var content = "Name:\t" + req.param('inputName') + "\n";
 	content += "E-Mail:\t" + req.param('inputEmail') + "\n\n";
 	content += "Nachricht:\n" + req.param('inputMsg') + "\n";
@@ -73,7 +73,7 @@ app.post('/kontakt', function(req, res) {
 	}, function(e, m){
 		console.log(e || m);
 
-		res.render('kontakt', layout.get_vars('feedback', { success: true }) );
+		res.render('feedback', layout.get_vars('feedback', { success: true }) );
 		return;
 	});
 });
