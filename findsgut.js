@@ -1,6 +1,6 @@
 var config = require('./config_local.js');
-var layout = require('./libs/layout.js');
-var entries = require('./libs/entries.js');
+var layout = require('./modules/layout.js');
+var entries = require('./modules/entries.js');
 var express = require('express');
 var http = require('http');
 
