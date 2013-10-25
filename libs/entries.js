@@ -29,17 +29,14 @@ exports.get_new = function(req, res) {
 }
 
 exports.post_new = function(req, res) {
-	//console.log(JSON.stringify(req.body));
-	//console.log("\n");
-
 	var validation_results = validate(req.body);
 	var validator = validation_results.validator;
 	var errors = validator.getErrors();
 
 	if (errors != undefined && errors.length > 0) {
-		// console.log(errors);
-		//console.log(validation_results.values)
-		// render site again, show errors, show previously entered input
+		console.log(errors);
+
+		// render site again, show error note, show previously entered input
 		var additional_params = {
 			  "errors": errors
 			, previous_input: req.body
@@ -234,7 +231,6 @@ function validate(body) {
 		for (var c in cats_chosen) 
 			values["category_" + cats_chosen[c]] = true;
 	}
-	//console.log( JSON.stringify(cats_chosen));
 
 	var classifications_chosen = [];
 	var classifications = ["fair", "bio", "regional"];
@@ -249,8 +245,6 @@ function validate(body) {
 		for (var c in classifications_chosen) 
 			values[classifications_chosen[c]] = true;
 	}
-	//console.log("chosen " +  JSON.stringify(classifications_chosen));
-	//console.log("errorfields " +  (error_fields));
 
 	return {
 		"validator": validator
