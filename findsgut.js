@@ -40,12 +40,16 @@ app.get('/entries/new', function(req, res) {
 	entries.get_new(req, res);
 });
 
-app.get('/entries/:id', function(req, res) {
-	entries.get(req, res);
-});
-
 app.post('/entries/new', function(req, res) {
 	entries.post_new(req, res);
+});
+
+app.get('/entries/search', function(req, res) {
+	entries.search(req, res);
+});
+
+app.get('/entries/:id', function(req, res) {
+	entries.get(req, res);
 });
 
 app.get('/impressum', function(req, res) {

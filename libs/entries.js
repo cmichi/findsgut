@@ -1,5 +1,6 @@
 var sanitize = require('validator').sanitize
 var app, db, layout, categories = [];
+var util = require('util')
 
 exports.init = function(_app, _db, _layout) {
 	app = _app;
@@ -62,6 +63,39 @@ exports.get = function(req, res) {
 		console.log(doc);
 		var additional_params = {"doc": doc};
 		res.render('entries/detail', layout.get_vars('entries_all', additional_params));
+	});
+}
+
+exports.search = function(req, res) {
+	var term = req.param("term");
+	console.log(term);
+
+	var opts = {
+		startkey: term
+		, endkey: term + '\u9999'
+		, reduce: false
+	};
+
+	db.view('db/search', opts, function (err, res_search) {
+		if (err) {
+			console.log("err");
+			console.log(JSON.stringify(err));
+			return
+		  }
+
+		var searchresults = {};
+		var additional_params = {};
+
+		if (res_search && res_search.length > 0) {
+			for (var i in res_search) {
+				searchresults[res_search[i].value._id] = res_search[i].value
+			}
+			additional_params.searchresults = searchresults;
+		} else {
+			additional_params.searchresults = undefined;
+		}
+		console.log(JSON.stringify(searchresults));
+		res.render('entries/search', layout.get_vars('entries_all', additional_params));
 	});
 }
 
