@@ -1,0 +1,24 @@
+extends ../layout
+
+block jumbotron
+	div.jumbotron
+		div.container
+			h1 Alle Eintr&auml;ge
+
+			div.sub.
+				Lorem.
+
+block content
+	div.row
+		div.col-lg-12
+			h2 Suche nach Eintrag
+
+			- if (searchresults != undefined)
+				ul
+					each r in searchresults
+						li
+							a(href="/entries/#{r._id}/").
+								#{r.name} 
+			- else
+				p Es sind leider keine Suchergebnisse vorhanden.
+			- endif
