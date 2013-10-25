@@ -1,6 +1,6 @@
 # Readme
 
-findsgut wird ein gemeinschaftlich gepflegtes Verzeichnis im Internet
+findsgut wird ein gemeinschaftlich gepflegtes Verzeichnis 
 für verantwortungsvolle Produkte und Dienstleistungen. Ziel der
 Internetseite ist es, die Suche nach fair, ökologisch und regional
 hergestellten Produkten sowie an Nachhaltigkeit ausgerichteten Marken 

@@ -56,34 +56,40 @@ block content
 								input(name="category_#{category.value.key}", type="checkbox") 
 							- endif
 							span.
-								#{category.value.value}
+								&nbsp; #{category.value.value}
 
 				div(class="form-group #{error_fields.classifications}")
 					label.col-lg-2.control-label(for="classifications") Einordnung
 
 					div.col-lg-3
 						- if (values["fair"] === true)
-							input(name="fair", type="checkbox", checked="checked").
-							span überwiegend faire Produkte
+							input(name="fair", type="checkbox", checked="checked")
+							span.
+								&nbsp; überwiegend faire Produkte
 						- else
-							input(name="fair", type="checkbox").
-							span überwiegend faire Produkte
+							input(name="fair", type="checkbox")
+							span.
+								&nbsp; &uuml;berwiegend faire Produkte
 						- endif
 					div.col-lg-3
 						- if (values["bio"] === true)
-							input(name="bio", type="checkbox", checked="checked").
-							span überwiegend biologische Produkte
+							input(name="bio", type="checkbox", checked="checked")
+							span.
+								&nbsp; überwiegend biologische Produkte
 						- else
-							input(name="bio", type="checkbox").
-							span überwiegend biologische Produkte
+							input(name="bio", type="checkbox")
+							span.
+								&nbsp; überwiegend biologische Produkte
 						- endif
 					div.col-lg-3
 						- if (values["regional"] === true)
-							input(name="regional", type="checkbox", checked="checked").
-							span überwiegend regionale Produkte
+							input(name="regional", type="checkbox", checked="checked")
+							span.
+								&nbsp; überwiegend regionale Produkte
 						- else
 							input(name="regional", type="checkbox").
-							span überwiegend regionale Produkte
+							span.
+								&nbsp; überwiegend regionale Produkte
 						- endif
 
 				div(class="form-group #{error_fields.online_local}")
@@ -91,18 +97,22 @@ block content
 					div.col-lg-2
 						- if (values["online_local"] === "online")
 							input(type="radio",name="online_local",value="online",checked="checked") 
-							span Online-Angebot
+							span.
+								&nbsp; Online-Angebot
 						- else
 							input(type="radio",name="online_local",value="online") 
-							span Online-Angebot
+							span.
+								&nbsp; Online-Angebot
 						- endif
 					div.col-lg-2
 						- if (values["online_local"] === "local")
 							input(type="radio",name="online_local",value="local",checked="checked") 
-							span Lokales Angebot
+							span.
+								&nbsp; Lokales Angebot
 						- else
 							input(type="radio",name="online_local",value="local") 
-							span Lokales Angebot
+							span.
+								&nbsp; Lokales Angebot
 						- endif
 
 				div(class="form-group #{error_fields.uri}")
@@ -129,7 +139,8 @@ block content
 							input(id="agb", name="agb", type="checkbox") 
 						-endif
 
-						span Ich habe die AGB gelesen und stimme diesen zu.
+						span.
+							&nbsp; Ich stimme den <a target="_blank" href='/agb'>Nutzungsbedingungen</a> dieser Plattform zu.
 
 				div.form-group.
 					<div class="col-lg-offset-2 col-lg-10">

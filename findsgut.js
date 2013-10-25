@@ -56,6 +56,10 @@ app.get('/impressum', function(req, res) {
 	res.render('impressum', layout.get_vars('index'));
 });
 
+app.get('/agb', function(req, res) {
+	res.render('agb', layout.get_vars('index'));
+});
+
 app.get('/feedback', function(req, res) {
 	res.render('feedback', layout.get_vars('feedback'));
 });
