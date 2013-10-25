@@ -41,6 +41,10 @@ Make sure you have node.js, npm, CouchDB and couchapp installed.
 	# you're done! open http://localhost:5001/ within your browser.
 
 
+# ToDo
+
+* output proper 500 error page on db etc. errors
+
 
 # License
 

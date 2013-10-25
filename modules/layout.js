@@ -5,6 +5,10 @@ var layout_vars = {
 
 var db;
 
+exports.set_var = function(k, v) {
+	layout_vars[k] = v;
+}
+
 exports.get_vars = function(navi_key, additional_vars) {
 	var vars = layout_vars;
 	vars.navi = get_navi(navi_key);

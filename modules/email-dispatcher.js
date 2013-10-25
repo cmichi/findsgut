@@ -1,4 +1,4 @@
-var ES = require('./email-settings');
+var ES = require('../config_local').mail;
 var EM = {};
 module.exports = EM;
 
