@@ -19,6 +19,8 @@ Konzept, beteiligten Personen und der Mailingliste.
 # Aufsetzen einer Instanz
 
 Make sure you have node.js, npm, CouchDB and couchapp installed.
+The frontend within `views/` is written using the [Jade Templating
+Engine](http://jade-lang.com/reference/).
 
 	git clone https://github.com/cmichi/findsgut.git
 	cd findsgut/

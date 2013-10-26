@@ -2,6 +2,9 @@
   "env" : {
       "default" : {
 	    "db" : "http://localhost:5984/findsgut"
+	},
+	"productive" : {
+		"db" : "http://admin:wirel@localhost:5498/findsgut"
 	}
   }
 }
