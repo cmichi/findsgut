@@ -37,7 +37,7 @@ exports.server = require("emailjs/email").server.connect({
 
 exports.send = function(msg, callback) {
 	this.server.send({
-		from         : msg.from || ES.sender,
+		from         : msg.from || config.sender,
 		to           : msg.to,
 		subject      : msg.subject,
 		text         : msg.text
