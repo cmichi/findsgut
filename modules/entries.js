@@ -23,7 +23,7 @@ exports.all = function(req, res) {
 	db.view('db/entries', {reduce: false}, function (err, res_entries) {
 		if (err) {
 			console.dir(err);
-			res.render('505', layout.get_vars('entries_all'));
+			res.render('500', layout.get_vars('entries_all'));
 
 			return;
 		}
@@ -74,6 +74,11 @@ exports.get = function(req, res) {
 	var id = req.params.id;
 
 	db.get(id, function (err, doc) {
+		if (err || doc == undefined) {
+			res.render('404', layout.get_vars('', { status: 404, missingurl: req.url }));
+			return;
+		}
+
 		console.log(doc);
 		var additional_params = {"doc": doc};
 		res.render('entries/detail', layout.get_vars('entries_all', additional_params));
@@ -81,8 +86,12 @@ exports.get = function(req, res) {
 }
 
 exports.search = function(req, res) {
-	var term = req.param("term");
+	var term = prepare(req.param("term"));
 	console.log(term);
+
+	if (term.length === 0) {
+		res.redirect('/eintraege/alle');
+	}
 
 	var opts = {
 		startkey: term
@@ -92,13 +101,16 @@ exports.search = function(req, res) {
 
 	db.view('db/search', opts, function (err, res_search) {
 		if (err) {
+			res.render('500', layout.get_vars('entries_all'));
 			console.log("err");
 			console.log(JSON.stringify(err));
 			return
 		  }
 
 		var searchresults = {};
-		var additional_params = {};
+		var additional_params = {
+			term: term
+		};
 
 		if (res_search && res_search.length > 0) {
 			for (var i in res_search) {
@@ -130,6 +142,9 @@ function newEntry(res, body, validation_results) {
 	db.save(new_obj, function(err, res_created) {
 		if (err) {
 			// show error note, render site with previous input
+			// maybe it would be better to show the 500.jade? but it
+			// would also be nasty for users to loose all their input
+			// just because the db went offline for some secs
 			var additional_params = {
 				  "errors": ["Es gab einen Fehler beim Speichern des Eintrags."
 					  + "Bitte versuchen Sie es in Kuerze erneut."]

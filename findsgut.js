@@ -71,6 +71,7 @@ app.post('/feedback', function(req, res) {
 	console.log(content);
 
 	EM.send({
+		from         : req.param('inputEmail'),
 		to           : 'mich@elmueller.net',
 		subject      : 'www.findsgut.de Kontaktformular',
 		text         : content

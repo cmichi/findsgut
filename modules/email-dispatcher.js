@@ -11,7 +11,7 @@ EM.server = require("emailjs/email").server.connect({
 
 EM.send = function(msg, callback) {
 	EM.server.send({
-		from         : ES.sender,
+		from         : msg.from || ES.sender,
 		to           : msg.to,
 		subject      : msg.subject,
 		text         : msg.text
