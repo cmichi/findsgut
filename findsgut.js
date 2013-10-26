@@ -7,7 +7,16 @@ var http = require('http');
 var cradle = require('cradle');
 var db = new(cradle.Connection)('127.0.0.1', 5984).database('findsgut');
 
-var EM = require('./modules/email-dispatcher');
+var email = require('./modules/email');
+
+var sanitize = require('validator').sanitize
+db.prepare = function(foo) {
+	var bar = sanitize(foo).xss();
+	bar = sanitize(bar).escape();
+	bar = sanitize(bar).trim();
+
+	return bar;
+}
 
 var app = express();
 app.configure(function () {
@@ -65,22 +74,7 @@ app.get('/feedback', function(req, res) {
 });
 
 app.post('/feedback', function(req, res) {
-	var content = "Name:\t" + req.param('inputName') + "\n";
-	content += "E-Mail:\t" + req.param('inputEmail') + "\n\n";
-	content += "Nachricht:\n" + req.param('inputMsg') + "\n";
-	console.log(content);
-
-	EM.send({
-		from         : req.param('inputEmail'),
-		to           : 'mich@elmueller.net',
-		subject      : 'www.findsgut.de Kontaktformular',
-		text         : content
-	}, function(e, m){
-		console.log(e || m);
-
-		res.render('feedback', layout.get_vars('feedback', { success: true }) );
-		return;
-	});
+	email.feedback(req, res, layout, db);
 });
 
 app.use(function(req,res){

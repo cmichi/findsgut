@@ -8,30 +8,26 @@ block jumbotron
 			div.sub.
 				Vorschl&auml;ge, Ideen, Kritik, Feedback, Anfragen?
 
-	div.jumbotron(style="display:none")
-		div.container
-			h1.
-				Hello, world!
-			p.
-				This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.
-			p.
-				<a class="btn btn-primary btn-lg">Learn more &raquo;</a>
-
 block content
 	div.row
 		div.col-lg-12
 			h2 Kontaktformular
 
-
 	div.row
 		div.col-lg-12
 			- if (success === true) 
-				div.alert.alert-success(style="") Deine Nachricht wurde versendet!
+				div.alert.alert-success(style="") 
+					p.
+						Deine Nachricht wurde versendet!
+
+					p.
+						Wir versuchen m&ouml;glichst
+						schnell darauf zu reagieren.
 			- else
 				p.
 					Senden Sie uns einfach eine Nachricht!
-					Wir versuchen schnellstm&ouml;glich
-					darauf zu reagieren.
+					Wir versuchen m&ouml;glichst
+					schnell darauf zu reagieren.
 
 				p &nbsp;
 

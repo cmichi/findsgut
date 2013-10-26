@@ -4,7 +4,9 @@ module.exports.mail = {
 	password: "bar", 
 	tls: true,
 
-	sender: "info@findsgut.de"
+	sender: "info@findsgut.de",
+	feedback_to: "info@findsgut.de",
+	admin_mail: "info@findsgut.de"
 };
 
 // substitute this secret for security reasons with another one

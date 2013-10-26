@@ -1,4 +1,3 @@
-var sanitize = require('validator').sanitize
 var app, db, layout, categories = [];
 var util = require('util')
 
@@ -86,7 +85,7 @@ exports.get = function(req, res) {
 }
 
 exports.search = function(req, res) {
-	var term = prepare(req.param("term"));
+	var term = db.prepare(req.param("term"));
 	console.log(term);
 
 	if (term.length === 0) {
@@ -165,14 +164,6 @@ function newEntry(res, body, validation_results) {
 	});
 }
 
-function prepare(foo) {
-	var bar = sanitize(foo).xss();
-	bar = sanitize(bar).escape();
-	bar = sanitize(bar).trim();
-
-	return bar;
-}
-
 function validate(body) {
 	var Validator = require('validator').Validator;
 
@@ -190,7 +181,7 @@ function validate(body) {
 	var values = get_global_values();
 	var error_fields = get_error_fields();
 	
-	var name = prepare(body.name)
+	var name = db.prepare(body.name)
 	var chk_cnt = 0;
 	var chk = validator.check(name, "Bitte geben Sie einen Namen an.").notEmpty();
 	if (chk._errors.length > chk_cnt)
@@ -199,7 +190,7 @@ function validate(body) {
 
 	chk_cnt = chk._errors.length;
 
-	var description = prepare(body.description)
+	var description = db.prepare(body.description)
 	var chk = validator.check(description, "Bitte geben Sie eine Beschreibung an.").notEmpty();
 	if (chk._errors.length > chk_cnt)
 		error_fields.description = "has-error";
@@ -209,7 +200,7 @@ function validate(body) {
 	chk_cnt = chk._errors.length;
 
 	if (body.online_local === "local" || (body.address != null && body.address.length > 0)) {
-		var address = prepare(body.address)
+		var address = db.prepare(body.address)
 		var chk = validator.check(address, "Bitte geben Sie eine Adresse an.").notEmpty();
 		if (chk._errors.length > chk_cnt)
 			error_fields.address = "has-error";
@@ -220,7 +211,7 @@ function validate(body) {
 		chk_cnt = chk._errors.length;
 	}
 
-	var uri = prepare(body.uri);
+	var uri = db.prepare(body.uri);
 	if (body.online_local === "online" && uri === "") {
 		validator.error("Bei Online-Angeboten ist die Angabe einer Internet-Adresse verpflichtend.");
 	}
