@@ -60,6 +60,7 @@ block content
 								&nbsp; #{category.value.value}
 
 				div(class="form-group #{error_fields.classifications}")
+					div.row
 					label.col-lg-2.control-label(for="classifications") Einordnung
 
 					div.col-lg-3
@@ -72,6 +73,12 @@ block content
 							span.
 								&nbsp; &uuml;berwiegend faire Produkte
 						- endif
+
+						div.alert.alert-info(style="margin-top:10px;") 
+							p.
+								sind Produkte
+								die &hellip;
+
 					div.col-lg-3
 						- if (values["bio"] === true)
 							input(name="bio", type="checkbox", checked="checked")
@@ -82,6 +89,12 @@ block content
 							span.
 								&nbsp; überwiegend biologische Produkte
 						- endif
+
+						div.alert.alert-info(style="margin-top:10px;") 
+							p.
+								sind Produkte
+								die &hellip;
+
 					div.col-lg-3
 						- if (values["regional"] === true)
 							input(name="regional", type="checkbox", checked="checked")
@@ -93,25 +106,31 @@ block content
 								&nbsp; überwiegend regionale Produkte
 						- endif
 
+						div.alert.alert-info(style="margin-top:10px;") 
+							p.
+								sind Produkte
+								die &hellip;
+
+
 				div(class="form-group #{error_fields.online_local}")
-					label.col-lg-2.control-label(for="online_local") Online oder lokal?
+					label.col-lg-2.control-label(for="online_local") Online/Lokal?
 					div.col-lg-2
-						- if (values["online_local"] === "online")
-							input(type="radio",name="online_local",value="online",checked="checked") 
+						- if (values["online"] === true)
+							input(type="checkbox",name="online",checked="checked") 
 							span.
 								&nbsp; Online-Angebot
 						- else
-							input(type="radio",name="online_local",value="online") 
+							input(type="checkbox",name="online") 
 							span.
 								&nbsp; Online-Angebot
 						- endif
 					div.col-lg-2
-						- if (values["online_local"] === "local")
-							input(type="radio",name="online_local",value="local",checked="checked") 
+						- if (values["local"] === true)
+							input(type="checkbox",name="local",checked="checked") 
 							span.
 								&nbsp; Lokales Angebot
 						- else
-							input(type="radio",name="online_local",value="local") 
+							input(type="checkbox",name="local") 
 							span.
 								&nbsp; Lokales Angebot
 						- endif

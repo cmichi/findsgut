@@ -125,13 +125,15 @@ exports.search = function(req, res) {
 }
 
 function newEntry(res, body, validation_results) {
+	body = validation_results.values;
 	var new_obj = {
 		  type: "entry"
 		, name: body.name
 		, description: body.description
 		, address: body.address
 		, uri: body.uri
-		, online_local: body.online_local
+		, local: body.local
+		, online: body.online
 		, categories: validation_results.cats_chosen
 		, classifications: validation_results.classifications_chosen
 		, created_at: (new Date().getTime())
@@ -159,12 +161,15 @@ function newEntry(res, body, validation_results) {
 
 		console.log(JSON.stringify(res_created));
 
-		res.redirect('/entries/' + res_created.id);
+		res.redirect('/eintraege/' + res_created.id);
 		return;
 	});
 }
 
+/* the validation is a bit tricky. see the `doc/new_entry.pdf` for
+further documentation. */
 function validate(body) {
+	console.log(JSON.stringify(body));
 	var Validator = require('validator').Validator;
 
 	Validator.prototype.error = function (msg) {
@@ -199,9 +204,9 @@ function validate(body) {
 
 	chk_cnt = chk._errors.length;
 
-	if (body.online_local === "local" || (body.address != null && body.address.length > 0)) {
+	if (body.local === "on" || (body.address != null && body.address.length > 0)) {
 		var address = db.prepare(body.address)
-		var chk = validator.check(address, "Bitte geben Sie eine Adresse an.").notEmpty();
+		var chk = validator.check(address, "Bei lokalen Angeboten ist die Angabe einer Adresse verpflichtend.").notEmpty();
 		if (chk._errors.length > chk_cnt)
 			error_fields.address = "has-error";
 
@@ -212,7 +217,7 @@ function validate(body) {
 	}
 
 	var uri = db.prepare(body.uri);
-	if (body.online_local === "online" && uri === "") {
+	if (body.online === "on" && uri === "") {
 		validator.error("Bei Online-Angeboten ist die Angabe einer Internet-Adresse verpflichtend.");
 	}
 	if (uri != "") {
@@ -221,16 +226,19 @@ function validate(body) {
 			error_fields.uri = "has-error";
 		values.uri = uri;
 	}
+	/* if this is only an "online" entry, we don't save a "real" address.
+	the interface should strip the inputs then (using JavaScript). But 
+	to be sure we strip it here as well */
+	if (body.online === "on" && body.local !== "on") delete values.address;
 
 	chk_cnt = chk._errors.length;
 
-	var chk = validator
-		.check(body.online_local, "Bitte geben Sie an, ob das Angebot online oder lokal ist.")
-		.isIn(["online", "local"]);
-	if (chk._errors.length > chk_cnt)
+	if (body.online !== "on" && body.local !== "on") {
+		validator.error("Bitte geben Sie an, ob das Angebot online oder lokal ist.");
 		error_fields.online_local = "has-error";
-	else 
-		values.online_local = body.online_local;
+	}
+	if (body.online === "on") values.online = true;
+	if (body.local === "on") values.local = true;
 
 	chk_cnt = chk._errors.length;
 
