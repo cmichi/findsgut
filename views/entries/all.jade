@@ -11,14 +11,25 @@ block jumbotron
 block content
 	div.row
 		div.col-lg-12
-			h2 Alle Eintraege
+			h2 Alle Eintr&auml;ge (#{entries.length})
 
 			- if (entries != undefined && entries.length > 0)
-				ul
+				div.row
 					each entry in entries
-						li
-							a(href="/eintraege/#{entry.value._id}/").
-								#{entry.value.name}
+						div.col-lg-6
+							div.panel.panel-default
+								div.panel-body
+									p	
+										a(href="/eintraege/#{entry.value._id}/").
+											#{entry.value.name}
+									p
+										- if (entry.value.description.length > 125)
+											|#{entry.value.description.substr(0,125)}&hellip;
+										- else
+											|#{entry.value.description}
+										- endif
+									p.
+										<a class="pull-right btn btn-default" href="/eintraege/#{entry.value._id}/">&raquo; Mehr</a> 
 			- else
 				p Es sind leider noch keine Eintr&auml;ge vorhanden.
 			- endif

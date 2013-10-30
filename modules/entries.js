@@ -28,6 +28,7 @@ exports.all = function(req, res) {
 		}
 
 		var entries = res_entries;
+		console.log( JSON.stringify(entries) );
 		layout.set_var("count_entries", entries.length);
 		res.render('entries/all', layout.get_vars('entries_all', {entries: entries,
 		entries_count: entries.length // immediate update

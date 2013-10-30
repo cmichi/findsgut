@@ -10,7 +10,7 @@ block jumbotron
 
 block breadcrumbs
 	ol.breadcrumb.
-		<li><a href="#">Alle Eintr&auml;ge</a></li>
+		<li><a href="/eintraege/alle">Alle Eintr&auml;ge</a></li>
 		<li class="active">#{doc.name}</li>
 
 block content
@@ -20,27 +20,28 @@ block content
 
 	div.row
 		div.col-lg-12
-			p
-				strong Beschreibung&nbsp;
-				span.
+			dl.dl-horizontal
+				dt Beschreibung
+				dd.
 					#{doc.description}
-			p
-				strong Kategorien&nbsp;
-				span.
+
+				dt Kategorien
+				dd.
 					#{doc.categories}
-			p
-				strong Klassifikation:&nbsp;
-				span.
-					#{doc.categories}
-			p
-				strong Online-Eintrag?&nbsp;
-				span.
+
+				dt Klassifikation
+
+				dd.
+					#{doc.classifications}
+
+				dt Online-Eintrag?
+				dd.
 					#{doc.online}
-			p
-				strong Lokaler Eintrag?&nbsp;
-				span.
+
+				dt Lokaler Eintrag?
+				dd.
 					#{doc.local}
-			p
-				strong Internet-Adresse&nbsp;
-				span.
+
+				dt Internet-Adresse
+				dd.
 					#{doc.uri}
