@@ -281,7 +281,7 @@ function validate(body) {
 		validator: validator
 		, error_fields: error_fields
 		, cats_chosen: cats_chosen
-		, classifications_chosen: cats_chosen
+		, classifications_chosen: classifications_chosen
 		, values: values
 	};
 } 

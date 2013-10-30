@@ -4629,7 +4629,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .breadcrumb > .active {
-  color: #ffffff;
+  color: #000;
+  /* color: #ffffff; */
 }
 
 .pagination {

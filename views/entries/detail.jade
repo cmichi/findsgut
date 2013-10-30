@@ -8,10 +8,39 @@ block jumbotron
 			div.sub.
 				Lorem.
 
+block breadcrumbs
+	ol.breadcrumb.
+		<li><a href="#">Alle Eintr&auml;ge</a></li>
+		<li class="active">#{doc.name}</li>
+
 block content
 	div.row
 		div.col-lg-12
-			h2 Eintrag
+			h2 Eintrag: #{doc.name}
 
-			p.
-				#{doc.name}
+	div.row
+		div.col-lg-12
+			p
+				strong Beschreibung&nbsp;
+				span.
+					#{doc.description}
+			p
+				strong Kategorien&nbsp;
+				span.
+					#{doc.categories}
+			p
+				strong Klassifikation:&nbsp;
+				span.
+					#{doc.categories}
+			p
+				strong Online-Eintrag?&nbsp;
+				span.
+					#{doc.online}
+			p
+				strong Lokaler Eintrag?&nbsp;
+				span.
+					#{doc.local}
+			p
+				strong Internet-Adresse&nbsp;
+				span.
+					#{doc.uri}
