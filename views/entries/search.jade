@@ -11,8 +11,12 @@ block jumbotron
 block content
 	div.row
 		div.col-lg-12
-			h2 Suche nach 
-				em #{term}
+			- if (term == undefined || term.length === 0)
+				h2 Sie haben keinen Suchbegriff eingegeben!
+			- else
+				h2 Suche nach 
+					em #{term}
+			- endif
 
 			- if (searchresults != undefined)
 				ul

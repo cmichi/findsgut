@@ -20,6 +20,8 @@ block jumbotron
 
 				<div style="float:right">
 					<form class="bs-example" method="GET" action="/suche/">
+						<input type="hidden" name="lokal" value="on" />
+						<input type="hidden" name="online" value="on" />
 						<div class="col-lg-9">
 							<input class="form-control input-lg" type="text" name="term" placeholder="Kleidung in Ulm" />
 						</div>
@@ -51,7 +53,7 @@ block jumbotron
 block content
 	div.container
 		div.row
-			div.col-lg-12.text-center
+			div.col-lg-12
 				h2 Mit Konsum die Welt verändern 
 		div.row
 			div.col-lg-4

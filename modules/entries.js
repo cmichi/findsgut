@@ -28,11 +28,13 @@ exports.all = function(req, res) {
 		}
 
 		var entries = res_entries;
+		var params = {entries: entries, entries_count: entries.length /* immediate update */ };
+
+
 		console.log( JSON.stringify(entries) );
 		layout.set_var("count_entries", entries.length);
-		res.render('entries/all', layout.get_vars('entries_all', {entries: entries,
-		entries_count: entries.length // immediate update
-		}));
+
+		res.render('entries/all', layout.get_vars('entries_all', params));
 	});
 }
 
@@ -86,11 +88,22 @@ exports.get = function(req, res) {
 }
 
 exports.search = function(req, res) {
-	var term = db.prepare(req.param("term"));
-	console.log(term);
+	var online = false;
+	if (req.param("online") === "on") online = true;
+
+	var local = false;
+	if (req.param("lokal") === "on") local = true;
+
+	var term = db.prepare(req.param("term"))
+	var term_original = term; /* for the view */
+	term = term.toLowerCase();
+
+	console.log(term + "!!");
 
 	if (term.length === 0) {
-		res.redirect('/eintraege/alle');
+		//res.redirect('/eintraege/alle');
+		res.render('entries/search', layout.get_vars('entries_all', {term: "", searchresults: undefined}));
+		return;
 	}
 
 	var opts = {
@@ -109,12 +122,21 @@ exports.search = function(req, res) {
 
 		var searchresults = {};
 		var additional_params = {
-			term: term
+			term: term_original
 		};
 
+
+		console.log(online + " online");
+		console.log(local + " local");
+
+			//:console.log(res_search);
 		if (res_search && res_search.length > 0) {
 			for (var i in res_search) {
-				searchresults[res_search[i].value._id] = res_search[i].value
+				console.log(" juhu " +i)
+				if (res_search[i].value.online === online || res_search[i].value.local === local)
+					searchresults[res_search[i].value._id] = res_search[i].value;
+				else
+					console.log("no " + res_search[i].value);
 			}
 			additional_params.searchresults = searchresults;
 		} else {
@@ -149,7 +171,7 @@ function newEntry(res, body, validation_results) {
 			// just because the db went offline for some secs
 			var additional_params = {
 				  "errors": ["Es gab einen Fehler beim Speichern des Eintrags."
-					  + "Bitte versuchen Sie es in Kuerze erneut."]
+					  + "Bitte versuche es in K&uuml;rze noch einmal."]
 				, previous_input: body
 				, error_fields: validation_results.error_fields
 				, categories: categories
@@ -189,7 +211,7 @@ function validate(body) {
 	
 	var name = db.prepare(body.name)
 	var chk_cnt = 0;
-	var chk = validator.check(name, "Bitte geben Sie einen Namen an.").notEmpty();
+	var chk = validator.check(name, "Bitte gib einen Namen an.").notEmpty();
 	if (chk._errors.length > chk_cnt)
 		error_fields.name = "has-error";
 	values.name = name;
@@ -197,7 +219,7 @@ function validate(body) {
 	chk_cnt = chk._errors.length;
 
 	var description = db.prepare(body.description)
-	var chk = validator.check(description, "Bitte geben Sie eine Beschreibung an.").notEmpty();
+	var chk = validator.check(description, "Bitte gib eine Beschreibung an.").notEmpty();
 	if (chk._errors.length > chk_cnt)
 		error_fields.description = "has-error";
 
@@ -222,7 +244,7 @@ function validate(body) {
 		validator.error("Bei Online-Angeboten ist die Angabe einer Internet-Adresse verpflichtend.");
 	}
 	if (uri != "") {
-		var chk = validator.check(body.uri, "Bitte überprüfen Sie die Internetadresse").isUrl();
+		var chk = validator.check(body.uri, "Bitte checke die Internetadresse.").isUrl();
 		if (chk._errors.length > chk_cnt)
 			error_fields.uri = "has-error";
 		values.uri = uri;
@@ -235,7 +257,7 @@ function validate(body) {
 	chk_cnt = chk._errors.length;
 
 	if (body.online !== "on" && body.local !== "on") {
-		validator.error("Bitte geben Sie an, ob das Angebot online oder lokal ist.");
+		validator.error("Bitte gib an, ob das Angebot online oder lokal ist.");
 		error_fields.online_local = "has-error";
 	}
 	if (body.online === "on") values.online = true;
@@ -243,7 +265,7 @@ function validate(body) {
 
 	chk_cnt = chk._errors.length;
 
-	var chk = validator.check(body.agb, "Bitte akzeptieren Sie die AGB.").equals("on");
+	var chk = validator.check(body.agb, "Bitte akzeptiere die AGB.").equals("on");
 	if (chk._errors.length > chk_cnt)
 		error_fields.agb = "has-error";
 	else
@@ -257,7 +279,7 @@ function validate(body) {
 			cats_chosen.push(categories[c].value.key)
 	}
 	if (cats_chosen.length === 0) {
-		validator.error("Bitte wählen Sie eine Kategorie.");
+		validator.error("Bitte wählen eine Kategorie.");
 		error_fields.categories = "has-error";
 	} else {
 		for (var c in cats_chosen) 
@@ -271,7 +293,7 @@ function validate(body) {
 			classifications_chosen.push(classifications[c])
 	}
 	if (classifications_chosen.length === 0) {
-		validator.error("Bitte ordnen Sie das Angebot ein.");
+		validator.error("Bitte ordne das Angebot ein.");
 		error_fields.classifications = "has-error";
 	} else {
 		for (var c in classifications_chosen) 

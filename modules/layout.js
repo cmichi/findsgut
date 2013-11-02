@@ -11,6 +11,7 @@ exports.set_var = function(k, v) {
 
 exports.get_vars = function(navi_key, additional_vars) {
 	var vars = layout_vars;
+	console.log(JSON.stringify(vars));
 	vars.navi = get_navi(navi_key);
 
 	for (var i in additional_vars) {
