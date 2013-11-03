@@ -289,7 +289,10 @@ function validate(body) {
 		error_fields.online_local = "has-error";
 	}
 	if (body.online === "on") values.online = true;
+	else values.online = false;
+
 	if (body.local === "on") values.local = true;
+	else values.local = false;
 
 	chk_cnt = chk._errors.length;
 

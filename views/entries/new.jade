@@ -38,7 +38,7 @@ block content
 
 				p &nbsp;
 
-			form(role="form",method="POST",action="#").form-horizontal
+			form(role="form",method="POST",action="#").form-horizontal#new
 				div(class="form-group #{error_fields.name}").
 					<label for="name" class="col-lg-2 control-label">Anbieter</label>
 					<div class="col-lg-10">
@@ -134,15 +134,22 @@ block content
 								&nbsp; Lokales Angebot
 						- endif
 
+				- if (values["local"] === false || values["local"] == undefined)
+					div(class="form-group #{error_fields.address}",style="display:none")#address
+						label.col-lg-2.control-label(for="address") Adresse
+						div.col-lg-10
+							textarea.form-control(id="address", name="address",rows="3", maxlength="500") #{values.address}
+				- else 
+					div(class="form-group #{error_fields.address}")#address
+						label.col-lg-2.control-label(for="address") Adresse
+						div.col-lg-10
+							textarea.form-control(id="address", name="address",rows="3", maxlength="500") #{values.address}
+				- endif
+
 				div(class="form-group #{error_fields.uri}")
 					label.col-lg-2.control-label(for="uri") Internet-Adresse
 					div.col-lg-10
 						input.form-control(type="url", name="uri", id="uri",value="#{values.uri}")
-
-				div(class="form-group #{error_fields.address}")
-					label.col-lg-2.control-label(for="address") Adresse
-					div.col-lg-10
-						textarea.form-control(id="address", name="address",rows="3", maxlength="500") #{values.address}
 
 				div(class="form-group #{error_fields.description}")
 					label.col-lg-2.control-label(for="description") Beschreibung
@@ -165,3 +172,6 @@ block content
 					<div class="col-lg-offset-2 col-lg-10">
 						<button type="submit" class="btn btn-default">Absenden</button>
 					</div>
+
+block scripts
+		script(src='/js/entries/new.js') 
