@@ -1,0 +1,16 @@
+div.container
+	- if (term == undefined || term.length === 0)
+		h1 Alle Eintr&auml;ge 
+		div.sub.
+			Es sind insgesamt #{list.length}
+			Eintr&auml;ge vorhanden.
+	- else
+		h1 Suche nach 
+			em #{term}
+		div.sub
+			- if (list != undefined)
+				|Es wurden #{list.length} Eintr&auml;ge gefunden.
+			- else
+				|Es wurden keine Eintr&auml;ge gefunden.
+			- endif
+	- endif

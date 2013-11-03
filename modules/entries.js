@@ -162,12 +162,16 @@ exports.search = function(req, res) {
 			additional_params.list = undefined;
 		}
 
-		//console.log("searchres: \n" + JSON.stringify(searchresults));
+		console.log("searchres: \n" + JSON.stringify(additional_params.list));
 		//console.log("")
-		if (ajax === true)
-			res.render('entries/ajax-list', layout.get_vars('entries_all', additional_params));
-		else
+		if (ajax === true) {
+			if (req.param("jumbotron") === "true")
+				res.render('entries/ajax-search-jumbotron', layout.get_vars('entries_all', additional_params));
+			else
+				res.render('entries/ajax-list', layout.get_vars('entries_all', additional_params));
+		} else {
 			res.render('entries/search', layout.get_vars('entries_all', additional_params));
+		}
 	});
 }
 

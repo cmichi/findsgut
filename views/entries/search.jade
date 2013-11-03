@@ -2,23 +2,12 @@ extends ../layout
 
 block jumbotron
 	div.jumbotron
-		div.container
-			h1 Alle Eintr&auml;ge
+		include ./search-jumbotron
 
-			div.sub.
-				Lorem.
 
 block content
 	div.row
 		div.col-lg-12
-			- if (term == undefined || term.length === 0)
-				//h2 Sie haben keinen Suchbegriff eingegeben!
-				h2 Alle Eintr&auml;ge
-			- else
-				h2 Suche nach 
-					em #{term}
-			- endif
-
 			include ./filter
 
 			div#list

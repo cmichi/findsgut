@@ -18,6 +18,14 @@ var updateList = function() {
 		$("#list").html(data);
 	});
 
+	$.ajax({
+		url: uri + "&jumbotron=true"
+		, context: document.body
+	}).success(function(data, status) {
+		console.log(data.substr(0,255));
+		$(".jumbotron").html(data);
+	});
+
 }
 
 $("form[id=filter]").change(updateList);
