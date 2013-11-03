@@ -14,18 +14,17 @@ var updateList = function() {
 		url: uri
 		, context: document.body
 	}).success(function(data, status) {
-		console.log(data.substr(0,255));
-		$("#list").html(data);
-	});
+		var separator = "--separator--";
+		var pos = data.indexOf(separator);
+		var jumbotron = data.substr(0, pos);
+		var list = data.substr(pos + separator.length, data.length);
 
-	$.ajax({
-		url: uri + "&jumbotron=true"
-		, context: document.body
-	}).success(function(data, status) {
-		console.log(data.substr(0,255));
-		$(".jumbotron").html(data);
-	});
+		//console.log(jumbotron)
+		//console.log(list)
 
+		$("#list").html(list);
+		$(".jumbotron").html(jumbotron);
+	});
 }
 
 $("form[id=filter]").change(updateList);
