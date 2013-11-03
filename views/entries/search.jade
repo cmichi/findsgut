@@ -12,18 +12,11 @@ block content
 	div.row
 		div.col-lg-12
 			- if (term == undefined || term.length === 0)
-				h2 Sie haben keinen Suchbegriff eingegeben!
+				//h2 Sie haben keinen Suchbegriff eingegeben!
+				h2 Alle Eintr&auml;ge
 			- else
 				h2 Suche nach 
 					em #{term}
 			- endif
 
-			- if (searchresults != undefined)
-				ul
-					each r in searchresults
-						li
-							a(href="/eintraege/#{r._id}/").
-								#{r.name} 
-			- else
-				p Es sind leider keine Suchergebnisse vorhanden.
-			- endif
+			include ./list

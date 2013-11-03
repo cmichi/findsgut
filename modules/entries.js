@@ -28,8 +28,7 @@ exports.all = function(req, res) {
 		}
 
 		var entries = res_entries;
-		var params = {entries: entries, entries_count: entries.length /* immediate update */ };
-
+		var params = {list: entries, entries_count: entries.length /* immediate update */ };
 
 		console.log( JSON.stringify(entries) );
 		layout.set_var("count_entries", entries.length);
@@ -100,11 +99,13 @@ exports.search = function(req, res) {
 
 	console.log(term + "!!");
 
+	/*
 	if (term.length === 0) {
 		//res.redirect('/eintraege/alle');
 		res.render('entries/search', layout.get_vars('entries_all', {term: "", searchresults: undefined}));
 		return;
 	}
+	*/
 
 	var opts = {
 		startkey: term
@@ -120,29 +121,39 @@ exports.search = function(req, res) {
 			return
 		  }
 
-		var searchresults = {};
+		//var searchresults = {};
+		var searchresults = [];
 		var additional_params = {
 			term: term_original
+			, online: online
+			, local: local
 		};
 
 
-		console.log(online + " online");
-		console.log(local + " local");
-
-			//:console.log(res_search);
+		//console.log(res_search);
 		if (res_search && res_search.length > 0) {
+			/* definitiely has to be optimized */
 			for (var i in res_search) {
-				console.log(" juhu " +i)
-				if (res_search[i].value.online === online || res_search[i].value.local === local)
-					searchresults[res_search[i].value._id] = res_search[i].value;
-				else
-					console.log("no " + res_search[i].value);
+				if (res_search[i].value.online === online || res_search[i].value.local === local) {
+					var exists = false;
+					for (var j in searchresults) {
+						if (searchresults[j].value._id === res_search[i].value._id) {
+							exists = true;
+							break;
+						}
+					}
+					if (exists === false)
+						searchresults.push(res_search[i])
+				}
+				//searchresults[res_search[i].value._id] = res_search[i].value;
 			}
-			additional_params.searchresults = searchresults;
+			additional_params.list = searchresults;
 		} else {
-			additional_params.searchresults = undefined;
+			additional_params.list = undefined;
 		}
-		console.log(JSON.stringify(searchresults));
+
+		//console.log("searchres: \n" + JSON.stringify(searchresults));
+		//console.log("")
 		res.render('entries/search', layout.get_vars('entries_all', additional_params));
 	});
 }
