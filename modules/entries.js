@@ -86,6 +86,7 @@ exports.get = function(req, res) {
 		}
 
 		console.log(doc);
+		doc.description = doc.description.split("\r\n");
 		var additional_params = {"doc": doc};
 		res.render('entries/detail', layout.get_vars('entries_all', additional_params));
 	});
@@ -100,7 +101,7 @@ exports.search = function(req, res) {
 	if (req.param("online") === "on") online = true;
 
 	var local = false;
-	if (req.param("lokal") === "on") local = true;
+	if (req.param("local") === "on") local = true;
 
 	var term = db.prepare(req.param("term"))
 	var term_original = term; /* for the view */
@@ -144,7 +145,9 @@ exports.search = function(req, res) {
 		if (res_search && res_search.length > 0) {
 			/* definitiely has to be optimized */
 			for (var i in res_search) {
-				if (res_search[i].value.online === online || res_search[i].value.local === local) {
+				var cond1 = (online === true && res_search[i].value.online === online);
+				var cond2 = (local === true && res_search[i].value.local === local);
+				if (cond1 || cond2) {
 					var exists = false;
 					for (var j in searchresults) {
 						if (searchresults[j].value._id === res_search[i].value._id) {

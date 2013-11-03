@@ -22,8 +22,10 @@ block content
 		div.col-lg-12
 			dl.dl-horizontal
 				dt Beschreibung
-				dd.
-					#{doc.description}
+				dd
+					each paragraph in doc.description
+						p.
+							#{paragraph}
 
 				dt Kategorien
 				dd.

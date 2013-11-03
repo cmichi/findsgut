@@ -4,7 +4,10 @@ var updateList = function() {
 	var online = $("form[id=filter] input[name=online]").prop("checked");
 
 	if (local === true) local = "on";
+	else local = "";
+
 	if (online === true) online = "on";
+	else online = "";
 
 	var term = $("form[id=filter] input[name=term]").val();
 

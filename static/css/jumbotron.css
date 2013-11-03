@@ -17,9 +17,11 @@ body {
 	color: #DDD;
 	font-family: ff-meta-web-pro-1,ff-meta-web-pro-2,"Century Schoolbook",Century,Garamond,serif;
 	font-style:italic;
-	font-size:1.3em;   
-	font-weight:400;
 	line-height:40px;
+	/*
+	font-weight:400;
+	font-size:1.3em;   
+	*/
 }
 
 .active a {

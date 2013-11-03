@@ -2,53 +2,38 @@ extends layout
 
 block jumbotron
 	div.jumbotron
-		div.container(style="text-align:center;margin-top:25px;margin-bottom:25px;")
-			img(src="/img/index.png",style="height:150px;width:474px;",alt="findsgut",title="findsgut: Verantwortungsvolle Produkte und Dienstleistungen")
+		div.container.text-center
+			div.row
+				div.col-lg-6.col-lg-offset-3
+					img.img-responsive(src="/img/index.png",,alt="findsgut",title="findsgut: Verantwortungsvolle Produkte und Dienstleistungen")
 
-			div(style="width:70%;margin-left:15%;text-align:center;")
-			p(style="color:#DDD;margin-top:35px;width:70%;margin-left:15%;").foo.
-				findsgut ist ein gemeinschaftlich gepflegtes Verzeichnis für
-				verantwortungsvolle Produkte und Dienstleistungen. 
+			div.row
+				div.col-lg-8.col-lg-offset-2(style="color:#DDD;margin-top:25px;").text-center
+					h3.foo.
+						findsgut ist ein gemeinschaftlich gepflegtes Verzeichnis für
+						verantwortungsvolle Produkte und Dienstleistungen. 
 
-			div(style="margin-top:55px;width:80%;margin-left:10%;").
-				<div style="float:left">
-						<a class="btn btn-default btn-lg" href="/eintraege/neu">
-							<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
-							Neuer Eintrag
-						</a>
-				</div>
+			div.row(style="margin-top:15px;")
+				form.bs-example(method="GET",action="/suche/")
+					div.col-lg-4.col-lg-offset-2
+						div.text-center.pull-left
+								a.btn.btn-default.btn-lg(href="/eintraege/neu").
+									<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
+									Neuer Eintrag
 
-				<div style="float:right">
-					<form class="bs-example" method="GET" action="/suche/">
-						<input type="hidden" name="lokal" value="on" />
-						<input type="hidden" name="online" value="on" />
-						<div class="col-lg-9">
-							<input class="form-control input-lg" type="text" name="term" placeholder="Kleidung in Ulm" />
-						</div>
-						<div class="col-lg-2">
-						<button type="submit" class="btn btn-default btn-lg">
-							<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
-							Suchen
-						</button>
-
-						<!--
-						<a class="btn btn-default btn-lg" href="#">
-							<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
-							Suchen
-						</a>
-						-->
-						</div>
-					</form>
-				</div>
-
-	div.jumbotron(style="display:none")
-		div.container
-			h1.
-				Hello, world!
-			p.
-				This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.
-			p.
-				<a class="btn btn-primary btn-lg">Learn more &raquo;</a>
+					div.col-lg-4
+						div.text-center.pull-right.
+								<input type="hidden" name="lokal" value="on" />
+								<input type="hidden" name="online" value="on" />
+								<div class="col-lg-8">
+									<input class="form-control input-lg" type="text" name="term" placeholder="Kleidung in Ulm" />
+								</div>
+								<div class="col-lg-2">
+									<button type="submit" class="btn btn-default btn-lg">
+									<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
+									Suchen
+									</button>
+								</div>
 
 block content
 	div.container
