@@ -6,8 +6,15 @@ block jumbotron
 			h1 Alle Eintr&auml;ge 
 
 			div.sub.
-				Es sind insgesamt #{entries.length}
+				Es sind insgesamt #{list.length}
 				Eintr&auml;ge vorhanden.
 
 block content
-	include ../entries/list
+
+	include ../entries/filter
+
+	div#list
+		include ../entries/list
+
+block scripts
+		script(src='/js/entries/filter.js') 

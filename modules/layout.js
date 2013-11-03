@@ -1,17 +1,16 @@
-var layout_vars = {
-	navi: {}
-	, count_entries: 0
-};
-
 var db;
+var count_entries = 0;
 
 exports.set_var = function(k, v) {
-	layout_vars[k] = v;
+	if (k === "count_entries")
+		count_entries = v;
 }
 
 exports.get_vars = function(navi_key, additional_vars) {
-	var vars = layout_vars;
-	console.log(JSON.stringify(vars));
+	var vars = {
+		count_entries: count_entries
+	};
+
 	vars.navi = get_navi(navi_key);
 
 	for (var i in additional_vars) {
@@ -19,6 +18,7 @@ exports.get_vars = function(navi_key, additional_vars) {
 	}
 
 	//console.log(JSON.stringify(vars));
+	console.log(JSON.stringify(vars));
 
 	return vars;
 }
@@ -32,8 +32,8 @@ exports.init = function(d) {
 			return;
 		}
 
-		layout_vars.count_entries = res.length;
-		layout_vars.entries = res;
+		count_entries = res.length;
+		//layout_vars.entries = res;
 	});
 
 }

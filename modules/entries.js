@@ -28,7 +28,12 @@ exports.all = function(req, res) {
 		}
 
 		var entries = res_entries;
-		var params = {list: entries, entries_count: entries.length /* immediate update */ };
+		var params = {
+			list: entries
+			, entries_count: entries.length /* immediate update */
+			, online: true
+			, local: true
+		};
 
 		console.log( JSON.stringify(entries) );
 		layout.set_var("count_entries", entries.length);
@@ -87,6 +92,10 @@ exports.get = function(req, res) {
 }
 
 exports.search = function(req, res) {
+	var ajax = false;
+	if (req.param("ajax") === "true") ajax = true;
+	console.log(ajax + "..ajax");
+
 	var online = false;
 	if (req.param("online") === "on") online = true;
 
@@ -127,8 +136,9 @@ exports.search = function(req, res) {
 			term: term_original
 			, online: online
 			, local: local
+			, ajax: ajax
 		};
-
+		console.log(JSON.stringify(additional_params));
 
 		//console.log(res_search);
 		if (res_search && res_search.length > 0) {
@@ -154,7 +164,10 @@ exports.search = function(req, res) {
 
 		//console.log("searchres: \n" + JSON.stringify(searchresults));
 		//console.log("")
-		res.render('entries/search', layout.get_vars('entries_all', additional_params));
+		if (ajax === true)
+			res.render('entries/ajax-list', layout.get_vars('entries_all', additional_params));
+		else
+			res.render('entries/search', layout.get_vars('entries_all', additional_params));
 	});
 }
 

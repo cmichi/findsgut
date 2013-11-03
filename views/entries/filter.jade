@@ -1,0 +1,43 @@
+div.row
+	div.col-lg-12
+
+		div.row
+			div.col-lg-12
+				div.panel.panel-default
+					div.panel-heading
+						h3.panel-title.
+							Filtern
+					div.panel-body
+						div.row
+							form(role="form",method="GET",action="/suche",id="filter")
+								div.col-lg-3
+									div.checkbox
+										label
+											- if (local === true)
+												input(type="checkbox",name="lokal",checked="checked")
+											- else
+												input(type="checkbox",name="lokal")
+											- endif
+											|Lokale Angebote
+								div.col-lg-3
+									div.checkbox
+										label
+											- if (online === true)
+												input(type="checkbox",name="online",checked="checked")
+											- else
+												input(type="checkbox",name="online")
+											- endif
+											|Online-Angebote
+								div.col-lg-3
+									div.input-group 
+										span.input-group-addon
+											span.glyphicon.glyphicon-search
+										- if (term == undefined || term.length === 0)
+											input(type="text",class="form-control",placeholder="",name="term") 
+										- else
+											input(type="text",class="form-control",placeholder="",name="term",value="#{term}") 
+										- endif
+								div.col-lg-3
+									|<button type="submit" class="btn btn-default">&raquo; Filtern</button>
+							
+				hr

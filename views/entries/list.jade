@@ -1,69 +1,30 @@
-div.row
-	div.col-lg-12
+- if (list != undefined && list.length > 0)
+	div.row
+		div.col-lg-12(style="display:none")
+			p
+				strong.
+					Anzeige: #{list.length}/#{list.length} Eintr&auml;ge
+			p
+				&nbsp;
 
-		div.row
-			div.col-lg-12
+		each entry in list
+			div.col-lg-6
 				div.panel.panel-default
-					div.panel-heading
-						h3.panel-title.
-							Filtern
 					div.panel-body
-						div.row
-							form(role="form",method="GET",action="/suche")
-								div.col-lg-3
-									div.checkbox
-										label
-											- if (local === true)
-												input(type="checkbox",name="lokal",checked="checked")
-											- else
-												input(type="checkbox",name="lokal")
-											- endif
-											|Lokale Angebote
-								div.col-lg-3
-									div.checkbox
-										label
-											- if (online === true)
-												input(type="checkbox",name="online",checked="checked")
-											- else
-												input(type="checkbox",name="online")
-											- endif
-											|Online-Angebote
-								div.col-lg-3
-									div.input-group 
-										span.input-group-addon
-											span.glyphicon.glyphicon-search
-										input(type="text",class="form-control",placeholder="",name="term") 
-								div.col-lg-3
-									|<button type="submit" class="btn btn-default">&raquo; Filtern</button>
-							
-				hr
+						p	
+							a(href="/eintraege/#{entry.value._id}/").
+								#{entry.value.name}
+						p
+							- if (entry.value.description.length > 125)
+								|#{entry.value.description.substr(0,125)}&hellip;
+							- else
+								|#{entry.value.description}
+							- endif
+						p.
+							<a class="pull-right btn btn-default" href="/eintraege/#{entry.value._id}/">&raquo; Mehr</a> 
+- else
+	div.row
+		div.col-lg-12
+			p Es sind leider keine Eintr&auml;ge vorhanden.
+- endif
 
-		- if (list != undefined && list.length > 0)
-			div.row
-				div.col-lg-12(style="display:none")
-					p
-						strong.
-							Anzeige: #{list.length}/#{list.length} Eintr&auml;ge
-					p
-						&nbsp;
-
-				each entry in list
-					div.col-lg-6
-						div.panel.panel-default
-							div.panel-body
-								p	
-									a(href="/eintraege/#{entry.value._id}/").
-										#{entry.value.name}
-								p
-									- if (entry.value.description.length > 125)
-										|#{entry.value.description.substr(0,125)}&hellip;
-									- else
-										|#{entry.value.description}
-									- endif
-								p.
-									<a class="pull-right btn btn-default" href="/eintraege/#{entry.value._id}/">&raquo; Mehr</a> 
-		- else
-			div.row 
-				div.col-lg-12
-					p Es sind leider keine Eintr&auml;ge vorhanden.
-		- endif
