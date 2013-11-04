@@ -8,36 +8,79 @@ div.row
 						h3.panel-title.
 							Filtern
 					div.panel-body
-						div.row
 							form(role="form",method="GET",action="/suche",id="filter")
-								div.col-lg-3
-									div.checkbox
-										label
-											- if (local === true)
-												input(type="checkbox",name="lokal",checked="checked")
-											- else
-												input(type="checkbox",name="lokal")
-											- endif
-											|Lokale Angebote
-								div.col-lg-3
-									div.checkbox
-										label
-											- if (online === true)
-												input(type="checkbox",name="online",checked="checked")
-											- else
-												input(type="checkbox",name="online")
-											- endif
-											|Online-Angebote
-								div.col-lg-3
-									div.input-group 
-										span.input-group-addon
-											span.glyphicon.glyphicon-search
-										- if (term == undefined || term.length === 0)
-											input(type="text",class="form-control",placeholder="",name="term") 
-										- else
-											input(type="text",class="form-control",placeholder="",name="term",value="#{term}") 
-										- endif
-								div.col-lg-3
-									|<button type="submit" class="btn btn-default">&raquo; Filtern</button>
-							
+								div.row
+										div.col-lg-3
+											div.checkbox
+												label
+													- if (local === true)
+														input(type="checkbox",name="lokal",checked="checked")
+													- else
+														input(type="checkbox",name="lokal")
+													- endif
+													|Lokale Angebote
+										div.col-lg-3
+											div.checkbox
+												label
+													- if (online === true)
+														input(type="checkbox",name="online",checked="checked")
+													- else
+														input(type="checkbox",name="online")
+													- endif
+													|Online-Angebote
+										div.col-lg-3
+											div.input-group 
+												span.input-group-addon
+													span.glyphicon.glyphicon-search
+												- if (term == undefined || term.length === 0)
+													input(type="text",class="form-control",placeholder="",name="term") 
+												- else
+													input(type="text",class="form-control",placeholder="",name="term",value="#{term}") 
+												- endif
+										div.col-lg-3
+											div.pull-right
+													|<button type="submit" class="btn btn-default">&raquo; Filtern</button> 
+								div.row
+										div.col-lg-3
+											div.checkbox
+												label
+													- if (fair === true)
+														input(type="checkbox",name="fair",checked="checked")
+													- else
+														input(type="checkbox",name="fair")
+													- endif
+													|faire Produkte
+											div.alert.alert-info(style="margin-top:10px;margin-bottom:0px;") 
+												p.
+													sind Produkte
+													die &hellip;
+
+										div.col-lg-3
+											div.checkbox
+												label
+													- if (bio === true)
+														input(type="checkbox",name="bio",checked="checked")
+													- else
+														input(type="checkbox",name="bio")
+													- endif
+													|biologische Produkte
+											div.alert.alert-info(style="margin-top:10px;margin-bottom:0px;") 
+												p.
+													sind Produkte
+													die &hellip;
+
+										div.col-lg-3
+											div.checkbox
+												label
+													- if (regional === true)
+														input(type="checkbox",name="regional",checked="checked")
+													- else
+														input(type="checkbox",name="regional")
+													- endif
+													|regionale Produkte
+
+											div.alert.alert-info(style="margin-top:10px;margin-bottom:0px;") 
+												p.
+													sind Produkte
+													die &hellip;
 				hr

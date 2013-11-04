@@ -31,8 +31,13 @@ exports.all = function(req, res) {
 		var params = {
 			list: entries
 			, entries_count: entries.length /* immediate update */
+
+			/* default: show all */
 			, online: true
 			, local: true
+			, fair: true
+			, bio: true
+			, regional: true
 		};
 
 		console.log( JSON.stringify(entries) );
@@ -92,6 +97,15 @@ exports.get = function(req, res) {
 	});
 }
 
+function classified(entry, v) {
+	for (var i in entry.classifications) {
+		if (entry.classifications[i] === v)
+			return true;
+	}
+
+	return false;
+}
+
 exports.search = function(req, res) {
 	var ajax = false;
 	if (req.param("ajax") === "true") ajax = true;
@@ -102,6 +116,15 @@ exports.search = function(req, res) {
 
 	var local = false;
 	if (req.param("local") === "on") local = true;
+
+	var bio = false;
+	if (req.param("bio") === "on") bio = true;
+
+	var fair = false;
+	if (req.param("fair") === "on") fair = true;
+
+	var regional = false;
+	if (req.param("regional") === "on") regional = true;
 
 	var term = db.prepare(req.param("term"))
 	var term_original = term; /* for the view */
@@ -141,13 +164,52 @@ exports.search = function(req, res) {
 		};
 		console.log(JSON.stringify(additional_params));
 
-		//console.log(res_search);
 		if (res_search && res_search.length > 0) {
-			/* definitiely has to be optimized */
 			for (var i in res_search) {
-				var cond1 = (online === true && res_search[i].value.online === online);
-				var cond2 = (local === true && res_search[i].value.local === local);
-				if (cond1 || cond2) {
+				var r = res_search[i].value;
+				var show = true;
+
+				/*
+				// search semantic 1
+				if (online === true && r.online === false)
+					show = false;
+
+				if (local === true && r.local === false)
+					show = false;
+
+				if (bio === true && classified(r, "bio") === false)
+					show = false;
+
+				if (fair === true && classified(r, "fair") === false)
+					show = false;
+
+				if (regional === true && classified(r, "regional") === false)
+					show = false;
+
+				*/
+
+				//if (online === true && r.online === false || online === false && r.online === true)
+				if (online === false && r.online === true)
+					show = false;
+
+				//if (local === true && r.local === false || local === false && r.local === true)
+				if (local === false && r.local === true)
+					show = false;
+
+				//if (bio === true && classified(r, "bio") === false || bio === false && classified(r, "bio") === true)
+				if (bio === false && classified(r, "bio") === true)
+					show = false;
+
+				//if (fair === true && classified(r, "fair") === false || fair === false && classified(r, "fair") === true)
+				if (fair === false && classified(r, "fair") === true)
+					show = false;
+
+				//if (regional === true && classified(r, "regional") === false || regional === false && classified(r, "regional") === true)
+				if (regional === false && classified(r, "regional") === true)
+					show = false;
+
+				if (show === true) {
+					/* definitely has to be optimized */
 					var exists = false;
 					for (var j in searchresults) {
 						if (searchresults[j].value._id === res_search[i].value._id) {
@@ -370,3 +432,4 @@ function get_global_values() {
 		, fair: false
 	};
 }
+
