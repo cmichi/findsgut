@@ -50,13 +50,13 @@ block content
 					label.col-lg-2.control-label(for="categories") Kategorie
 					each category in categories
 						div.col-lg-2
-							- if (values["category_" + category.value.key] === true)
-								input(name="category_#{category.value.key}", type="checkbox", checked="checked") 
+							- if (values["category_" + category.key] === true)
+								input(name="category_#{category.key}", type="checkbox", checked="checked") 
 							- else
-								input(name="category_#{category.value.key}", type="checkbox") 
+								input(name="category_#{category.key}", type="checkbox") 
 							- endif
 							span.
-								&nbsp; #{category.value.value}
+								&nbsp; #{category.value}
 
 				div(class="form-group #{error_fields.classifications}")
 					div.row

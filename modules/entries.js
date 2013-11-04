@@ -1,20 +1,25 @@
-var app, db, layout, categories = [];
 var util = require('util')
+var app, db, layout; 
+var categories = [
+	{
+		key: "service"
+		, value: "Dienstleistung"
+	}
+	, {
+		key: "product"
+		, value: "Produkt"
+	}
+	, {
+		key: "other"
+		, value: "Sonstige"
+	}
+];
 
 exports.init = function(_app, _db, _layout) {
 	app = _app;
 	db = _db;
 	layout = _layout;
 
-	db.view('db/categories', {reduce: false}, function (err, res) {
-		if (err) {
-			console.dir(err);
-			return;
-		}
-
-		if (res.length > 0)
-			categories = res
-	});
 	return;
 }
 
@@ -371,8 +376,8 @@ function validate(body) {
 
 	var cats_chosen = [];
 	for (var c in categories) {
-		if (body["category_" + categories[c].value.key] === "on")
-			cats_chosen.push(categories[c].value.key)
+		if (body["category_" + categories[c].key] === "on")
+			cats_chosen.push(categories[c].key)
 	}
 	if (cats_chosen.length === 0) {
 		validator.error("Bitte wählen eine Kategorie.");

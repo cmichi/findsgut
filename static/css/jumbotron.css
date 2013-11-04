@@ -13,6 +13,19 @@ body {
 	line-height:40px;
 }
 
+.index-jumbotron {
+	padding-bottom: 48px !important;
+	padding-top: 48px !important;
+}
+
+.jumbotron {
+	padding: 10px 10px;
+}
+
+.jumbotron .sub {
+	display: none;
+}
+
 .jumbotron .sub, .foo {
 	color: #DDD;
 	font-family: ff-meta-web-pro-1,ff-meta-web-pro-2,"Century Schoolbook",Century,Garamond,serif;
