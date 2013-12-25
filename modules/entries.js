@@ -80,6 +80,162 @@ var subcategories = {
 				}
 			]
 		}
+		, {
+			title: "Drogerie"
+			, list: [
+				{
+					key: "schoenheit"
+					, value: "Schönheit"
+				}
+				, {
+					key: "wellness_gesundheit"
+					, value: "Wellnes & Gesundheit"
+				}
+				, {
+					key: "hygiene"
+					, value: "Hygiene"
+				}
+				, {
+					key: "waschen_reinigen"
+					, value: "Waschen & Reinigen"
+				}
+				, {
+					key: "haushalt"
+					, value: "Haushalt"
+				}
+			]
+		}
+		, {
+			title: "Mode"
+			, list: [
+				{
+					key: "damenmode"
+					, value: "Damenmode"
+				}
+				, {
+					key: "herrenmode"
+					, value: "Herrenmode"
+				}
+				, {
+					key: "kindermode"
+					, value: "Kindermode"
+				}
+				, {
+					key: "accessoires"
+					, value: "Accessoires"
+				}
+				, {
+					key: "schmuck"
+					, value: "Schmuck"
+				}
+				, {
+					key: "schuhe"
+					, value: "Schuhe"
+				}
+			]
+		}
+		, {
+			title: "Lebensmittel"
+			, list: [
+				{
+					key: "brot_backwaren"
+					, value: "Brot & Backwaren"
+				}
+				, {
+					key: "milchprodukte"
+					, value: "Milchprodukte"
+				}
+				, {
+					key: "obst"
+					, value: "Obst"
+				}
+				, {
+					key: "gemuese"
+					, value: "Gemüse"
+				}
+				, {
+					key: "getraenke"
+					, value: "Getränke"
+				}
+				, {
+					key: "gewuerze"
+					, value: "Gewürze"
+				}
+				, {
+					key: "brotaufstriche"
+					, value: "Brotaufstriche"
+				}
+				, {
+					key: "suesses_salziges"
+					, value: "Süßes & Salziges"
+				}
+				, {
+					key: "fleischersatz_tofu"
+					, value: "Fleischersatz & Tofu"
+				}
+				, {
+					key: "eier"
+					, value: "Eier"
+				}
+				, {
+					key: "oele_fette"
+					, value: "Öle & Fette"
+				}
+				, {
+					key: "suppen_soszen"
+					, value: "Suppen & Soßen"
+				}
+				, {
+					key: "nahrungsergaenzungsmittel"
+					, value: "Nahrungsergänzungsmittel"
+				}
+				, {
+					key: "reis_huelsenfruechte"
+					, value: "Reis & Hülsenfrüchte"
+				}
+				, {
+					key: "wurst_fleisch_fisch"
+					, value: "Wurst & Fleisch & Fisch"
+				}
+				, {
+					key: "getreideprodukte"
+					, value: "Getreideprodukte"
+				}
+				, {
+					key: "backen_dessert"
+					, value: "Backen & Dessert"
+				}
+				, {
+					key: "fertigprodukte_konserven"
+					, value: "Fertigprodukte & Konserven"
+				}
+			]
+		}
+		, {
+			title: "Baby & Kind"
+			, list: [
+				{
+					key: "kleidung"
+					, value: "Kleidung"
+				}
+				, {
+					key: "zubehoer"
+					, value: "Zubehör"
+				}
+				, {
+					key: "hygiene"
+					, value: "Hygiene"
+				}
+				, {
+					key: "spielzeug"
+					, value: "Spielzeug"
+				}
+				, {
+					key: "nahrung"
+					, value: "nahrung"
+				}
+			]
+		}
 	]
 };
 
