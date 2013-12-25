@@ -58,6 +58,21 @@ block content
 							span.
 								&nbsp; #{category.value}
 
+				div(class="form-group #{error_fields.subcategories}")
+					label.col-lg-2.control-label(for="subcategories") Unterkategorien
+					each subcategory in subcategories["products"]
+						h2 #{subcategory.title}
+
+						each sub in subcategory.list
+							div.col-lg-2
+								- if (values["subcategory_" + sub.key] === true)
+									input(name="subcategory_#{sub.key}", type="checkbox", checked="checked") 
+								- else
+									input(name="subcategory_#{sub.key}", type="checkbox") 
+								- endif
+								span.
+									&nbsp; #{sub.value}
+
 				div(class="form-group #{error_fields.classifications}")
 					div.row
 					label.col-lg-2.control-label(for="classifications") Einordnung

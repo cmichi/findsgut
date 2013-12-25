@@ -14,6 +14,23 @@ var categories = [
 		, value: "Sonstige"
 	}
 ];
+var subcategories = {
+	products: [
+		{
+			title: "Büro & Schreibwaren"
+			, list: [
+				{
+					key: "schreibwaren"
+					, value: "Schreibwaren"
+				}
+				, {
+					key: "bastelbedarf"
+					, value: "Bastelbedarf"
+				}
+			]
+		}
+	]
+};
 
 exports.init = function(_app, _db, _layout) {
 	app = _app;
@@ -57,6 +74,7 @@ exports.get_new = function(req, res) {
 		  error_fields: get_error_fields()
 		, errors: []
 		, categories: categories
+		, subcategories: subcategories
 		, values: get_global_values()
 	 }));
 }
@@ -75,6 +93,7 @@ exports.post_new = function(req, res) {
 			, previous_input: req.body
 			, error_fields: validation_results.error_fields
 			, categories: categories
+			, subcategories: subcategories
 			, values: validation_results.values
 		};
 
@@ -256,6 +275,7 @@ function newEntry(res, body, validation_results) {
 		, local: body.local
 		, online: body.online
 		, categories: validation_results.cats_chosen
+		, subcategories: validation_results.subcats_chosen
 		, classifications: validation_results.classifications_chosen
 		, created_at: (new Date().getTime())
 	};
@@ -273,6 +293,7 @@ function newEntry(res, body, validation_results) {
 				, previous_input: body
 				, error_fields: validation_results.error_fields
 				, categories: categories
+				, subcategories: subcategories
 				, values: validation_results.values
 			};
 
@@ -374,6 +395,7 @@ function validate(body) {
 
 	chk_cnt = chk._errors.length;
 
+	/* TODO mit subcats */
 	var cats_chosen = [];
 	for (var c in categories) {
 		if (body["category_" + categories[c].key] === "on")
