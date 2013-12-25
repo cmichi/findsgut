@@ -59,19 +59,22 @@ block content
 								&nbsp; #{category.value}
 
 				div(class="form-group #{error_fields.subcategories}")
-					label.col-lg-2.control-label(for="subcategories") Unterkategorien
-					each subcategory in subcategories["products"]
-						h2 #{subcategory.title}
-
-						each sub in subcategory.list
-							div.col-lg-2
-								- if (values["subcategory_" + sub.key] === true)
-									input(name="subcategory_#{sub.key}", type="checkbox", checked="checked") 
-								- else
-									input(name="subcategory_#{sub.key}", type="checkbox") 
-								- endif
-								span.
-									&nbsp; #{sub.value}
+					label.col-lg-2.control-label(for="subcategories") Produkt-Unterkategorien
+					div.col-lg-8
+						each subcategory in subcategories["products"]
+							div.col-lg-12
+								div.col-lg-4
+									strong #{subcategory.title}
+								div.col-lg-8(id="subcategory_group_#{subcategory.key}")
+									each sub in subcategory.list
+										div.col-lg-6
+											- if (values["subcategory_" + sub.key] === true)
+												input(name="subcategory_#{sub.key}", type="checkbox", checked="checked") 
+											- else
+												input(name="subcategory_#{sub.key}", type="checkbox") 
+											- endif
+											span.
+												&nbsp; #{sub.value}
 
 				div(class="form-group #{error_fields.classifications}")
 					div.row

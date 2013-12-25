@@ -29,6 +29,57 @@ var subcategories = {
 				}
 			]
 		}
+		, {
+			title: "Haus & Garten"
+			, list: [
+				{
+					key: "moebel"
+					, value: "Möbel"
+				}
+				, {
+					key: "kueche_bad"
+					, value: "Küche & Bad"
+				}
+				, {
+					key: "werkzeug_zubehoer"
+					, value: "Werkzeug & Zubehoer"
+				}
+				, {
+					key: "baumaterialien_farbe"
+					, value: "Baumaterialien & Farbe"
+				}
+				, {
+					key: "pflanzen"
+					, value: "Pflanzen"
+				}
+				, {
+					key: "tierbedarf"
+					, value: "Tierbedarf"
+				}
+				, {
+					key: "dekoration"
+					, value: "Dekoration"
+				}
+			]
+		}
+		
+		, {
+			title: "Elektronik"
+			, list: [
+				{
+					key: "computer"
+					, value: "Computer"
+				}
+				, {
+					key: "foto_video_audio_tv"
+					, value: "Foto, Video, Audio, TV"
+				}
+				, {
+					key: "handy_kommunikation"
+					, value: "Handy & Kommunikation"
+				}
+			]
+		}
 	]
 };
 
@@ -86,6 +137,9 @@ exports.post_new = function(req, res) {
 
 	if (errors != undefined && errors.length > 0) {
 		console.log(errors);
+		
+		console.log("\nvalues:");
+		console.log(JSON.stringify(validation_results.values));
 
 		// render site again, show error note, show previously entered input
 		var additional_params = {
@@ -395,7 +449,7 @@ function validate(body) {
 
 	chk_cnt = chk._errors.length;
 
-	/* TODO mit subcats */
+	/* categories */
 	var cats_chosen = [];
 	for (var c in categories) {
 		if (body["category_" + categories[c].key] === "on")
@@ -407,6 +461,28 @@ function validate(body) {
 	} else {
 		for (var c in cats_chosen) 
 			values["category_" + cats_chosen[c]] = true;
+	}
+
+	/* subcategories */
+	var subcats_chosen = [];
+	for (var sc in subcategories.products) {
+		for (var scs in subcategories.products[sc].list) {
+			var subc = subcategories.products[sc].list[scs];
+			console.log(subc.key)
+			if (body["subcategory_" + subc.key] === "on")
+				subcats_chosen.push(subc.key)
+		}
+	}
+	console.log("subcats chosen");
+	console.log(JSON.stringify(subcats_chosen));
+	console.log("\n");
+
+	if (subcats_chosen.length === 0) {
+		//validator.error("Bitte wählen eine Kategorie.");
+		//error_fields.categories = "has-error";
+	} else {
+		for (var sc in subcats_chosen) 
+			values["subcategory_" + subcats_chosen[sc]] = true;
 	}
 
 	var classifications_chosen = [];
@@ -427,6 +503,7 @@ function validate(body) {
 		validator: validator
 		, error_fields: error_fields
 		, cats_chosen: cats_chosen
+		, subcats_chosen: subcats_chosen
 		, classifications_chosen: classifications_chosen
 		, values: values
 	};
