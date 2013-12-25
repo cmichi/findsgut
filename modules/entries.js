@@ -468,16 +468,17 @@ function validate(body) {
 	for (var sc in subcategories.products) {
 		for (var scs in subcategories.products[sc].list) {
 			var subc = subcategories.products[sc].list[scs];
-			console.log(subc.key)
+			//console.log(subc.key)
 			if (body["subcategory_" + subc.key] === "on")
 				subcats_chosen.push(subc.key)
 		}
 	}
-	console.log("subcats chosen");
-	console.log(JSON.stringify(subcats_chosen));
-	console.log("\n");
+	//console.log("subcats chosen");
+	//console.log(JSON.stringify(subcats_chosen));
+	//console.log("\n");
 
 	if (subcats_chosen.length === 0) {
+		//subcategories are not required (right?)
 		//validator.error("Bitte wählen eine Kategorie.");
 		//error_fields.categories = "has-error";
 	} else {
