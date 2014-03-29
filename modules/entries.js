@@ -285,6 +285,7 @@ exports.all = function(req, res) {
 			, local: true
 			, fair: true
 			, bio: true
+			, used: true
 			, regional: true
 		};
 
@@ -404,6 +405,9 @@ exports.search = function(req, res) {
 	var fair = false;
 	if (req.param("fair") === "on") fair = true;
 
+	var used = false;
+	if (req.param("used") === "on") bio = used;
+
 	var regional = false;
 	if (req.param("regional") === "on") regional = true;
 
@@ -461,6 +465,9 @@ exports.search = function(req, res) {
 				if (bio === true && classified(r, "bio") === false)
 					show = false;
 
+				if (used === true && classified(r, "used") === false)
+					show = false;
+
 				if (fair === true && classified(r, "fair") === false)
 					show = false;
 
@@ -479,6 +486,9 @@ exports.search = function(req, res) {
 
 				//if (bio === true && classified(r, "bio") === false || bio === false && classified(r, "bio") === true)
 				if (bio === false && classified(r, "bio") === true)
+					show = false;
+
+				if (used === false && classified(r, "used") === true)
 					show = false;
 
 				//if (fair === true && classified(r, "fair") === false || fair === false && classified(r, "fair") === true)
@@ -713,7 +723,7 @@ function validate(body) {
 	}
 
 	var classifications_chosen = [];
-	var classifications = ["fair", "bio", "regional"];
+	var classifications = ["fair", "bio", "regional", "used"];
 	for (var c in classifications) {
 		if (body[classifications[c]] === "on")
 			classifications_chosen.push(classifications[c])
@@ -763,6 +773,7 @@ function get_global_values() {
 		, description: ""
 		, agb: false
 		, bio: false
+		, used: false
 		, regional: false
 		, fair: false
 	};

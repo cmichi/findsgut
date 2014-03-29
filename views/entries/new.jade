@@ -128,6 +128,24 @@ block content
 								sind Produkte
 								die &hellip;
 
+					div.row
+					label.col-lg-2.control-label(for="") &nbsp;
+					div.col-lg-3
+						- if (values["used"] === true)
+							input(name="used", type="checkbox", checked="checked")
+							span.
+								&nbsp; überwiegend gebrauchte Produkte
+						- else
+							input(name="used", type="checkbox").
+							span.
+								&nbsp; überwiegend gebrauchte Produkte
+						- endif
+
+						div.alert.alert-info(style="margin-top:10px;") 
+							p.
+								sind Produkte
+								die &hellip;
+
 
 				div(class="form-group #{error_fields.online_local}")
 					label.col-lg-2.control-label(for="online_local") Online/Lokal?
