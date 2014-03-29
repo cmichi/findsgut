@@ -30,21 +30,32 @@ block content
 					div.panel-body
 							dl.dl-horizontal
 								dt Kategorien
-								dd.
-									#{doc.categories}
+								dd
+									- for (var c in doc.categories) {
+										|#{doc.categories[c].value}<br />
+									- }
 
 								dt Klassifikationen
-
-								dd.
-									#{doc.classifications}
+								dd
+									- for (var c in doc.classifications) {
+										|#{doc.classifications[c].value}<br />
+									- }
 
 								dt Online-Eintrag?
-								dd.
-									#{doc.online}
+								dd
+									- if (doc.online)
+										|Ja
+									- else
+										|Nein
+									- endif
 
 								dt Lokaler Eintrag?
-								dd.
-									#{doc.local}
+								dd
+									- if (doc.local)
+										|Ja
+									- else
+										|Nein
+									- endif
 
 								dt Internet-Adresse
 								dd

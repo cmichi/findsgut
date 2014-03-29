@@ -153,15 +153,31 @@ block content
 						- endif
 
 				- if (values["local"] === false || values["local"] == undefined)
-					div(class="form-group #{error_fields.address}",style="display:none")#address
-						label.col-lg-2.control-label(for="address") Adresse
+					div(class="form-group #{error_fields.street} address",style="display:none")#street
+						label.col-lg-2.control-label(for="street") Stra&szlig;e
 						div.col-lg-10
-							textarea.form-control(id="address", name="address",rows="3", maxlength="500") #{values.address}
+							input.form-control(type="text", name="street", id="street",value="#{values.street}")
+					div(class="form-group #{error_fields.zipcode} address")#zipcode
+						label.col-lg-2.control-label(for="zipcode") PLZ
+						div.col-lg-10
+							input.form-control(type="text", name="zipcode", id="zipcode",value="#{values.zipcode}")
+					div(class="form-group #{error_fields.city} address")#city
+						label.col-lg-2.control-label(for="city") Stadt
+						div.col-lg-10
+							input.form-control(type="text", name="city", id="city",value="#{values.city}")
 				- else 
-					div(class="form-group #{error_fields.address}")#address
-						label.col-lg-2.control-label(for="address") Adresse
+					div(class="form-group #{error_fields.street} address")#street
+						label.col-lg-2.control-label(for="street") Stra&szlig;e
 						div.col-lg-10
-							textarea.form-control(id="address", name="address",rows="3", maxlength="500") #{values.address}
+							input.form-control(type="text", name="street", id="street",value="#{values.street}")
+					div(class="form-group #{error_fields.zipcode} address")#zipcode
+						label.col-lg-2.control-label(for="zipcode") PLZ
+						div.col-lg-10
+							input.form-control(type="text", name="zipcode", id="zipcode",value="#{values.zipcode}")
+					div(class="form-group #{error_fields.city} address")#city
+						label.col-lg-2.control-label(for="city") Stadt
+						div.col-lg-10
+							input.form-control(type="text", name="city", id="city",value="#{values.city}")
 				- endif
 
 				div(class="form-group #{error_fields.uri}")

@@ -1,5 +1,24 @@
 var util = require('util')
 var app, db, layout; 
+
+var classifications = [
+	{
+		key: "bio"
+		, value: "Bio"
+	},
+	{
+		key: "fair"
+		, value: "Fair"
+	},
+	{
+		key: "regional"
+		, value: "Regional"
+	},
+	{
+		key: "used"
+		, value: "Gebraucht"
+	}
+];
 var categories = [
 	{
 		key: "service"
@@ -232,7 +251,7 @@ var subcategories = {
 				}
 				, {
 					key: "nahrung"
-					, value: "nahrung"
+					, value: "Nahrung"
 				}
 			]
 		}
@@ -326,9 +345,37 @@ exports.get = function(req, res) {
 
 		console.log(doc);
 		doc.description = doc.description.split("\r\n");
+
+		doc.categories = parse(categories, doc.categories);
+		doc.classifications = parse(classifications, doc.classifications);
+		//JSON.stringify( doc.categories );
+
 		var additional_params = {"doc": doc};
 		res.render('entries/detail', layout.get_vars('entries_all', additional_params));
 	});
+}
+
+function parse(all_categories, categories_arr) {
+	/*
+	var all_categories = [
+	{
+		key: "service"
+		, value: "Dienstleistung"
+	}, ... ];
+
+	var categories_arr = [ 'service', ... ];
+	*/
+
+	var arr = [];
+	for (var c0 in categories_arr) {
+		for (var c1 in all_categories) {
+			var obj = all_categories[c1];
+			if (obj.key === categories_arr[c0])
+				arr.push(obj);
+		}
+	}
+
+	return arr;
 }
 
 function classified(entry, v) {
@@ -480,7 +527,10 @@ function newEntry(res, body, validation_results) {
 		  type: "entry"
 		, name: body.name
 		, description: body.description
-		, address: body.address
+		, city: body.city
+		, zipcode: body.zipcode
+		, street: body.street
+		, country: "Germany"
 		, uri: body.uri
 		, local: body.local
 		, online: body.online
@@ -556,13 +606,28 @@ function validate(body) {
 
 	chk_cnt = chk._errors.length;
 
-	if (body.local === "on" || (body.address != null && body.address.length > 0)) {
-		var address = db.prepare(body.address)
-		var chk = validator.check(address, "Bei lokalen Angeboten ist die Angabe einer Adresse verpflichtend.").notEmpty();
-		if (chk._errors.length > chk_cnt)
-			error_fields.address = "has-error";
+	var address_given = (body.city != null && body.city.length > 0) && 
+		(body.zipcode != null && body.zipcode.length > 0) &&
+		(body.street != null && body.street.length > 0);
+	if (body.local === "on" || address_given) {
+		var city = db.prepare(body.city)
+		var zipcode = db.prepare(body.zipcode)
+		var street = db.prepare(body.street)
 
-		values.address = address;
+		var chk_city = validator.check(city, "Bei lokalen Angeboten ist die Angabe einer Adresse verpflichtend.").notEmpty();
+		var chk_street = validator.check(street, "Bei lokalen Angeboten ist die Angabe einer Adresse verpflichtend.").notEmpty();
+		var chk_zipcode = validator.check(zipcode, "Bei lokalen Angeboten ist die Angabe einer Adresse verpflichtend.").notEmpty();
+
+		if (chk_city._errors.length > chk_cnt)
+			error_fields.city = "has-error";
+		if (chk_street._errors.length > chk_cnt)
+			error_fields.street = "has-error";
+		if (chk_zipcode._errors.length > chk_cnt)
+			error_fields.zipcode = "has-error";
+
+		values.street = street;
+		values.city = city;
+		values.zipcode = zipcode;
 		console.log(JSON.stringify(values));
 
 		chk_cnt = chk._errors.length;
@@ -581,7 +646,11 @@ function validate(body) {
 	/* if this is only an "online" entry, we don't save a "real" address.
 	the interface should strip the inputs then (using JavaScript). But 
 	to be sure we strip it here as well */
-	if (body.online === "on" && body.local !== "on") delete values.address;
+	if (body.online === "on" && body.local !== "on") {
+		delete values.street;
+		delete values.zipcode;
+		delete values.city;
+	}
 
 	chk_cnt = chk._errors.length;
 
@@ -673,7 +742,9 @@ function get_error_fields() {
 		, categories: ""
 		, classifications: ""
 		, online_local: ""
-		, address: ""
+		, street: ""
+		, city: ""
+		, zipcode: ""
 		, description: ""
 		, agb: ""
 	};
@@ -685,7 +756,9 @@ function get_global_values() {
 		, uri: ""
 		, classifications: ""
 		, online_local: ""
-		, address: ""
+		, street: ""
+		, city: ""
+		, zipcode: ""
 		, description: ""
 		, agb: false
 		, bio: false
