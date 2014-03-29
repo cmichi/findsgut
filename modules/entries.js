@@ -489,6 +489,12 @@ exports.get = function(req, res) {
 		doc = prepareDoc(doc);
 		doc.description = doc.description.split("\r\n");
 
+		var max = 15;
+		if (doc.uri.length > max)
+			doc.uri_trimmed = doc.uri.substr(0, max) + "...";
+		else
+			doc.uri_trimmed = doc.uri;
+
 		doc.categories = parse(categories, doc.categories);
 		doc.classifications = parse(classifications, doc.classifications);
 		//JSON.stringify( doc.categories );
@@ -503,6 +509,7 @@ function prepareDoc(doc) {
 
 	//doc.name = doc.name.replace("&amp;", "&");
 	doc.name = underscore.unescape(doc.name);
+	doc.uri = underscore.unescape(doc.uri);
 
 	if (doc.description.length > 0)
 		doc.description = underscore.unescape(doc.description);
