@@ -1,4 +1,5 @@
 var util = require('util')
+var underscore = require('underscore');
 var app, db, layout; 
 
 var classifications = [
@@ -255,6 +256,15 @@ var subcategories = {
 				}
 			]
 		}
+		, {
+			title: "Sonstiges"
+			, list: [
+				{
+					key: "sonstige"
+					, value: "Sonstiges"
+				}
+			]
+		}
 	]
 };
 
@@ -321,6 +331,8 @@ exports.post_new = function(req, res) {
 		console.log("\nvalues:");
 		//console.log(JSON.stringify(validation_results.values));
 
+		validation_results.values = prepareDoc(validation_results.values);
+
 		// render site again, show error note, show previously entered input
 		var additional_params = {
 			  errors: errors
@@ -359,6 +371,9 @@ exports.edit = function(req, res) {
 			doc[doc.classifications[c]] = true;
 		}
 
+		doc = prepareDoc(doc);
+		doc.description = doc.description.split("\r\n");
+
 		var additional_params = {
 			  categories: categories
 			, error_fields: []
@@ -388,6 +403,8 @@ exports.saveEdit = function(req, res) {
 
 		validation_results.values._id = req.param('_id');
 		validation_results.values._rev = req.param('_rev');
+
+		validation_results.values = prepareDoc(validation_results.values);
 
 		// render site again, show error note, show previously entered input
 		var additional_params = {
@@ -437,6 +454,8 @@ function saveEntry(_id, _rev, res, body, validation_results) {
 			validation_results.values._id = _id;
 			validation_results.values._rev = _rev;
 
+			validation_results.values = prepareDoc(validation_results.values);
+
 			var additional_params = {
 				  "errors": ["Es gab einen Fehler beim Speichern des Eintrags."
 					  + "Bitte versuche es in K&uuml;rze noch einmal."]
@@ -482,10 +501,11 @@ exports.get = function(req, res) {
 function prepareDoc(doc) {
 	//console.log(JSON.stringify(doc, null, "\t"));
 
-	doc.name = doc.name.replace("&amp;", "&");
+	//doc.name = doc.name.replace("&amp;", "&");
+	doc.name = underscore.unescape(doc.name);
 
 	if (doc.description.length > 0)
-		doc.description = doc.description.replace("&amp;", "&");
+		doc.description = underscore.unescape(doc.description);
 
 	return doc;
 }
@@ -826,7 +846,7 @@ function validate(body) {
 			cats_chosen.push(categories[c].key)
 	}
 	if (cats_chosen.length === 0) {
-		validator.error("Bitte wählen eine Kategorie.");
+		validator.error("Bitte wähle eine Kategorie.");
 		error_fields.categories = "has-error";
 	} else {
 		for (var c in cats_chosen) 
@@ -848,9 +868,8 @@ function validate(body) {
 	//console.log("\n");
 
 	if (subcats_chosen.length === 0) {
-		//subcategories are not required (right?)
-		//validator.error("Bitte wählen eine Kategorie.");
-		//error_fields.categories = "has-error";
+		validator.error("Bitte wähle eine Unterkategorie.");
+		error_fields.subcategories = "has-error";
 	} else {
 		for (var sc in subcats_chosen) 
 			values["subcategory_" + subcats_chosen[sc]] = true;
@@ -860,7 +879,7 @@ function validate(body) {
 	var classifications = ["fair", "bio", "regional", "used"];
 	for (var c in classifications) {
 		if (body[classifications[c]] === "on")
-			classifications_chosen.push(classifications[c])
+			classifications_chosen.push(classifications[c]);
 	}
 	if (classifications_chosen.length === 0) {
 		validator.error("Bitte ordne das Angebot ein.");
