@@ -3,7 +3,11 @@ extends ../layout
 block jumbotron
 	div.jumbotron
 		div.container
-			h1 Neuer Eintrag
+			- if (modifyExisting)
+				h1 Eintrag bearbeiten
+			- else
+				h1 Neuer Eintrag
+			- endif
 
 			div.sub.
 				Lorem Ipsum dolor sit amet
@@ -11,7 +15,11 @@ block jumbotron
 block content
 	div.row
 		div.col-lg-12
-			h2 Neuer Eintrag
+			- if (modifyExisting)
+				h2 Eintrag bearbeiten
+			- else
+				h2 Neuer Eintrag
+			- endif
 
 
 	div.row
@@ -39,6 +47,11 @@ block content
 				p &nbsp;
 
 			form(role="form",method="POST",action="#").form-horizontal#new
+				- if (modifyExisting)
+					input(type="hidden",name="_id",value="#{values._id}")
+					input(type="hidden",name="_rev",value="#{values._rev}")
+				- endif
+
 				div(class="form-group #{error_fields.name}").
 					<label for="name" class="col-lg-2 control-label">Anbieter</label>
 					<div class="col-lg-10">
@@ -63,9 +76,9 @@ block content
 					div.col-lg-8
 						each subcategory in subcategories["products"]
 							div.col-lg-12
-								div.col-lg-4
+								div.col-lg-3
 									strong #{subcategory.title}
-								div.col-lg-8(id="subcategory_group_#{subcategory.key}")
+								div.col-lg-9(id="subcategory_group_#{subcategory.key}")
 									each sub in subcategory.list
 										div.col-lg-6
 											- if (values["subcategory_" + sub.key] === true)
@@ -75,6 +88,8 @@ block content
 											- endif
 											span.
 												&nbsp; #{sub.value}
+							div.col-lg-12(style="clear:both").
+								&nbsp;
 
 				div(class="form-group #{error_fields.classifications}")
 					div.row
@@ -128,6 +143,24 @@ block content
 								sind Produkte
 								die &hellip;
 
+					div.row
+					label.col-lg-2.control-label(for="") &nbsp;
+					div.col-lg-3
+						- if (values["used"] === true)
+							input(name="used", type="checkbox", checked="checked")
+							span.
+								&nbsp; überwiegend gebrauchte Produkte
+						- else
+							input(name="used", type="checkbox").
+							span.
+								&nbsp; überwiegend gebrauchte Produkte
+						- endif
+
+						div.alert.alert-info(style="margin-top:10px;") 
+							p.
+								sind Produkte
+								die &hellip;
+
 
 				div(class="form-group #{error_fields.online_local}")
 					label.col-lg-2.control-label(for="online_local") Online/Lokal?
@@ -153,21 +186,37 @@ block content
 						- endif
 
 				- if (values["local"] === false || values["local"] == undefined)
-					div(class="form-group #{error_fields.address}",style="display:none")#address
-						label.col-lg-2.control-label(for="address") Adresse
+					div(class="form-group #{error_fields.street} address",style="display:none")#street
+						label.col-lg-2.control-label(for="street") Stra&szlig;e
 						div.col-lg-10
-							textarea.form-control(id="address", name="address",rows="3", maxlength="500") #{values.address}
+							input.form-control(type="text", name="street", id="street",value="#{values.street}")
+					div(class="form-group #{error_fields.zipcode} address")#zipcode
+						label.col-lg-2.control-label(for="zipcode") PLZ
+						div.col-lg-10
+							input.form-control(type="text", name="zipcode", id="zipcode",value="#{values.zipcode}")
+					div(class="form-group #{error_fields.city} address")#city
+						label.col-lg-2.control-label(for="city") Stadt
+						div.col-lg-10
+							input.form-control(type="text", name="city", id="city",value="#{values.city}")
 				- else 
-					div(class="form-group #{error_fields.address}")#address
-						label.col-lg-2.control-label(for="address") Adresse
+					div(class="form-group #{error_fields.street} address")#street
+						label.col-lg-2.control-label(for="street") Stra&szlig;e
 						div.col-lg-10
-							textarea.form-control(id="address", name="address",rows="3", maxlength="500") #{values.address}
+							input.form-control(type="text", name="street", id="street",value="#{values.street}")
+					div(class="form-group #{error_fields.zipcode} address")#zipcode
+						label.col-lg-2.control-label(for="zipcode") PLZ
+						div.col-lg-10
+							input.form-control(type="text", name="zipcode", id="zipcode",value="#{values.zipcode}")
+					div(class="form-group #{error_fields.city} address")#city
+						label.col-lg-2.control-label(for="city") Stadt
+						div.col-lg-10
+							input.form-control(type="text", name="city", id="city",value="#{values.city}")
 				- endif
 
 				div(class="form-group #{error_fields.uri}")
 					label.col-lg-2.control-label(for="uri") Internet-Adresse
 					div.col-lg-10
-						input.form-control(type="url", name="uri", id="uri",value="#{values.uri}")
+						input.form-control(type="text", name="uri", id="uri",value="#{values.uri}")
 
 				div(class="form-group #{error_fields.description}")
 					label.col-lg-2.control-label(for="description") Beschreibung

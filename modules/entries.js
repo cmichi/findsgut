@@ -1,5 +1,25 @@
 var util = require('util')
+var underscore = require('underscore');
 var app, db, layout; 
+
+var classifications = [
+	{
+		key: "bio"
+		, value: "Bio"
+	},
+	{
+		key: "fair"
+		, value: "Fair"
+	},
+	{
+		key: "regional"
+		, value: "Regional"
+	},
+	{
+		key: "used"
+		, value: "Gebraucht"
+	}
+];
 var categories = [
 	{
 		key: "service"
@@ -232,7 +252,16 @@ var subcategories = {
 				}
 				, {
 					key: "nahrung"
-					, value: "nahrung"
+					, value: "Nahrung"
+				}
+			]
+		}
+		, {
+			title: "Sonstiges"
+			, list: [
+				{
+					key: "sonstige"
+					, value: "Sonstiges"
 				}
 			]
 		}
@@ -257,6 +286,10 @@ exports.all = function(req, res) {
 		}
 
 		var entries = res_entries;
+
+		for (var e in entries) 
+			entries[e].value = prepareDoc(entries[e].value);
+
 		var params = {
 			list: entries
 			, entries_count: entries.length /* immediate update */
@@ -266,10 +299,11 @@ exports.all = function(req, res) {
 			, local: true
 			, fair: true
 			, bio: true
+			, used: true
 			, regional: true
 		};
 
-		console.log( JSON.stringify(entries) );
+		//console.log( JSON.stringify(entries) );
 		layout.set_var("count_entries", entries.length);
 
 		res.render('entries/all', layout.get_vars('entries_all', params));
@@ -295,7 +329,9 @@ exports.post_new = function(req, res) {
 		console.log(errors);
 		
 		console.log("\nvalues:");
-		console.log(JSON.stringify(validation_results.values));
+		//console.log(JSON.stringify(validation_results.values));
+
+		validation_results.values = prepareDoc(validation_results.values);
 
 		// render site again, show error note, show previously entered input
 		var additional_params = {
@@ -315,6 +351,137 @@ exports.post_new = function(req, res) {
 	}
 }
 
+exports.edit = function(req, res) {
+	//console.log(req.params.id);
+	db.get(req.params.id, function (err, doc) {
+		if (err || doc == undefined) {
+			res.render('404', layout.get_vars('', { status: 404, missingurl: req.url }));
+			return;
+		}
+
+		//console.log(JSON.stringify(doc, null, "\t"));
+
+		for (var c in doc.categories) {
+			doc["category_" + doc.categories[c]] = true;
+		}
+		for (var c in doc.subcategories) {
+			doc["subcategory_" + doc.subcategories[c]] = true;
+		}
+		for (var c in doc.classifications) {
+			doc[doc.classifications[c]] = true;
+		}
+
+		doc = prepareDoc(doc);
+		doc.description = doc.description.split("\r\n");
+
+		var additional_params = {
+			  categories: categories
+			, error_fields: []
+			, subcategories: subcategories
+			, values: doc
+			, modifyExisting: true
+		};
+
+		res.render('entries/new', layout.get_vars('entries_new', additional_params));
+	});
+}
+
+exports.saveEdit = function(req, res) {
+	var validation_results = validate(req.body);
+	var validator = validation_results.validator;
+	var errors = validator.getErrors();
+
+	//console.log( req.param('_id') );
+	//res.render('404', layout.get_vars('', { status: 404, missingurl: req.url }));
+	//return;
+
+	if (errors != undefined && errors.length > 0) {
+		console.log(errors);
+		
+		console.log("\nvalues:");
+		//console.log(JSON.stringify(validation_results.values));
+
+		validation_results.values._id = req.param('_id');
+		validation_results.values._rev = req.param('_rev');
+
+		validation_results.values = prepareDoc(validation_results.values);
+
+		// render site again, show error note, show previously entered input
+		var additional_params = {
+			  errors: errors
+			, previous_input: req.body
+			, error_fields: validation_results.error_fields
+			, categories: categories
+			, subcategories: subcategories
+			, values: validation_results.values
+			, modifyExisting: true
+		};
+
+		res.render('entries/new', layout.get_vars('entries_new', additional_params));
+
+		return;
+	} else {
+		saveEntry(req.param('_id'), req.param('_rev'), res, req.body, validation_results)
+	}
+}
+
+function saveEntry(_id, _rev, res, body, validation_results) {
+	body = validation_results.values;
+
+	// does the uri start with 'http://' or something similar?
+	var patt = new RegExp(/^[A-Za-z]+:\/\//);
+	if (!patt.test(body.uri))
+		body.uri = 'http://' + body.uri;
+
+	var merge_obj = {
+		  type: "entry"
+		, name: body.name
+		, description: body.description
+		, city: body.city
+		, zipcode: body.zipcode
+		, street: body.street
+		, country: "Germany"
+		, uri: body.uri
+		, local: body.local
+		, online: body.online
+		, categories: validation_results.cats_chosen
+		, subcategories: validation_results.subcats_chosen
+		, classifications: validation_results.classifications_chosen
+		, last_modified: (new Date().getTime())
+	};
+
+	//console.log(JSON.stringify(merge_obj));
+	db.merge(_id, merge_obj, function(err, res_updated) {
+		if (err) {
+			// show error note, render site with previous input
+			// maybe it would be better to show the 500.jade? but it
+			// would also be nasty for users to loose all their input
+			// just because the db went offline for some secs
+			validation_results.values._id = _id;
+			validation_results.values._rev = _rev;
+
+			validation_results.values = prepareDoc(validation_results.values);
+
+			var additional_params = {
+				  "errors": ["Es gab einen Fehler beim Speichern des Eintrags."
+					  + "Bitte versuche es in K&uuml;rze noch einmal."]
+				, previous_input: body
+				, error_fields: validation_results.error_fields
+				, categories: categories
+				, subcategories: subcategories
+				, values: validation_results.values
+				, modifyExisting: true
+			};
+
+			res.render('entries/new', layout.get_vars('entries_new', additional_params));
+			console.log(JSON.stringify(err));
+		}
+
+		res.redirect('/eintraege/' + res_updated.id);
+		return;
+	});
+}
+
 exports.get = function(req, res) {
 	var id = req.params.id;
 
@@ -324,11 +491,53 @@ exports.get = function(req, res) {
 			return;
 		}
 
-		console.log(doc);
+		//console.log(doc);
+		doc = prepareDoc(doc);
 		doc.description = doc.description.split("\r\n");
+
+		doc.categories = parse(categories, doc.categories);
+		doc.classifications = parse(classifications, doc.classifications);
+		//JSON.stringify( doc.categories );
+
 		var additional_params = {"doc": doc};
 		res.render('entries/detail', layout.get_vars('entries_all', additional_params));
 	});
+}
+
+function prepareDoc(doc) {
+	//console.log(JSON.stringify(doc, null, "\t"));
+
+	//doc.name = doc.name.replace("&amp;", "&");
+	doc.name = underscore.unescape(doc.name);
+	doc.uri = underscore.unescape(doc.uri);
+
+	if (doc.description.length > 0)
+		doc.description = underscore.unescape(doc.description);
+
+	return doc;
+}
+
+function parse(all_categories, categories_arr) {
+	/*
+	var all_categories = [
+	{
+		key: "service"
+		, value: "Dienstleistung"
+	}, ... ];
+
+	var categories_arr = [ 'service', ... ];
+	*/
+
+	var arr = [];
+	for (var c0 in categories_arr) {
+		for (var c1 in all_categories) {
+			var obj = all_categories[c1];
+			if (obj.key === categories_arr[c0])
+				arr.push(obj);
+		}
+	}
+
+	return arr;
 }
 
 function classified(entry, v) {
@@ -356,6 +565,9 @@ exports.search = function(req, res) {
 
 	var fair = false;
 	if (req.param("fair") === "on") fair = true;
+
+	var used = false;
+	if (req.param("used") === "on") bio = used;
 
 	var regional = false;
 	if (req.param("regional") === "on") regional = true;
@@ -414,6 +626,9 @@ exports.search = function(req, res) {
 				if (bio === true && classified(r, "bio") === false)
 					show = false;
 
+				if (used === true && classified(r, "used") === false)
+					show = false;
+
 				if (fair === true && classified(r, "fair") === false)
 					show = false;
 
@@ -432,6 +647,9 @@ exports.search = function(req, res) {
 
 				//if (bio === true && classified(r, "bio") === false || bio === false && classified(r, "bio") === true)
 				if (bio === false && classified(r, "bio") === true)
+					show = false;
+
+				if (used === false && classified(r, "used") === true)
 					show = false;
 
 				//if (fair === true && classified(r, "fair") === false || fair === false && classified(r, "fair") === true)
@@ -461,7 +679,7 @@ exports.search = function(req, res) {
 			additional_params.list = undefined;
 		}
 
-		console.log("searchres: \n" + JSON.stringify(additional_params.list));
+		//console.log("searchres: \n" + JSON.stringify(additional_params.list));
 		//console.log("")
 		if (ajax === true) {
 			if (req.param("jumbotron") === "true")
@@ -476,11 +694,16 @@ exports.search = function(req, res) {
 
 function newEntry(res, body, validation_results) {
 	body = validation_results.values;
+
+	// does the uri start with 'http://' or something similar?
+	var patt = new RegExp(/^[A-Za-z]+:\/\//);
+	if (!patt.test(body.uri))
+		body.uri = 'http://' + body.uri;
+
 	var new_obj = {
 		  type: "entry"
 		, name: body.name
 		, description: body.description
-		, address: body.address
 		, uri: body.uri
 		, local: body.local
 		, online: body.online
@@ -490,7 +713,14 @@ function newEntry(res, body, validation_results) {
 		, created_at: (new Date().getTime())
 	};
 
-	console.log(JSON.stringify(new_obj));
+	if (body.local) {
+		new_obj.city = body.city;
+		new_obj.zipcode = body.zipcode;
+		new_obj.street = body.street;
+		new_obj.country = "Germany";
+	}
+
+	//console.log(JSON.stringify(new_obj));
 	db.save(new_obj, function(err, res_created) {
 		if (err) {
 			// show error note, render site with previous input
@@ -521,7 +751,7 @@ function newEntry(res, body, validation_results) {
 /* the validation is a bit tricky. see the `doc/new_entry.pdf` for
 further documentation. */
 function validate(body) {
-	console.log(JSON.stringify(body));
+	//console.log(JSON.stringify(body));
 	var Validator = require('validator').Validator;
 
 	Validator.prototype.error = function (msg) {
@@ -545,25 +775,41 @@ function validate(body) {
 		error_fields.name = "has-error";
 	values.name = name;
 
-	chk_cnt = chk._errors.length;
 
-	var description = db.prepare(body.description)
+	var description = db.prepare(body.description);
+	/* description is optional from now on. 
+	chk_cnt = chk._errors.length;
 	var chk = validator.check(description, "Bitte gib eine Beschreibung an.").notEmpty();
 	if (chk._errors.length > chk_cnt)
 		error_fields.description = "has-error";
-
+	*/
 	values.description = description;
 
 	chk_cnt = chk._errors.length;
 
-	if (body.local === "on" || (body.address != null && body.address.length > 0)) {
-		var address = db.prepare(body.address)
-		var chk = validator.check(address, "Bei lokalen Angeboten ist die Angabe einer Adresse verpflichtend.").notEmpty();
-		if (chk._errors.length > chk_cnt)
-			error_fields.address = "has-error";
+	var address_given = (body.city != null && body.city.length > 0) && 
+		(body.zipcode != null && body.zipcode.length > 0) &&
+		(body.street != null && body.street.length > 0);
+	if (body.local === "on" || address_given) {
+		var city = db.prepare(body.city)
+		var zipcode = db.prepare(body.zipcode)
+		var street = db.prepare(body.street)
 
-		values.address = address;
-		console.log(JSON.stringify(values));
+		var chk_city = validator.check(city, "Bei lokalen Angeboten ist die Angabe einer Adresse verpflichtend.").notEmpty();
+		var chk_street = validator.check(street, "Bei lokalen Angeboten ist die Angabe einer Adresse verpflichtend.").notEmpty();
+		var chk_zipcode = validator.check(zipcode, "Bei lokalen Angeboten ist die Angabe einer Adresse verpflichtend.").notEmpty();
+
+		if (chk_city._errors.length > chk_cnt)
+			error_fields.city = "has-error";
+		if (chk_street._errors.length > chk_cnt)
+			error_fields.street = "has-error";
+		if (chk_zipcode._errors.length > chk_cnt)
+			error_fields.zipcode = "has-error";
+
+		values.street = street;
+		values.city = city;
+		values.zipcode = zipcode;
+		//console.log(JSON.stringify(values));
 
 		chk_cnt = chk._errors.length;
 	}
@@ -581,7 +827,11 @@ function validate(body) {
 	/* if this is only an "online" entry, we don't save a "real" address.
 	the interface should strip the inputs then (using JavaScript). But 
 	to be sure we strip it here as well */
-	if (body.online === "on" && body.local !== "on") delete values.address;
+	if (body.online === "on" && body.local !== "on") {
+		delete values.street;
+		delete values.zipcode;
+		delete values.city;
+	}
 
 	chk_cnt = chk._errors.length;
 
@@ -612,7 +862,7 @@ function validate(body) {
 			cats_chosen.push(categories[c].key)
 	}
 	if (cats_chosen.length === 0) {
-		validator.error("Bitte wählen eine Kategorie.");
+		validator.error("Bitte wähle eine Kategorie.");
 		error_fields.categories = "has-error";
 	} else {
 		for (var c in cats_chosen) 
@@ -633,20 +883,21 @@ function validate(body) {
 	//console.log(JSON.stringify(subcats_chosen));
 	//console.log("\n");
 
-	if (subcats_chosen.length === 0) {
-		//subcategories are not required (right?)
-		//validator.error("Bitte wählen eine Kategorie.");
-		//error_fields.categories = "has-error";
+	// Sonderfall: Wenn nur Hauptkategorie 'Sonstiges' ausgewaehlt
+	// wurde muss keine Unterkategorie gewaehlt werden.
+	if (subcats_chosen.length === 0 && cats_chosen[0] !== "other" && cats_chosen[0] !== "service") {
+		validator.error("Bitte wähle eine Unterkategorie.");
+		error_fields.subcategories = "has-error";
 	} else {
 		for (var sc in subcats_chosen) 
 			values["subcategory_" + subcats_chosen[sc]] = true;
 	}
 
 	var classifications_chosen = [];
-	var classifications = ["fair", "bio", "regional"];
+	var classifications = ["fair", "bio", "regional", "used"];
 	for (var c in classifications) {
 		if (body[classifications[c]] === "on")
-			classifications_chosen.push(classifications[c])
+			classifications_chosen.push(classifications[c]);
 	}
 	if (classifications_chosen.length === 0) {
 		validator.error("Bitte ordne das Angebot ein.");
@@ -673,7 +924,9 @@ function get_error_fields() {
 		, categories: ""
 		, classifications: ""
 		, online_local: ""
-		, address: ""
+		, street: ""
+		, city: ""
+		, zipcode: ""
 		, description: ""
 		, agb: ""
 	};
@@ -685,10 +938,13 @@ function get_global_values() {
 		, uri: ""
 		, classifications: ""
 		, online_local: ""
-		, address: ""
+		, street: ""
+		, city: ""
+		, zipcode: ""
 		, description: ""
 		, agb: false
 		, bio: false
+		, used: false
 		, regional: false
 		, fair: false
 	};

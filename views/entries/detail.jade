@@ -15,13 +15,20 @@ block breadcrumbs
 
 block content
 	div.row
-		div.col-lg-6
-			h2 Eintrag: #{doc.name}
+		div.col-lg-8
+			h2 
+				|Eintrag: #{doc.name}
+
+				div.text-center.pull-right
+					a.btn.btn-default.btn-lg(href="/eintraege/bearbeiten/#{doc.id}").
+						<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
+						Eintrag bearbeiten
+
+			p &nbsp;
 
 			each paragraph in doc.description
 				p.
 					#{paragraph}
-		div.col-lg-2
 		div.col-lg-4
 				div.panel.panel-default(style="margin-top:20px")
 					div.panel-heading
@@ -30,23 +37,47 @@ block content
 					div.panel-body
 							dl.dl-horizontal
 								dt Kategorien
-								dd.
-									#{doc.categories}
+								dd
+									- for (var c in doc.categories) {
+										|#{doc.categories[c].value}<br />
+									- }
 
 								dt Klassifikationen
-
-								dd.
-									#{doc.classifications}
+								dd
+									- for (var c in doc.classifications) {
+										|#{doc.classifications[c].value}<br />
+									- }
 
 								dt Online-Eintrag?
-								dd.
-									#{doc.online}
+								dd
+									- if (doc.online)
+										|Ja
+									- else
+										|Nein
+									- endif
 
 								dt Lokaler Eintrag?
-								dd.
-									#{doc.local}
-
-								dt Internet-Adresse
 								dd
-									a(href="#{doc.uri}",rel="nofollow").
-											#{doc.uri}
+									- if (doc.local)
+										|Ja
+									- else
+										|Nein
+									- endif
+
+								- if (doc.uri.length > 0) {
+									dt Internet-Adresse
+									dd
+										a(href="#{doc.uri}",rel="nofollow")
+											- if (doc.uri.length > 15)
+												|#{doc.uri.substr(0,15)}&hellip;
+											- else
+												|#{doc.uri}
+											- endif
+								- }
+
+								- if (doc.local)
+									dt Adresse
+									dd.
+										#{doc.street}<br />
+										#{doc.zipcode} #{doc.city}
+								- endif

@@ -18,7 +18,7 @@ exports.get_vars = function(navi_key, additional_vars) {
 	}
 
 	//console.log(JSON.stringify(vars));
-	console.log(JSON.stringify(vars));
+	//console.log(JSON.stringify(vars));
 
 	return vars;
 }

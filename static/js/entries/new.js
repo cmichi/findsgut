@@ -5,9 +5,9 @@ var updateForm = function() {
 	var local = $("form[id=new] input[name=local]").prop("checked");
 
 	if (local === false)
-		$("form[id=new] #address").hide();
+		$("form[id=new] .address").hide();
 	else
-		$("form[id=new] #address").show();
+		$("form[id=new] .address").show();
 
 	var product = $("form[id=new] input[name=category_product]").prop("checked");
 	if (product === false)

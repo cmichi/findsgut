@@ -6,6 +6,7 @@ var http = require('http');
 
 var cradle = require('cradle');
 var db = new(cradle.Connection)('127.0.0.1', 5984).database('findsgut');
+//var db = new(cradle.Connection)('127.0.0.1', 5984).database('findsgut_dev');
 
 var email = require('./modules/email');
 
@@ -59,6 +60,14 @@ app.get('/suche', function(req, res) {
 
 app.get('/eintraege/:id', function(req, res) {
 	entries.get(req, res);
+});
+
+app.get('/eintraege/bearbeiten/:id', function(req, res) {
+	entries.edit(req, res);
+});
+
+app.post('/eintraege/bearbeiten/:id', function(req, res) {
+	entries.saveEdit(req, res);
 });
 
 app.get('/impressum', function(req, res) {
