@@ -83,4 +83,18 @@ div.row
 												p.
 													sind Produkte
 													die &hellip;
+										div.col-lg-3
+											div.checkbox
+												label
+													- if (used === true)
+														input(type="checkbox",name="used",checked="checked")
+													- else
+														input(type="checkbox",name="used")
+													- endif
+													|gebrauchte Produkte
+
+											div.alert.alert-info(style="margin-top:10px;margin-bottom:0px;") 
+												p.
+													sind Produkte
+													die &hellip;
 				hr
