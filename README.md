@@ -13,7 +13,7 @@ Verzeichnis zum Gelingen dieses Projektes beizutragen.
 Im [Wiki](http://wiki.findsgut.de) finden sind weitere Infos zu dem 
 Konzept, beteiligten Personen und der Mailingliste.
 
-**Project Status:** Very early stage. Heavy WIP.
+**Project Status:** WIP.
 
 
 # Aufsetzen einer Instanz
@@ -41,11 +41,6 @@ Engine](http://jade-lang.com/reference/).
 	make push
 
 	# you're done! open http://localhost:5001/ within your browser.
-
-
-# ToDo
-
-* output proper 500 error page on db etc. errors
 
 
 # License

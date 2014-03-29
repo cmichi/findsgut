@@ -5,13 +5,56 @@ block jumbotron
 		div.container
 			h1 Anregungen
 
-			div.sub.
-				Vorschl&auml;ge, Ideen, Kritik, Feedback, Anfragen?
-
 block content
 	div.row
 		div.col-lg-12
-			h2 Kontaktformular
+			h2 Anregungen
+
+	div.row
+		div.col-lg-4.col-lg-offset-0
+			h4
+				a.btn.btn-default.btn-lg(href="#anregungen",style="width:100%").
+					<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
+					Deine Anregungen
+
+		div.col-lg-6
+			p.
+				Hier ist ein offener Raum für Ideen, Fragen,
+				Anregungen, Rückmeldungen und zum Austausch.
+				So können wir gemeinsam das Projekt weiter
+				entwickeln und deine Wünsche mit einfließen lassen.
+
+	div.row
+		div.col-lg-4.col-lg-offset-0
+			h4
+				a.btn.btn-default.btn-lg(href="#unterstuetzung",style="width:100%").
+					<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
+					Deine Unterst&uuml;tzung
+
+
+		div.col-lg-6
+			p.
+				Du findest findsgut echt gut und möchtest das Projekt
+				unterstützen? Hier findest du verschiedene Möglichkeiten.
+
+	div.row
+		div.col-lg-4.col-lg-offset-0
+			h4
+				a.btn.btn-default.btn-lg(href="#anregungen",style="width:100%").
+					<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
+					Deine pers&ouml;nlichen Fragen
+
+
+		div.col-lg-6
+			p.
+				Hier kannst du uns eine persönliche Mitteilung schreiben,
+				die wir gerne baldmöglichst beantworten.
+
+	div.row &nbsp;<br/> &nbsp;<br/> &nbsp;<br/>
+
+	div.row
+		div.col-lg-12
+			h2#anregungen Deine pers&ouml;nlichen Fragen
 
 	div.row
 		div.col-lg-12
@@ -25,9 +68,9 @@ block content
 						schnell darauf reagieren.
 			- else
 				p.
-					Du hast Anregungen, Ideen oder
-					anderweitiges Feedback?
-					Prima &ndash; sende uns einfach eine Nachricht!
+					Hier kannst du uns eine persönliche
+					Mitteilung schreiben, die wir gerne
+					baldmöglichst beantworten.
 
 				p &nbsp;
 
@@ -56,3 +99,58 @@ block content
 						</div>
 					</div>
 			- endif
+	div.row &nbsp;<br/> &nbsp;<br/> &nbsp;<br/>
+
+	div.row
+		div.col-lg-12
+			h2#unterstuetzung Deine Unterst&uuml;tzung
+
+	div.row
+		div.col-lg-4
+			p.
+				Mache neue Einträge!
+
+			p.
+				Jeder Eintrag in das Verzeichnis trägt zum Gelingen des
+				Projektes bei.
+
+			p.
+				Organisiere z.B. gemütliche Eintrags-Sessions
+
+			p &nbsp;
+
+			p.text-center
+				a.btn.btn-default.btn-md(href="/eintraege/neu").
+					<img src="/img/wabe.png" style="height:20px;" />
+					Deine Anregungen
+
+		div.col-lg-4
+			p.
+				Spende ein paar Cent!
+
+			p.
+				Für die Verbreitung der findsgut-Idee können wir
+				finanzielle Unterstützung gebrauchen. Spende z.B.
+				über unseren Flattr-Account!
+
+			p &nbsp;
+
+			div.text-center(style="padding-top:6px")
+				<script id='fbhxun5'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//api.flattr.com/button/view/?uid=findsgut&button=compact&url=http%3A%2F%2Ffindsgut.de';f.title='Flattr';f.height=20;f.width=110;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('fbhxun5');</script>
+				<noscript> <a href="https://flattr.com/thing/eac6c5bf8cedb795d28aaae860216f27" target="_blank"><img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" /></a> </noscript>
+
+		div.col-lg-4
+			p.
+				Erzähle allen von findsgut!
+
+			p.
+				Teile deine Begeisterung mit deinen Freunden und
+				Bekannten.
+
+			p &nbsp;
+				
+			p.text-center
+				a(href="https://github.com/cmichi/findsgut")
+					img(src="/img/logos/github.png")
+
+

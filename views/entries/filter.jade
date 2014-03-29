@@ -10,12 +10,12 @@ div.row
 					div.panel-body
 							form(role="form",method="GET",action="/suche",id="filter")
 								div.row
-										div.col-lg-3
+										div.col-lg-5
 											div.input-group 
 												span.input-group-addon
 													span.glyphicon.glyphicon-search
 												- if (term == undefined || term.length === 0)
-													input(type="text",class="form-control",placeholder="",name="term") 
+													input(type="text",class="form-control",placeholder="Dein Suchbegriff",name="term") 
 												- else
 													input(type="text",class="form-control",placeholder="",name="term",value="#{term}") 
 												- endif
