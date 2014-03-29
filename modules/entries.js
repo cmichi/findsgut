@@ -595,13 +595,14 @@ function validate(body) {
 		error_fields.name = "has-error";
 	values.name = name;
 
-	chk_cnt = chk._errors.length;
 
-	var description = db.prepare(body.description)
+	var description = db.prepare(body.description);
+	/* description is optional from now on. 
+	chk_cnt = chk._errors.length;
 	var chk = validator.check(description, "Bitte gib eine Beschreibung an.").notEmpty();
 	if (chk._errors.length > chk_cnt)
 		error_fields.description = "has-error";
-
+	*/
 	values.description = description;
 
 	chk_cnt = chk._errors.length;
