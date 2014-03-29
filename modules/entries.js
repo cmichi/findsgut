@@ -552,7 +552,6 @@ function classified(entry, v) {
 exports.search = function(req, res) {
 	var ajax = false;
 	if (req.param("ajax") === "true") ajax = true;
-	console.log(ajax + "..ajax");
 
 	var online = false;
 	if (req.param("online") === "on") online = true;
@@ -576,7 +575,7 @@ exports.search = function(req, res) {
 	var term_original = term; /* for the view */
 	term = term.toLowerCase();
 
-	console.log(term + "!!");
+	//console.log(term + "!!");
 
 	/*
 	if (term.length === 0) {
@@ -606,9 +605,13 @@ exports.search = function(req, res) {
 			term: term_original
 			, online: online
 			, local: local
+			, fair: fair
+			, used: used
+			, bio: bio
+			, regional: regional
 			, ajax: ajax
 		};
-		console.log(JSON.stringify(additional_params));
+		//console.log(JSON.stringify(additional_params));
 
 		if (res_search && res_search.length > 0) {
 			for (var i in res_search) {
@@ -669,8 +672,10 @@ exports.search = function(req, res) {
 							break;
 						}
 					}
-					if (exists === false)
-						searchresults.push(res_search[i])
+					if (exists === false) {
+						res_search[i].value = prepareDoc(res_search[i].value);
+						searchresults.push(res_search[i]);
+					}
 				}
 				//searchresults[res_search[i].value._id] = res_search[i].value;
 			}

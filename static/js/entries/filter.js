@@ -50,3 +50,12 @@ var updateList = function() {
 
 $("form[id=filter]").change(updateList);
 $("form[id=filter] input[name=term]").keyup(updateList);
+
+// this is necessary because: a user may click various filters and then 
+// reload the page. the browser will then keep the checkboxes
+// checked/unchecked. this is a problem because the search will show
+// all results and not the ones of the clicked filters. so to prevent this
+// we will update the results page once the page is loaded.
+$(function() {
+	updateList();
+})
