@@ -50,10 +50,10 @@ div.row
 														input(type="checkbox",name="fair")
 													- endif
 													|faire Produkte
-											div.alert.alert-info(style="margin-top:10px;margin-bottom:0px;") 
-												p.
-													sind Produkte
-													die &hellip;
+											//div.alert.alert-info(style="margin-top:10px;margin-bottom:0px;") 
+											//include ../classifications/fair
+											a(href="#",data-toggle="popover").btn.btn-large.btn-info#popfair.
+												Was heisst das?
 
 										div.col-lg-3
 											div.checkbox
@@ -64,10 +64,10 @@ div.row
 														input(type="checkbox",name="bio")
 													- endif
 													|biologische Produkte
-											div.alert.alert-info(style="margin-top:10px;margin-bottom:0px;") 
-												p.
-													sind Produkte
-													die &hellip;
+											a(href="#",data-toggle="popover").btn.btn-large.btn-info#popbio.
+												Was heisst das?
+											//div.alert.alert-info(style="margin-top:10px;margin-bottom:0px;") 
+											//include ../classifications/bio
 
 										div.col-lg-3
 											div.checkbox
@@ -79,10 +79,11 @@ div.row
 													- endif
 													|regionale Produkte
 
-											div.alert.alert-info(style="margin-top:10px;margin-bottom:0px;") 
-												p.
-													sind Produkte
-													die &hellip;
+											//div.alert.alert-info(style="margin-top:10px;margin-bottom:0px;") 
+											//include ../classifications/regional
+											a(href="#",data-toggle="popover").btn.btn-large.btn-info#popregional.
+												Was heisst das?
+
 										div.col-lg-3
 											div.checkbox
 												label
@@ -93,8 +94,12 @@ div.row
 													- endif
 													|gebrauchte Produkte
 
-											div.alert.alert-info(style="margin-top:10px;margin-bottom:0px;") 
-												p.
-													sind Produkte
-													die &hellip;
+											//div.alert.alert-info(style="margin-top:10px;margin-bottom:0px;") 
+											//include ../classifications/used
+											a(href="#",data-toggle="popover").btn.btn-large.btn-info#popused.
+												Was heisst das?
 				hr
+
+
+block scripts
+	script(src='/js/entries/classifications.js') 

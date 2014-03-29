@@ -106,23 +106,13 @@ block content
 								&nbsp; &uuml;berwiegend faire Produkte
 						- endif
 
-						div.alert.alert-info(style="margin-top:10px;") 
-							//p.
-							//&hellip; wenn die angebotenen Produkte
-							//eine der folgenden Bedingungen erfüllen: 
 
-							p
-								|Die Produkte/Leistungen&hellip;
-								ul
-									li.
-										haben ein Siegel:
-										das Fair-Trade-Siegel nach den Kriterien der FLO oder 
-										vergleichbare.
-									li.
-										haben kein Siegel:
-										der Anbieter versichert jedoch nachvollziehbar, dass 
-										vergleichbare Standards wie bei den oben genannten 
-										Siegeln eingehalten werden.
+						a(href="#",data-toggle="popover").btn.btn-large.btn-info.pull-right#popfair.
+							Was heisst das?
+
+						//div.alert.alert-info(style="margin-top:10px;") 
+						//include ../classifications/fair
+
 
 					div.col-lg-5
 						- if (values["bio"] === true)
@@ -135,28 +125,18 @@ block content
 								&nbsp; überwiegend biologische Produkte
 						- endif
 
-						div.alert.alert-info(style="margin-top:10px;") 
-							//p.
-							//&hellip; wenn die angebotenen Produkte
-							//eine der folgenden Bedingungen erfüllen: 
+						a(href="#",data-toggle="popover").btn.btn-large.btn-info.pull-right#popbio.
+							Was heisst das?
 
-							p
-								|Die Produkte/Leistungen&hellip;
-								ul
-									li.
-										haben ein Siegel:
-										im Nahrungsmittelbereich mindestens das Bio-Siegel
-										nach EG-ÖKO-Verordnung oder strenger (z.B. Demeter,
-										Bioland, Naturland) im Textilbereich mindestens
-										IVN, GOTS oder vergleichbar
-									li.
-										haben kein Siegel: der Anbieter versichert
-										jedoch nachvollziehbar, dass vergleichbare
-										Standards wie bei den oben genannten Siegeln
-										eingehalten werden
+						//div.alert.alert-info(style="margin-top:10px;") 
+						//p.
+						//&hellip; wenn die angebotenen Produkte
+						//eine der folgenden Bedingungen erfüllen: 
+						//include ../classifications/bio
 
 
-					div.row
+
+				div.row
 					label.col-lg-2.control-label(for="") &nbsp;
 					div.col-lg-5
 						- if (values["regional"] === true)
@@ -169,11 +149,11 @@ block content
 								&nbsp; überwiegend regionale Produkte
 						- endif
 
-						div.alert.alert-info(style="margin-top:10px;") 
-							p.
-							die Hauptbestandteile der angebotenen
-							Produkte werden in einem nahen Umkreis vom
-							Verkaufsort erzeugt und verarbeitet.
+						a(href="#",data-toggle="popover").btn.btn-large.btn-info.pull-right#popregional.
+							Was heisst das?
+
+						//div.alert.alert-info(style="margin-top:10px;") 
+						//include ../classifications/regional
 
 					div.col-lg-5
 						- if (values["used"] === true)
@@ -186,10 +166,15 @@ block content
 								&nbsp; überwiegend gebrauchte Produkte
 						- endif
 
-						div.alert.alert-info(style="margin-top:10px;") 
-							p.
-								&hellip;wenn die Produkte gebraucht sind.
+						a(href="#",data-toggle="popover").btn.btn-large.btn-info.pull-right#popused.
+							Was heisst das?
 
+						//div.alert.alert-info(style="margin-top:10px;") 
+						//include ../classifications/used
+
+
+				div.row
+					&nbsp;
 
 				div(class="form-group #{error_fields.online_local}")
 					label.col-lg-2.control-label(for="online_local") Online/Lokal?
@@ -271,3 +256,4 @@ block content
 
 block scripts
 		script(src='/js/entries/new.js') 
+		script(src='/js/entries/classifications.js') 
