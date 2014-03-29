@@ -76,9 +76,9 @@ block content
 					div.col-lg-8
 						each subcategory in subcategories["products"]
 							div.col-lg-12
-								div.col-lg-4
+								div.col-lg-3
 									strong #{subcategory.title}
-								div.col-lg-8(id="subcategory_group_#{subcategory.key}")
+								div.col-lg-9(id="subcategory_group_#{subcategory.key}")
 									each sub in subcategory.list
 										div.col-lg-6
 											- if (values["subcategory_" + sub.key] === true)
@@ -88,6 +88,11 @@ block content
 											- endif
 											span.
 												&nbsp; #{sub.value}
+								div.row
+									div.col-lg-12
+										p.
+											&nbsp;
+
 
 				div(class="form-group #{error_fields.classifications}")
 					div.row
