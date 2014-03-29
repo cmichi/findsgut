@@ -24,6 +24,8 @@ block content
 						<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
 						Eintrag bearbeiten
 
+			p &nbsp;
+
 			each paragraph in doc.description
 				p.
 					#{paragraph}
@@ -62,7 +64,16 @@ block content
 										|Nein
 									- endif
 
-								dt Internet-Adresse
-								dd
-									a(href="#{doc.uri}",rel="nofollow").
-											#{doc.uri_trimmed}
+								- if (doc.uri.length > 0) {
+									dt Internet-Adresse
+									dd
+										a(href="#{doc.uri}",rel="nofollow").
+												#{doc.uri_trimmed}
+								- }
+
+								- if (doc.local)
+									dt Adresse
+									dd.
+										#{doc.street}<br />
+										#{doc.zipcode} #{doc.city}
+								- endif

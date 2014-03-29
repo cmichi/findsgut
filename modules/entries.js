@@ -874,7 +874,9 @@ function validate(body) {
 	//console.log(JSON.stringify(subcats_chosen));
 	//console.log("\n");
 
-	if (subcats_chosen.length === 0) {
+	// Sonderfall: Wenn nur Hauptkategorie 'Sonstiges' ausgewaehlt
+	// wurde muss keine Unterkategorie gewaehlt werden.
+	if (subcats_chosen.length === 0 && cats_chosen[0] !== "other") {
 		validator.error("Bitte wähle eine Unterkategorie.");
 		error_fields.subcategories = "has-error";
 	} else {
