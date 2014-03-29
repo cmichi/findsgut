@@ -276,6 +276,10 @@ exports.all = function(req, res) {
 		}
 
 		var entries = res_entries;
+
+		for (var e in entries) 
+			entries[e].value = prepareDoc(entries[e].value);
+
 		var params = {
 			list: entries
 			, entries_count: entries.length /* immediate update */
@@ -463,6 +467,7 @@ exports.get = function(req, res) {
 		}
 
 		console.log(doc);
+		doc = prepareDoc(doc);
 		doc.description = doc.description.split("\r\n");
 
 		doc.categories = parse(categories, doc.categories);
@@ -472,6 +477,17 @@ exports.get = function(req, res) {
 		var additional_params = {"doc": doc};
 		res.render('entries/detail', layout.get_vars('entries_all', additional_params));
 	});
+}
+
+function prepareDoc(doc) {
+	//console.log(JSON.stringify(doc, null, "\t"));
+
+	doc.name = doc.name.replace("&amp;", "&");
+
+	if (doc.description.length > 0)
+		doc.description = doc.description.replace("&amp;", "&");
+
+	return doc;
 }
 
 function parse(all_categories, categories_arr) {
