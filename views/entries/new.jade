@@ -95,7 +95,7 @@ block content
 					div.row
 					label.col-lg-2.control-label(for="classifications") Einordnung
 
-					div.col-lg-3
+					div.col-lg-5
 						- if (values["fair"] === true)
 							input(name="fair", type="checkbox", checked="checked")
 							span.
@@ -107,11 +107,24 @@ block content
 						- endif
 
 						div.alert.alert-info(style="margin-top:10px;") 
-							p.
-								sind Produkte
-								die &hellip;
+							//p.
+							//&hellip; wenn die angebotenen Produkte
+							//eine der folgenden Bedingungen erfüllen: 
 
-					div.col-lg-3
+							p
+								|Die Produkte/Leistungen&hellip;
+								ul
+									li.
+										haben ein Siegel:
+										das Fair-Trade-Siegel nach den Kriterien der FLO oder 
+										vergleichbare.
+									li.
+										haben kein Siegel:
+										der Anbieter versichert jedoch nachvollziehbar, dass 
+										vergleichbare Standards wie bei den oben genannten 
+										Siegeln eingehalten werden.
+
+					div.col-lg-5
 						- if (values["bio"] === true)
 							input(name="bio", type="checkbox", checked="checked")
 							span.
@@ -123,11 +136,29 @@ block content
 						- endif
 
 						div.alert.alert-info(style="margin-top:10px;") 
-							p.
-								sind Produkte
-								die &hellip;
+							//p.
+							//&hellip; wenn die angebotenen Produkte
+							//eine der folgenden Bedingungen erfüllen: 
 
-					div.col-lg-3
+							p
+								|Die Produkte/Leistungen&hellip;
+								ul
+									li.
+										haben ein Siegel:
+										im Nahrungsmittelbereich mindestens das Bio-Siegel
+										nach EG-ÖKO-Verordnung oder strenger (z.B. Demeter,
+										Bioland, Naturland) im Textilbereich mindestens
+										IVN, GOTS oder vergleichbar
+									li.
+										haben kein Siegel: der Anbieter versichert
+										jedoch nachvollziehbar, dass vergleichbare
+										Standards wie bei den oben genannten Siegeln
+										eingehalten werden
+
+
+					div.row
+					label.col-lg-2.control-label(for="") &nbsp;
+					div.col-lg-5
 						- if (values["regional"] === true)
 							input(name="regional", type="checkbox", checked="checked")
 							span.
@@ -140,12 +171,11 @@ block content
 
 						div.alert.alert-info(style="margin-top:10px;") 
 							p.
-								sind Produkte
-								die &hellip;
+							die Hauptbestandteile der angebotenen
+							Produkte werden in einem nahen Umkreis vom
+							Verkaufsort erzeugt und verarbeitet.
 
-					div.row
-					label.col-lg-2.control-label(for="") &nbsp;
-					div.col-lg-3
+					div.col-lg-5
 						- if (values["used"] === true)
 							input(name="used", type="checkbox", checked="checked")
 							span.
@@ -158,8 +188,7 @@ block content
 
 						div.alert.alert-info(style="margin-top:10px;") 
 							p.
-								sind Produkte
-								die &hellip;
+								&hellip;wenn die Produkte gebraucht sind.
 
 
 				div(class="form-group #{error_fields.online_local}")
