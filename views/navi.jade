@@ -12,17 +12,15 @@ div.navbar.navbar-inverse.navbar-fixed-top.nav-collapse
 
 		div.navbar-collapse.collapse
 			ul.nav.navbar-nav(style="margin-top:5px;")
-				li(class="#{navi.home}").
-					<a href="/">Home</a>
 				li(class="#{navi.entries_new}").
-					<a href="/eintraege/neu">Neuer Eintrag</a>
+					<a href="/eintraege/neu">Eintragen</a>
 				li(class="#{navi.entries_all}").
-					<a href="/eintraege/alle">Alle Eintr&auml;ge</a>
+					<a href="/eintraege/alle">Suchen</a>
 				li(class="#{navi.feedback}").
-					<a href="/feedback">Anregungen</a>
+					<a href="/feedback">Anregen</a>
 
 			div.pull-right.
 				<a href="/eintraege/alle" style="color:#000;">
-					<span class="badge" style="background:#777;margin-top:20px"> #{count_entries} </span> Eintr&auml;ge
+					<span class="badge" style="background-image:url(/img/wabe-small.png);background-repeat:no-repeat;background-position:center center;margin-top:20px"> #{count_entries} </span> Eintr&auml;ge
 				</a>
 

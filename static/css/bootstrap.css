@@ -4881,7 +4881,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .badge {
   display: inline-block;
   min-width: 10px;
-  padding: 3px 7px;
+  height: 30px;
+  padding: 8px 7px;
   font-size: 12px;
   font-weight: bold;
   line-height: 1;
@@ -4890,7 +4891,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
   white-space: nowrap;
   vertical-align: baseline;
   background-color: #ffffff;
-  border-radius: 10px;
+  #border-radius: 10px;
 }
 
 .badge:empty {

@@ -5,13 +5,13 @@ block jumbotron
 		div.container.text-center
 			div.row
 				div.col-lg-6.col-lg-offset-3
-					img.img-responsive(src="/img/index.png",,alt="findsgut",title="findsgut: Verantwortungsvolle Produkte und Dienstleistungen")
+					img.img-responsive(src="/img/index.png",,alt="findsgut logo",title="findsgut: Verantwortungsvolle Produkte und Dienstleistungen")
 
 			div.row
 				div.col-lg-8.col-lg-offset-2(style="color:#DDD;margin-top:25px;").text-center
 					h3.foo.
-						findsgut ist ein gemeinschaftlich gepflegtes Verzeichnis für
-						verantwortungsvolle Produkte und Dienstleistungen. 
+						Findsgut ist ein gemeinschaftlich gepflegtes Verzeichnis<br />
+						für verantwortungsvolle Produkte und Dienstleistungen. 
 
 			div.row(style="margin-top:15px;")
 				form.bs-example(method="GET",action="/suche/")
@@ -27,8 +27,6 @@ block jumbotron
 								<input type="hidden" name="online" value="on" />
 								<div class="col-lg-8">
 									<input class="form-control input-lg" type="text" name="term" placeholder="Kleidung in Ulm" />
-								</div>
-								<div class="col-lg-2">
 									<button type="submit" class="btn btn-default btn-lg">
 									<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
 									Suchen
@@ -97,6 +95,20 @@ block content
 					strong F&uuml;ge neue Eintr&auml;ge hinzu!<br/>
 					|Jede und jeder ist eingeladen mit Einträgen in das Verzeichnis zum
 					|Gelingen dieses Projektes beizutragen.
+			div.col-lg-4
+				p.text-center.
+					<a class="btn btn-default" href="/eintraege/neu" role="button">&raquo; Neuer Eintrag</a>
+
+			div.col-lg-4
+				p
+					strong Sende uns Anregungen oder Feedback!<br />
+					|Wir haben ein offenes Ohr f&uuml;r sinnvolle Vorschl&auml;ge
+					|und neue Impulse. Lass uns deine
+					|Meinung h&ouml;ren!
+
+			div.col-lg-4
+				p.text-center.
+					<a class="btn btn-default" href="/feedback" role="button">&raquo; Nachricht verfassen</a>
 
 			div.col-lg-4
 				p
@@ -105,23 +117,9 @@ block content
 					|Flattr-Account. Umso mehr freuen
 					|wir uns &uuml;ber entsprechende Flattr-eien.
 			div.col-lg-4
-				p
-					strong Sende uns Anregungen oder Feedback!<br />
-					|Wir haben ein offenes Ohr f&uuml;r sinnvolle Vorschl&auml;ge
-					|und neue Impulse. Lass uns deine
-					|Meinung h&ouml;ren!
-
-		div.row
-			div.col-lg-4
-				p.text-center.
-					<a class="btn btn-default" href="/eintraege/neu" role="button">&raquo; Neuer Eintrag</a>
-			div.col-lg-4
 				p.text-center(style="padding-top:6px")
 					|<script id='fbhxun5'>(function(i){var f,s=document.getElementById(i);f=document.createElement('iframe');f.src='//api.flattr.com/button/view/?uid=findsgut&button=compact&url=http%3A%2F%2Ffindsgut.de';f.title='Flattr';f.height=20;f.width=110;f.style.borderWidth=0;s.parentNode.insertBefore(f,s);})('fbhxun5');</script>
 					|<noscript> <a href="https://flattr.com/thing/eac6c5bf8cedb795d28aaae860216f27" target="_blank"><img src="http://api.flattr.com/button/flattr-badge-large.png" alt="Flattr this" title="Flattr this" border="0" /></a> </noscript>
-			div.col-lg-4
-				p.text-center.
-					<a class="btn btn-default" href="/feedback" role="button">&raquo; Nachricht verfassen</a>
 		div.row
 			p.
 				&nbsp;
