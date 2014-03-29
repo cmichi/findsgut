@@ -67,8 +67,12 @@ block content
 								- if (doc.uri.length > 0) {
 									dt Internet-Adresse
 									dd
-										a(href="#{doc.uri}",rel="nofollow").
-												#{doc.uri_trimmed}
+										a(href="#{doc.uri}",rel="nofollow")
+											- if (doc.uri.length > 15)
+												|#{doc.uri.substr(0,15)}&hellip;
+											- else
+												|#{doc.uri}
+											- endif
 								- }
 
 								- if (doc.local)
