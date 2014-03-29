@@ -5,8 +5,8 @@ var express = require('express');
 var http = require('http');
 
 var cradle = require('cradle');
-//var db = new(cradle.Connection)('127.0.0.1', 5984).database('findsgut');
-var db = new(cradle.Connection)('127.0.0.1', 5984).database('findsgut_dev');
+var db = new(cradle.Connection)('127.0.0.1', 5984).database('findsgut');
+//var db = new(cradle.Connection)('127.0.0.1', 5984).database('findsgut_dev');
 
 var email = require('./modules/email');
 

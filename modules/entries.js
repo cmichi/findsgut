@@ -359,7 +359,7 @@ exports.edit = function(req, res) {
 			return;
 		}
 
-		console.log(JSON.stringify(doc, null, "\t"));
+		//console.log(JSON.stringify(doc, null, "\t"));
 
 		for (var c in doc.categories) {
 			doc["category_" + doc.categories[c]] = true;
@@ -427,6 +427,12 @@ exports.saveEdit = function(req, res) {
 
 function saveEntry(_id, _rev, res, body, validation_results) {
 	body = validation_results.values;
+
+	// does the uri start with 'http://' or something similar?
+	var patt = new RegExp(/^[A-Za-z]+:\/\//);
+	if (!patt.test(body.uri))
+		body.uri = 'http://' + body.uri;
+
 	var merge_obj = {
 		  type: "entry"
 		, name: body.name
@@ -444,7 +450,7 @@ function saveEntry(_id, _rev, res, body, validation_results) {
 		, last_modified: (new Date().getTime())
 	};
 
-	console.log(JSON.stringify(merge_obj));
+	//console.log(JSON.stringify(merge_obj));
 	db.merge(_id, merge_obj, function(err, res_updated) {
 		if (err) {
 			// show error note, render site with previous input
@@ -485,7 +491,7 @@ exports.get = function(req, res) {
 			return;
 		}
 
-		console.log(doc);
+		//console.log(doc);
 		doc = prepareDoc(doc);
 		doc.description = doc.description.split("\r\n");
 
@@ -688,14 +694,16 @@ exports.search = function(req, res) {
 
 function newEntry(res, body, validation_results) {
 	body = validation_results.values;
+
+	// does the uri start with 'http://' or something similar?
+	var patt = new RegExp(/^[A-Za-z]+:\/\//);
+	if (!patt.test(body.uri))
+		body.uri = 'http://' + body.uri;
+
 	var new_obj = {
 		  type: "entry"
 		, name: body.name
 		, description: body.description
-		, city: body.city
-		, zipcode: body.zipcode
-		, street: body.street
-		, country: "Germany"
 		, uri: body.uri
 		, local: body.local
 		, online: body.online
@@ -705,7 +713,14 @@ function newEntry(res, body, validation_results) {
 		, created_at: (new Date().getTime())
 	};
 
-	console.log(JSON.stringify(new_obj));
+	if (body.local) {
+		new_obj.city = body.city;
+		new_obj.zipcode = body.zipcode;
+		new_obj.street = body.street;
+		new_obj.country = "Germany";
+	}
+
+	//console.log(JSON.stringify(new_obj));
 	db.save(new_obj, function(err, res_created) {
 		if (err) {
 			// show error note, render site with previous input
@@ -870,7 +885,7 @@ function validate(body) {
 
 	// Sonderfall: Wenn nur Hauptkategorie 'Sonstiges' ausgewaehlt
 	// wurde muss keine Unterkategorie gewaehlt werden.
-	if (subcats_chosen.length === 0 && cats_chosen[0] !== "other") {
+	if (subcats_chosen.length === 0 && cats_chosen[0] !== "other" && cats_chosen[0] !== "service") {
 		validator.error("Bitte wähle eine Unterkategorie.");
 		error_fields.subcategories = "has-error";
 	} else {
