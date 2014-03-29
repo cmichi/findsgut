@@ -3,7 +3,11 @@ extends ../layout
 block jumbotron
 	div.jumbotron
 		div.container
-			h1 Neuer Eintrag
+			- if (modifyExisting)
+				h1 Eintrag bearbeiten
+			- else
+				h1 Neuer Eintrag
+			- endif
 
 			div.sub.
 				Lorem Ipsum dolor sit amet
@@ -11,7 +15,11 @@ block jumbotron
 block content
 	div.row
 		div.col-lg-12
-			h2 Neuer Eintrag
+			- if (modifyExisting)
+				h2 Eintrag bearbeiten
+			- else
+				h2 Neuer Eintrag
+			- endif
 
 
 	div.row
@@ -39,6 +47,11 @@ block content
 				p &nbsp;
 
 			form(role="form",method="POST",action="#").form-horizontal#new
+				- if (modifyExisting)
+					input(type="hidden",name="_id",value="#{values._id}")
+					input(type="hidden",name="_rev",value="#{values._rev}")
+				- endif
+
 				div(class="form-group #{error_fields.name}").
 					<label for="name" class="col-lg-2 control-label">Anbieter</label>
 					<div class="col-lg-10">

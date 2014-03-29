@@ -62,6 +62,14 @@ app.get('/eintraege/:id', function(req, res) {
 	entries.get(req, res);
 });
 
+app.get('/eintraege/bearbeiten/:id', function(req, res) {
+	entries.edit(req, res);
+});
+
+app.post('/eintraege/bearbeiten/:id', function(req, res) {
+	entries.saveEdit(req, res);
+});
+
 app.get('/impressum', function(req, res) {
 	res.render('impressum', layout.get_vars('index'));
 });

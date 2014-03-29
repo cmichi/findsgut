@@ -289,7 +289,7 @@ exports.all = function(req, res) {
 			, regional: true
 		};
 
-		console.log( JSON.stringify(entries) );
+		//console.log( JSON.stringify(entries) );
 		layout.set_var("count_entries", entries.length);
 
 		res.render('entries/all', layout.get_vars('entries_all', params));
@@ -315,7 +315,7 @@ exports.post_new = function(req, res) {
 		console.log(errors);
 		
 		console.log("\nvalues:");
-		console.log(JSON.stringify(validation_results.values));
+		//console.log(JSON.stringify(validation_results.values));
 
 		// render site again, show error note, show previously entered input
 		var additional_params = {
@@ -333,6 +333,124 @@ exports.post_new = function(req, res) {
 	} else {
 		newEntry(res, req.body, validation_results)
 	}
+}
+
+exports.edit = function(req, res) {
+	//console.log(req.params.id);
+	db.get(req.params.id, function (err, doc) {
+		if (err || doc == undefined) {
+			res.render('404', layout.get_vars('', { status: 404, missingurl: req.url }));
+			return;
+		}
+
+		console.log(JSON.stringify(doc, null, "\t"));
+
+		for (var c in doc.categories) {
+			doc["category_" + doc.categories[c]] = true;
+		}
+		for (var c in doc.subcategories) {
+			doc["subcategory_" + doc.subcategories[c]] = true;
+		}
+		for (var c in doc.classifications) {
+			doc[doc.classifications[c]] = true;
+		}
+
+		var additional_params = {
+			  categories: categories
+			, error_fields: []
+			, subcategories: subcategories
+			, values: doc
+			, modifyExisting: true
+		};
+
+		res.render('entries/new', layout.get_vars('entries_new', additional_params));
+	});
+}
+
+exports.saveEdit = function(req, res) {
+	var validation_results = validate(req.body);
+	var validator = validation_results.validator;
+	var errors = validator.getErrors();
+
+	//console.log( req.param('_id') );
+	//res.render('404', layout.get_vars('', { status: 404, missingurl: req.url }));
+	//return;
+
+	if (errors != undefined && errors.length > 0) {
+		console.log(errors);
+		
+		console.log("\nvalues:");
+		//console.log(JSON.stringify(validation_results.values));
+
+		validation_results.values._id = req.param('_id');
+		validation_results.values._rev = req.param('_rev');
+
+		// render site again, show error note, show previously entered input
+		var additional_params = {
+			  errors: errors
+			, previous_input: req.body
+			, error_fields: validation_results.error_fields
+			, categories: categories
+			, subcategories: subcategories
+			, values: validation_results.values
+			, modifyExisting: true
+		};
+
+		res.render('entries/new', layout.get_vars('entries_new', additional_params));
+
+		return;
+	} else {
+		saveEntry(req.param('_id'), req.param('_rev'), res, req.body, validation_results)
+	}
+}
+
+function saveEntry(_id, _rev, res, body, validation_results) {
+	body = validation_results.values;
+	var merge_obj = {
+		  type: "entry"
+		, name: body.name
+		, description: body.description
+		, city: body.city
+		, zipcode: body.zipcode
+		, street: body.street
+		, country: "Germany"
+		, uri: body.uri
+		, local: body.local
+		, online: body.online
+		, categories: validation_results.cats_chosen
+		, subcategories: validation_results.subcats_chosen
+		, classifications: validation_results.classifications_chosen
+		, last_modified: (new Date().getTime())
+	};
+
+	console.log(JSON.stringify(merge_obj));
+	db.merge(_id, merge_obj, function(err, res_updated) {
+		if (err) {
+			// show error note, render site with previous input
+			// maybe it would be better to show the 500.jade? but it
+			// would also be nasty for users to loose all their input
+			// just because the db went offline for some secs
+			validation_results.values._id = _id;
+			validation_results.values._rev = _rev;
+
+			var additional_params = {
+				  "errors": ["Es gab einen Fehler beim Speichern des Eintrags."
+					  + "Bitte versuche es in K&uuml;rze noch einmal."]
+				, previous_input: body
+				, error_fields: validation_results.error_fields
+				, categories: categories
+				, subcategories: subcategories
+				, values: validation_results.values
+				, modifyExisting: true
+			};
+
+			res.render('entries/new', layout.get_vars('entries_new', additional_params));
+			console.log(JSON.stringify(err));
+		}
+
+		res.redirect('/eintraege/' + res_updated.id);
+		return;
+	});
 }
 
 exports.get = function(req, res) {
@@ -518,7 +636,7 @@ exports.search = function(req, res) {
 			additional_params.list = undefined;
 		}
 
-		console.log("searchres: \n" + JSON.stringify(additional_params.list));
+		//console.log("searchres: \n" + JSON.stringify(additional_params.list));
 		//console.log("")
 		if (ajax === true) {
 			if (req.param("jumbotron") === "true")
@@ -581,7 +699,7 @@ function newEntry(res, body, validation_results) {
 /* the validation is a bit tricky. see the `doc/new_entry.pdf` for
 further documentation. */
 function validate(body) {
-	console.log(JSON.stringify(body));
+	//console.log(JSON.stringify(body));
 	var Validator = require('validator').Validator;
 
 	Validator.prototype.error = function (msg) {
@@ -639,7 +757,7 @@ function validate(body) {
 		values.street = street;
 		values.city = city;
 		values.zipcode = zipcode;
-		console.log(JSON.stringify(values));
+		//console.log(JSON.stringify(values));
 
 		chk_cnt = chk._errors.length;
 	}

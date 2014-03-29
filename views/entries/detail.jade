@@ -15,13 +15,18 @@ block breadcrumbs
 
 block content
 	div.row
-		div.col-lg-6
-			h2 Eintrag: #{doc.name}
+		div.col-lg-8
+			h2 
+				|Eintrag: #{doc.name}
+
+				div.text-center.pull-right
+					a.btn.btn-default.btn-lg(href="/eintraege/bearbeiten/#{doc.id}").
+						<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
+						Eintrag bearbeiten
 
 			each paragraph in doc.description
 				p.
 					#{paragraph}
-		div.col-lg-2
 		div.col-lg-4
 				div.panel.panel-default(style="margin-top:20px")
 					div.panel-heading
