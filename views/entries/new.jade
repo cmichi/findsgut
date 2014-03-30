@@ -98,13 +98,11 @@ block content
 					div.col-lg-5
 						- if (values["fair"] === true)
 							input(name="fair", type="checkbox", checked="checked")
-							span.
-								&nbsp; überwiegend faire Produkte
 						- else
 							input(name="fair", type="checkbox")
-							span.
-								&nbsp; &uuml;berwiegend faire Produkte
 						- endif
+							span.
+								&nbsp; &uuml;berwiegend fair
 
 
 						a(href="#",data-toggle="popover").btn.btn-large.btn-info.pull-right#popfair.
@@ -117,13 +115,11 @@ block content
 					div.col-lg-5
 						- if (values["bio"] === true)
 							input(name="bio", type="checkbox", checked="checked")
-							span.
-								&nbsp; überwiegend biologische Produkte
 						- else
 							input(name="bio", type="checkbox")
-							span.
-								&nbsp; überwiegend biologische Produkte
 						- endif
+							span.
+								&nbsp; überwiegend biologisch
 
 						a(href="#",data-toggle="popover").btn.btn-large.btn-info.pull-right#popbio.
 							Was heisst das?
@@ -141,13 +137,11 @@ block content
 					div.col-lg-5
 						- if (values["regional"] === true)
 							input(name="regional", type="checkbox", checked="checked")
-							span.
-								&nbsp; überwiegend regionale Produkte
 						- else
 							input(name="regional", type="checkbox").
-							span.
-								&nbsp; überwiegend regionale Produkte
 						- endif
+							span.
+								&nbsp; überwiegend regional
 
 						a(href="#",data-toggle="popover").btn.btn-large.btn-info.pull-right#popregional.
 							Was heisst das?
@@ -158,13 +152,11 @@ block content
 					div.col-lg-5
 						- if (values["used"] === true)
 							input(name="used", type="checkbox", checked="checked")
-							span.
-								&nbsp; überwiegend gebrauchte Produkte
 						- else
 							input(name="used", type="checkbox").
-							span.
-								&nbsp; überwiegend gebrauchte Produkte
 						- endif
+							span.
+								&nbsp; überwiegend gebraucht
 
 						a(href="#",data-toggle="popover").btn.btn-large.btn-info.pull-right#popused.
 							Was heisst das?
