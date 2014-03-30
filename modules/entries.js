@@ -790,7 +790,7 @@ function validate(body) {
 	var chk = validator.check(name, "Bitte gib einen Namen an.").notEmpty();
 	if (chk._errors.length > chk_cnt)
 		error_fields.name = "has-error";
-	values.name = name;
+	values.name = name.substr(0, 100);
 
 
 	var description = db.prepare(body.description);
@@ -800,7 +800,7 @@ function validate(body) {
 	if (chk._errors.length > chk_cnt)
 		error_fields.description = "has-error";
 	*/
-	values.description = description;
+	values.description = description.substr(0, 100);
 
 	chk_cnt = chk._errors.length;
 
@@ -839,7 +839,7 @@ function validate(body) {
 		var chk = validator.check(body.uri, "Bitte checke die Internetadresse.").isUrl();
 		if (chk._errors.length > chk_cnt)
 			error_fields.uri = "has-error";
-		values.uri = uri;
+		values.uri = uri.substr(300);
 	}
 	/* if this is only an "online" entry, we don't save a "real" address.
 	the interface should strip the inputs then (using JavaScript). But 
