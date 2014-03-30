@@ -3,26 +3,19 @@ extends ../layout
 block jumbotron
 	div.jumbotron
 		div.container
-			h1 Alle Eintr&auml;ge
+			h1 #{doc.name}
 
 			div.sub.
 				Lorem.
 
-block breadcrumbs
-	ol.breadcrumb.
-		<li><a href="/eintraege/alle">Alle Eintr&auml;ge</a></li>
-		<li class="active">#{doc.name}</li>
-
 block content
 	div.row
 		div.col-lg-8
-			h2 
-				|#{doc.name}
 
-				div.text-center.pull-right
-					a.btn.btn-default.btn-lg(href="/eintraege/bearbeiten/#{doc.id}").
-						<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
-						Eintrag bearbeiten
+			div.text-center.pull-right
+				a.btn.btn-default.btn-lg(href="/eintraege/bearbeiten/#{doc.id}").
+					<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
+					Eintrag bearbeiten
 
 			p &nbsp;
 
