@@ -22,16 +22,12 @@ var classifications = [
 ];
 var categories = [
 	{
-		key: "service"
-		, value: "Dienstleistung"
-	}
-	, {
 		key: "product"
 		, value: "Produkt"
 	}
 	, {
-		key: "other"
-		, value: "Sonstige"
+		key: "service"
+		, value: "Dienstleistung"
 	}
 ];
 var subcategories = {
@@ -489,6 +485,14 @@ function saveEntry(_id, _rev, res, body, validation_results) {
 exports.get = function(req, res) {
 	var id = req.params.id;
 
+	var success_creation = false;
+	if (req.param("success") === "creation") 
+		success_creation = true;
+
+	var success_edit = false;
+	if (req.param("success") === "edit") 
+		success_edit = true;
+
 	db.get(id, function (err, doc) {
 		if (err || doc == undefined) {
 			res.render('404', layout.get_vars('', { status: 404, missingurl: req.url }));
@@ -502,7 +506,11 @@ exports.get = function(req, res) {
 		doc.categories = parse(categories, doc.categories);
 		doc.classifications = parse(classifications, doc.classifications);
 
-		var additional_params = {"doc": doc};
+		var additional_params = {
+			  "doc": doc
+			, "success_edit": success_edit
+			, "success_creation": success_creation
+		};
 		res.render('entries/detail', layout.get_vars('entries_all', additional_params));
 	});
 }
@@ -760,7 +768,7 @@ function newEntry(res, body, validation_results) {
 
 		console.log(JSON.stringify(res_created));
 
-		res.redirect('/eintraege/' + res_created.id);
+		res.redirect('/eintraege/' + res_created.id + "?success=true");
 		return;
 	});
 }
@@ -902,7 +910,7 @@ function validate(body) {
 
 	// Sonderfall: Wenn nur Hauptkategorie 'Sonstiges' ausgewaehlt
 	// wurde muss keine Unterkategorie gewaehlt werden.
-	if (subcats_chosen.length === 0 && cats_chosen[0] !== "other" && cats_chosen[0] !== "service") {
+	if (subcats_chosen.length === 0 && cats_chosen[0] !== "service") {
 		validator.error("Bitte wähle eine Unterkategorie.");
 		error_fields.subcategories = "has-error";
 	} else {

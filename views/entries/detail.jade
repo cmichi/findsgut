@@ -3,70 +3,75 @@ extends ../layout
 block jumbotron
 	div.jumbotron
 		div.container
-			h1 Alle Eintr&auml;ge
-
-			div.sub.
-				Lorem.
-
-block breadcrumbs
-	ol.breadcrumb.
-		<li><a href="/eintraege/alle">Alle Eintr&auml;ge</a></li>
-		<li class="active">#{doc.name}</li>
+			h1.
+				#{doc.name}
 
 block content
+	- if (success_creation || success_edit) {
+		div.row
+			div.col-lg-12
+				div.alert.alert-warning(style="height:auto")
+					img(src="/img/biene.png",align="left",width="100",style="margin:0px 20px 10px 0px;")
+
+					h4 Dankesch&ouml;n! 
+
+					p.
+						&hellip;dass du ein flei&szlig;iges Bienchen bist
+						und zu diesem Projekt
+						beitr&auml;gst.
+
+
+	- }
+
 	div.row
 		div.col-lg-8
-			h2 
-				|#{doc.name}
-
-				div.text-center.pull-right
-					a.btn.btn-default.btn-lg(href="/eintraege/bearbeiten/#{doc.id}").
-						<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
-						Eintrag bearbeiten
-
-			p &nbsp;
-
 			each paragraph in doc.description
 				p.
 					#{paragraph}
+
 		div.col-lg-4
-				div.panel.panel-default(style="margin-top:20px")
-					div.panel-heading
-						h3.panel-title.
-							Infos
-					div.panel-body
-							dl.dl-horizontal
-								dt Kategorien
-								dd
-									- for (var c in doc.categories) {
-										|#{doc.categories[c].value}<br />
-									- }
-
-								dt Klassifikation
-								dd
-									- for (var c in doc.classifications) {
-										|#{doc.classifications[c].value}<br />
-									- }
-
-								dt Angebot
-								dd
-									- if (doc.local)
-										|Lokal<br />
-									- endif
-									- if (doc.online)
-										|Online<br />
-									- endif
-
-								- if (doc.uri.length > 0) {
-									dt Website
-									dd
-										a(href="#{doc.uri}",rel="nofollow")
-												|#{doc.uri}
+			div.panel.panel-default(style="margin-top:20px")
+				div.panel-heading
+					h3.panel-title.
+						Infos
+				div.panel-body
+						dl.dl-horizontal
+							dt Kategorien
+							dd
+								- for (var c in doc.categories) {
+									|#{doc.categories[c].value}<br />
 								- }
 
+							dt Klassifikation
+							dd
+								- for (var c in doc.classifications) {
+									|#{doc.classifications[c].value}<br />
+								- }
+
+							dt Angebot
+							dd
 								- if (doc.local)
-									dt Adresse
-									dd.
-										#{doc.street}<br />
-										#{doc.zipcode} #{doc.city}
+									|Lokal<br />
 								- endif
+								- if (doc.online)
+									|Online<br />
+								- endif
+
+							- if (doc.uri.length > 0) {
+								dt Website
+								dd
+									a(href="#{doc.uri}",rel="nofollow")
+											|#{doc.uri}
+							- }
+
+							- if (doc.local)
+								dt Adresse
+								dd.
+									#{doc.street}<br />
+									#{doc.zipcode} #{doc.city}
+							- endif
+
+			div.text-center
+				a.btn.btn-default.btn-lg(href="/eintraege/bearbeiten/#{doc.id}").
+					<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
+					Eintrag bearbeiten
