@@ -415,7 +415,7 @@ cite {
 }
 
 .text-muted {
-  color: #ffffff;
+  color: #999;
 }
 
 .text-primary {
@@ -4918,19 +4918,15 @@ a.list-group-item.active > .badge,
 .jumbotron {
   padding: 30px;
   margin-bottom: 30px;
-  font-size: 21px;
+  font-size: 16px;
   font-weight: 200;
   line-height: 2.1428571435;
-  color: inherit;
-  /*
-  background-color: #eeeeee;
-  */
-  background: url(/img/bg2.png) repeat-y;
+  color: #fff;
+  background-color: #cc3714;
 }
 
 .jumbotron h1 {
   line-height: 1;
-  color: inherit;
 }
 
 .jumbotron p {
