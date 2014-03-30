@@ -25,7 +25,10 @@ exports.get_vars = function(navi_key, additional_vars) {
 
 exports.init = function(d) {
 	db = d;
+	this.updateCounter();
+}
 
+exports.updateCounter = function() {
 	db.view('db/entries', {reduce: false}, function (err, res) {
 		if (err) {
 			console.dir(err);
@@ -35,7 +38,6 @@ exports.init = function(d) {
 		count_entries = res.length;
 		//layout_vars.entries = res;
 	});
-
 }
 
 function get_navi(k, req) {

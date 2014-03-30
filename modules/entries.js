@@ -526,7 +526,15 @@ exports.get = function(req, res) {
 			, "success_edit": success_edit
 			, "success_creation": success_creation
 		};
-		res.render('entries/detail', layout.get_vars('entries_all', additional_params));
+
+		var ps = layout.get_vars('entries_all', additional_params)
+
+		// db will not yet be updated, but already show an
+		// incremented counter
+		if (success_creation) 
+			ps.count_entries = ps.count_entries + 1;
+
+		res.render('entries/detail', ps);
 	});
 }
 
@@ -786,6 +794,8 @@ function newEntry(res, body, validation_results) {
 		}
 
 		//console.log(JSON.stringify(res_created));
+
+		layout.updateCounter();
 
 		res.redirect('/eintraege/' + res_created.id + "?success=creation");
 		return;
