@@ -295,12 +295,14 @@ exports.all = function(req, res) {
 			, entries_count: entries.length /* immediate update */
 
 			/* default: show all */
+			/* changing search semantic, commenting this out
 			, online: true
 			, local: true
 			, fair: true
 			, bio: true
 			, used: true
 			, regional: true
+			*/
 		};
 
 		//console.log( JSON.stringify(entries) );
@@ -549,6 +551,9 @@ function classified(entry, v) {
 	return false;
 }
 
+/* the search semantic should be: everything is shown, nothing is clicked.
+everything that is clicked is a constraint on the search and means the
+results should only contain products with this feature */
 exports.search = function(req, res) {
 	var ajax = false;
 	if (req.param("ajax") === "true") ajax = true;
@@ -557,6 +562,7 @@ exports.search = function(req, res) {
 	if (req.param("online") === "on") online = true;
 
 	var local = false;
+	console.log(req.param("local") + "!")
 	if (req.param("local") === "on") local = true;
 
 	var bio = false;
@@ -570,6 +576,8 @@ exports.search = function(req, res) {
 
 	var regional = false;
 	if (req.param("regional") === "on") regional = true;
+
+	console.log(req.param("regional"))
 
 	var term = db.prepare(req.param("term"))
 	var term_original = term; /* for the view */
@@ -611,14 +619,13 @@ exports.search = function(req, res) {
 			, regional: regional
 			, ajax: ajax
 		};
-		//console.log(JSON.stringify(additional_params));
+		console.log(JSON.stringify(additional_params));
 
 		if (res_search && res_search.length > 0) {
 			for (var i in res_search) {
 				var r = res_search[i].value;
 				var show = true;
 
-				/*
 				// search semantic 1
 				if (online === true && r.online === false)
 					show = false;
@@ -638,8 +645,8 @@ exports.search = function(req, res) {
 				if (regional === true && classified(r, "regional") === false)
 					show = false;
 
-				*/
 
+/*
 				//if (online === true && r.online === false || online === false && r.online === true)
 				if (online === false && r.online === true)
 					show = false;
@@ -662,6 +669,7 @@ exports.search = function(req, res) {
 				//if (regional === true && classified(r, "regional") === false || regional === false && classified(r, "regional") === true)
 				if (regional === false && classified(r, "regional") === true)
 					show = false;
+				*/
 
 				if (show === true) {
 					/* definitely has to be optimized */
