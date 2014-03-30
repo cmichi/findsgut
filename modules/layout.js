@@ -44,6 +44,7 @@ function get_navi(k, req) {
 		, entries_new: ""
 		, entries_all: ""
 		, feedback: ""
+		, idee: ""
 	};
 
 	if (k === "entries_new")
