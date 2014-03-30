@@ -17,7 +17,7 @@ block content
 	div.row
 		div.col-lg-8
 			h2 
-				|Eintrag: #{doc.name}
+				|#{doc.name}
 
 				div.text-center.pull-right
 					a.btn.btn-default.btn-lg(href="/eintraege/bearbeiten/#{doc.id}").
@@ -42,37 +42,26 @@ block content
 										|#{doc.categories[c].value}<br />
 									- }
 
-								dt Klassifikationen
+								dt Klassifikation
 								dd
 									- for (var c in doc.classifications) {
 										|#{doc.classifications[c].value}<br />
 									- }
 
-								dt Online-Eintrag?
-								dd
-									- if (doc.online)
-										|Ja
-									- else
-										|Nein
-									- endif
-
-								dt Lokaler Eintrag?
+								dt Angebot
 								dd
 									- if (doc.local)
-										|Ja
-									- else
-										|Nein
+										|Lokal<br />
+									- endif
+									- if (doc.online)
+										|Online<br />
 									- endif
 
 								- if (doc.uri.length > 0) {
-									dt Internet-Adresse
+									dt Website
 									dd
 										a(href="#{doc.uri}",rel="nofollow")
-											- if (doc.uri.length > 15)
-												|#{doc.uri.substr(0,15)}&hellip;
-											- else
 												|#{doc.uri}
-											- endif
 								- }
 
 								- if (doc.local)
