@@ -21,20 +21,13 @@ block content
 	- }
 
 	div.row
-		div.col-lg-8
-
-			div.text-center.pull-right
-				a.btn.btn-default.btn-lg(href="/eintraege/bearbeiten/#{doc.id}").
-					<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
-					Eintrag bearbeiten
-
-	div.row
-		div.col-lg-8
+		div.col-lg-6
+			|&nbsp;<br />
 			each paragraph in doc.description
 				p.
 					#{paragraph}
 
-		div.col-lg-4
+		div.col-lg-6
 			div.panel.panel-default(style="margin-top:20px")
 				div.panel-heading
 					h3.panel-title.
