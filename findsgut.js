@@ -79,6 +79,10 @@ app.get('/agb', function(req, res) {
 	res.render('agb', layout.get_vars('index'));
 });
 
+app.get('/idee', function(req, res) {
+	res.render('idee', layout.get_vars('idee'));
+});
+
 app.get('/feedback', function(req, res) {
 	res.render('feedback', layout.get_vars('feedback'));
 });
