@@ -536,7 +536,6 @@ function prepareDoc(doc) {
 
 	//doc.name = doc.name.replace("&amp;", "&");
 	doc.name = underscore.unescape(doc.name);
-	doc.name = doc.name.replace(" - ", " – ");
 	doc.uri = underscore.unescape(doc.uri);
 
 	/* set the 'local' fields to "". otherwise the input fields
@@ -547,6 +546,9 @@ function prepareDoc(doc) {
 
 	if (doc.description.length > 0)
 		doc.description = underscore.unescape(doc.description);
+
+	doc.name = doc.name.replace(" - ", " – ");
+	doc.description = doc.description.replace(" - ", " – ");
 
 	return doc;
 }

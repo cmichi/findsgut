@@ -1,6 +1,6 @@
 # Readme
 
-findsgut wird ein gemeinschaftlich gepflegtes Verzeichnis 
+findsgut ist ein gemeinschaftlich gepflegtes Verzeichnis 
 für verantwortungsvolle Produkte und Dienstleistungen. Ziel der
 Internetseite ist es, die Suche nach fair, ökologisch und regional
 hergestellten Produkten sowie an Nachhaltigkeit ausgerichteten Marken 
@@ -10,10 +10,7 @@ Die Internetseite ist als Gemeinschaftsprojekt (vergleiche Wikipedia)
 ausgelegt. Jede und jeder ist daher eingeladen mit Einträgen in das 
 Verzeichnis zum Gelingen dieses Projektes beizutragen.
 
-Im [Wiki](http://wiki.findsgut.de) finden sind weitere Infos zu dem 
-Konzept, beteiligten Personen und der Mailingliste.
-
-**Project Status:** WIP.
+**Project Status:** Online! [findsgut.de](http://www.findsgut.de).
 
 
 # Aufsetzen einer Instanz
@@ -41,6 +38,10 @@ Engine](http://jade-lang.com/reference/).
 	make push
 
 	# you're done! open http://localhost:5001/ within your browser.
+	# to change the database/port which is used set environment
+	# variables: 
+	# $ export PORT=5001
+	# $ export DBNAME="findsgut"
 
 
 # License
