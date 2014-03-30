@@ -22,12 +22,12 @@ var classifications = [
 ];
 var categories = [
 	{
-		key: "service"
-		, value: "Dienstleistung"
-	}
-	, {
 		key: "product"
 		, value: "Produkt"
+	}
+	, {
+		key: "service"
+		, value: "Dienstleistung"
 	}
 	, {
 		key: "other"
@@ -261,6 +261,21 @@ var subcategories = {
 			, list: [
 				{
 					key: "sonstige"
+					, value: "Sonstiges"
+				}
+			]
+		}
+	]
+	, service: [
+		{
+			title: ""
+			, list: [
+				{
+					key: "gastronomie"
+					, value: "Gastronomie"
+				}
+				, {
+					key: "sonstiges"
 					, value: "Sonstiges"
 				}
 			]

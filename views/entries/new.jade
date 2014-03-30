@@ -82,6 +82,27 @@ block content
 							div.col-lg-12(style="clear:both").
 								&nbsp;
 
+
+				div(class="form-group #{error_fields.subcategories}")#servicesubs 
+					label.col-lg-2.control-label(for="subcategories") Dienstleistungs-Unterkategorien
+					div.col-lg-8
+						each subcategory in subcategories["service"]
+							div.col-lg-12
+								div.col-lg-3
+									strong #{subcategory.title}
+								div.col-lg-9(id="subcategory_group_#{subcategory.key}")
+									each sub in subcategory.list
+										div.col-lg-6
+											- if (values["subcategory_" + sub.key] === true)
+												input(name="subcategory_#{sub.key}", type="checkbox", checked="checked") 
+											- else
+												input(name="subcategory_#{sub.key}", type="checkbox") 
+											- endif
+											span.
+												&nbsp; #{sub.value}
+							div.col-lg-12(style="clear:both").
+								&nbsp;
+
 				div(class="form-group #{error_fields.classifications}")
 					div.row
 					label.col-lg-2.control-label(for="classifications") Einordnung

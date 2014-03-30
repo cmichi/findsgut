@@ -13,6 +13,12 @@ var updateForm = function() {
 		$("form[id=new] #productsubs").hide();
 	else
 		$("form[id=new] #productsubs").show();
+
+	var service = $("form[id=new] input[name=category_service]").prop("checked");
+	if (service === false)
+		$("form[id=new] #servicesubs").hide();
+	else
+		$("form[id=new] #servicesubs").show();
 }
 
 $("form[id=new]").change(updateForm);
