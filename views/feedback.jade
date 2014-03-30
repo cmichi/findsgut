@@ -6,15 +6,12 @@ block jumbotron
 			h1 Anregungen
 
 block content
-	div.row
-		div.col-lg-12
-			h2 Anregungen
 
 	div.row
 		div.col-lg-4.col-lg-offset-0
 			h4
-				a.btn.btn-default.btn-lg(href="#anregungen",style="width:100%").
-					<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
+				a.btn.btn-default.btn-lg(href="#anregungen",style="width:90%").
+					<img src="/img/waben/gelb.png" style="height:22px;margin-right:10px;margin-top:4px;float:left;" />
 					Deine Anregungen
 
 		div.col-lg-6
@@ -27,8 +24,8 @@ block content
 	div.row
 		div.col-lg-4.col-lg-offset-0
 			h4
-				a.btn.btn-default.btn-lg(href="#unterstuetzung",style="width:100%").
-					<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
+				a.btn.btn-default.btn-lg(href="#unterstuetzung",style="width:90%").
+					<img src="/img/waben/rot.png" style="height:22px;margin-right:10px;margin-top:4px;float:left;" />
 					Deine Unterst&uuml;tzung
 
 
@@ -40,8 +37,8 @@ block content
 	div.row
 		div.col-lg-4.col-lg-offset-0
 			h4
-				a.btn.btn-default.btn-lg(href="#anregungen",style="width:100%").
-					<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
+				a.btn.btn-default.btn-lg(href="#anregungen",style="width:90%").
+					<img src="/img/waben/blau.png" style="height:22px;margin-right:10px;margin-top:4px;float:left;" />
 					Deine pers&ouml;nlichen Fragen
 
 
@@ -50,11 +47,15 @@ block content
 				Hier kannst du uns eine persönliche Mitteilung schreiben,
 				die wir gerne baldmöglichst beantworten.
 
-	div.row &nbsp;<br/> &nbsp;<br/> &nbsp;<br/>
+	div.row &nbsp;<br/> &nbsp;<br/> 
+	hr
+	div.row &nbsp;<br/> &nbsp;<br/>
 
 	div.row
 		div.col-lg-12
-			h2#unterstuetzung Deine Unterst&uuml;tzung
+			h2#unterstuetzung
+				//<img src="/img/waben/rot.png" style="height:22px;margin-right:10px;margin-top:4px;float:left;" />
+				|Deine Unterst&uuml;tzung
 
 	div.row
 		div.col-lg-4
@@ -134,11 +135,13 @@ block content
 				a(href="https://github.com/cmichi/findsgut").
 					Download (Lizenz: ODbL v1.0)
 
+	div.row &nbsp;<br/> &nbsp;<br/> 
+	hr
+	div.row &nbsp;<br/> &nbsp;<br/>
+
 	div.row
 		div.col-lg-12
 			h2#anregungen Deine pers&ouml;nlichen Fragen
-
-	div.row &nbsp;<br/> &nbsp;<br/> &nbsp;<br/>
 
 	div.row
 		div.col-lg-12
