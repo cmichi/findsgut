@@ -243,22 +243,59 @@ block content
 					div.col-lg-10
 						textarea.form-control(id="description", name="description",rows="7", maxlength="500") #{values.description}
 
-				div(class="form-group #{error_fields.agb}")
+				div(class="form-group")
+					label.col-lg-2.control-label(for="agb") &nbsp;
+					div.col-lg-10
+						div.alert.alert-warning
+							h4 Einverstanden?
+
+							img(src="/img/biene.png",align="right",width="150",style="margin:10px 0px 10px 10px;")
+
+							p.
+								Mit dem Speichern dieser Seite
+								versicherst du, dass du den Beitrag
+								selbst verfasst hast bzw. dass er
+								keine fremden Rechte verletzt, und
+								willigst ein, ihn unter der
+								<a href="http://creativecommons.org/publicdomain/zero/1.0/deed.de">
+								Creative Commons CC0 Lizenz</a>
+								zu veröffentlichen.
+							p.
+								Falls du den Text nicht selbst
+								verfasst hast, muss er unter den
+								Nutzungsbedingungen verfügbar sein
+								und du stimmst zu, notwendigen
+								Lizenzanforderungen zu folgen. 
+
+							p.
+								Wenn du nicht möchtest, dass dein Text
+								weiterbearbeitet und weiterverbreitet wird, 
+								dann speichere ihn nicht.
+
+							p.text-center.
+								<em>Das Kopieren urheberrechtlich
+								geschützter Werke ist verboten!</em>
+
+				div(class="form-group #{error_fields.agb} hidden")
 					label.col-lg-2.control-label(for="agb") AGB
 					div.col-lg-10
 						- if (values["agb"] === true)
 							input(id="agb", name="agb", type="checkbox", checked="checked") 
 						- else
-							input(id="agb", name="agb", type="checkbox") 
+							input(id="agb", name="agb", type="checkbox", checked="checked") 
+							//agb have temporarily been disabled!
+							//input(id="agb", name="agb", type="checkbox") 
 						-endif
 
 						span.
 							&nbsp; Ich stimme den <a target="_blank" href='/agb'>Nutzungsbedingungen</a> dieser Plattform zu.
 
-				div.form-group.
-					<div class="col-lg-offset-2 col-lg-10">
-						<button type="submit" class="btn btn-default">Absenden</button>
-					</div>
+				div.form-group
+					label.col-lg-2.control-label(for="agb") &nbsp;
+					div.col-lg-10.
+						<button style="width:100%" type="submit" class="btn btn-default">
+							Ab in den Bienenstock!
+						</button>
 
 block scripts
 		script(src='/js/entries/new.js') 
