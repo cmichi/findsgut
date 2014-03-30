@@ -295,7 +295,7 @@ exports.all = function(req, res) {
 			, entries_count: entries.length /* immediate update */
 
 			/* default: show all */
-			/* changing search semantic, commenting this out
+			/* changing search semantic to semantic1, commenting this out
 			, online: true
 			, local: true
 			, fair: true
@@ -305,7 +305,6 @@ exports.all = function(req, res) {
 			*/
 		};
 
-		//console.log( JSON.stringify(entries) );
 		layout.set_var("count_entries", entries.length);
 
 		res.render('entries/all', layout.get_vars('entries_all', params));
@@ -330,7 +329,7 @@ exports.post_new = function(req, res) {
 	if (errors != undefined && errors.length > 0) {
 		console.log(errors);
 		
-		console.log("\nvalues:");
+		//console.log("\nvalues:");
 		//console.log(JSON.stringify(validation_results.values));
 
 		validation_results.values = prepareDoc(validation_results.values);
@@ -400,7 +399,7 @@ exports.saveEdit = function(req, res) {
 	if (errors != undefined && errors.length > 0) {
 		console.log(errors);
 		
-		console.log("\nvalues:");
+		//console.log("\nvalues:");
 		//console.log(JSON.stringify(validation_results.values));
 
 		validation_results.values._id = req.param('_id');
@@ -439,10 +438,6 @@ function saveEntry(_id, _rev, res, body, validation_results) {
 		  type: "entry"
 		, name: body.name
 		, description: body.description
-		, city: body.city
-		, zipcode: body.zipcode
-		, street: body.street
-		, country: "Germany"
 		, uri: body.uri
 		, local: body.local
 		, online: body.online
@@ -451,6 +446,13 @@ function saveEntry(_id, _rev, res, body, validation_results) {
 		, classifications: validation_results.classifications_chosen
 		, last_modified: (new Date().getTime())
 	};
+
+	if (body.local) {
+		merge_obj.city = body.city;
+		merge_obj.street = body.street;
+		merge_obj.zipcode = body.zipcode;
+		merge_obj.country = "Germany";
+	}
 
 	//console.log(JSON.stringify(merge_obj));
 	db.merge(_id, merge_obj, function(err, res_updated) {
@@ -476,7 +478,7 @@ function saveEntry(_id, _rev, res, body, validation_results) {
 			};
 
 			res.render('entries/new', layout.get_vars('entries_new', additional_params));
-			console.log(JSON.stringify(err));
+			//console.log(JSON.stringify(err));
 		}
 
 		res.redirect('/eintraege/' + res_updated.id);
@@ -499,7 +501,6 @@ exports.get = function(req, res) {
 
 		doc.categories = parse(categories, doc.categories);
 		doc.classifications = parse(classifications, doc.classifications);
-		//JSON.stringify( doc.categories );
 
 		var additional_params = {"doc": doc};
 		res.render('entries/detail', layout.get_vars('entries_all', additional_params));
@@ -512,6 +513,12 @@ function prepareDoc(doc) {
 	//doc.name = doc.name.replace("&amp;", "&");
 	doc.name = underscore.unescape(doc.name);
 	doc.uri = underscore.unescape(doc.uri);
+
+	/* set the 'local' fields to "". otherwise the input fields
+	in the edit/new entry mask will output 'undefined' */
+	if (doc.street === undefined) doc.street = "";
+	if (doc.zipcode === undefined) doc.zipcode = "";
+	if (doc.city === undefined) doc.city = "";
 
 	if (doc.description.length > 0)
 		doc.description = underscore.unescape(doc.description);
@@ -562,7 +569,6 @@ exports.search = function(req, res) {
 	if (req.param("online") === "on") online = true;
 
 	var local = false;
-	console.log(req.param("local") + "!")
 	if (req.param("local") === "on") local = true;
 
 	var bio = false;
@@ -576,8 +582,6 @@ exports.search = function(req, res) {
 
 	var regional = false;
 	if (req.param("regional") === "on") regional = true;
-
-	console.log(req.param("regional"))
 
 	var term = db.prepare(req.param("term"))
 	var term_original = term; /* for the view */
@@ -619,7 +623,7 @@ exports.search = function(req, res) {
 			, regional: regional
 			, ajax: ajax
 		};
-		console.log(JSON.stringify(additional_params));
+		//console.log(JSON.stringify(additional_params));
 
 		if (res_search && res_search.length > 0) {
 			for (var i in res_search) {
