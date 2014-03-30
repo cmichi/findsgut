@@ -262,7 +262,7 @@ var subcategories = {
 			]
 		}
 	]
-	, service: [
+	, services: [
 		{
 			title: ""
 			, list: [
@@ -465,7 +465,7 @@ function saveEntry(_id, _rev, res, body, validation_results) {
 		merge_obj.country = "Germany";
 	}
 
-	//console.log(JSON.stringify(merge_obj));
+	//console.log(JSON.stringify(merge_obj, null, "\t"));
 	db.merge(_id, merge_obj, function(err, res_updated) {
 		if (err) {
 			// show error note, render site with previous input
@@ -781,7 +781,7 @@ function newEntry(res, body, validation_results) {
 			console.log(JSON.stringify(err));
 		}
 
-		console.log(JSON.stringify(res_created));
+		//console.log(JSON.stringify(res_created));
 
 		res.redirect('/eintraege/' + res_created.id + "?success=creation");
 		return;
@@ -862,7 +862,7 @@ function validate(body) {
 		var chk = validator.check(body.uri, "Bitte checke die Internetadresse.").isUrl();
 		if (chk._errors.length > chk_cnt)
 			error_fields.uri = "has-error";
-		//uri = uri.substr(300);
+		values.uri = uri.substr(0, 300);
 	}
 	/* if this is only an "online" entry, we don't save a "real" address.
 	the interface should strip the inputs then (using JavaScript). But 
@@ -914,7 +914,13 @@ function validate(body) {
 	for (var sc in subcategories.products) {
 		for (var scs in subcategories.products[sc].list) {
 			var subc = subcategories.products[sc].list[scs];
-			//console.log(subc.key)
+			if (body["subcategory_" + subc.key] === "on")
+				subcats_chosen.push(subc.key)
+		}
+	}
+	for (var sc in subcategories.services) {
+		for (var scs in subcategories.services[sc].list) {
+			var subc = subcategories.services[sc].list[scs];
 			if (body["subcategory_" + subc.key] === "on")
 				subcats_chosen.push(subc.key)
 		}
