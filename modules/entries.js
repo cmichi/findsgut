@@ -530,11 +530,13 @@ exports.get = function(req, res) {
 	});
 }
 
+/* prepare for frontend output */
 function prepareDoc(doc) {
 	//console.log(JSON.stringify(doc, null, "\t"));
 
 	//doc.name = doc.name.replace("&amp;", "&");
 	doc.name = underscore.unescape(doc.name);
+	doc.name = doc.name.replace(" - ", " – ");
 	doc.uri = underscore.unescape(doc.uri);
 
 	/* set the 'local' fields to "". otherwise the input fields
