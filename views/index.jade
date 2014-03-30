@@ -1,40 +1,48 @@
 extends layout
 
-block jumbotron
-	div.jumbotron.index-jumbotron
-		div.container.text-center
-			div.row
-				div.col-lg-6.col-lg-offset-3
-					img.img-responsive(src="/img/index.png",,alt="findsgut logo",title="findsgut: Verantwortungsvolle Produkte und Dienstleistungen")
-
-			div.row
-				div.col-lg-8.col-lg-offset-2(style="color:#DDD;margin-top:25px;").text-center
-					h3.foo.
-						Findsgut ist ein gemeinschaftlich gepflegtes Verzeichnis<br />
-						für verantwortungsvolle Produkte und Dienstleistungen. 
-
-			div.row(style="margin-top:15px;")
-				form.bs-example(method="GET",action="/suche/")
-					div.col-lg-4.col-lg-offset-2
-						div.text-center.pull-left
-								a.btn.btn-default.btn-lg(href="/eintraege/neu").
-									<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
-									Neuer Eintrag
-
-					div.col-lg-4
-						div.text-center.pull-right.
-								<input type="hidden" name="lokal" value="on" />
-								<input type="hidden" name="online" value="on" />
-								<div class="col-lg-8">
-									<input class="form-control input-lg" type="text" name="term" placeholder="Kleidung in Ulm" />
-									<button type="submit" class="btn btn-default btn-lg">
-									<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
-									Suchen
-									</button>
-								</div>
-
 block content
-	div.container
+	div.row(style="margin-top:15px;display:none;")
+		form.bs-example(method="GET",action="/suche/")
+			div.col-lg-4.col-lg-offset-2
+				div.text-center.pull-left
+						a.btn.btn-default.btn-lg(href="/eintraege/neu").
+							<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
+							Neuer Eintrag
+
+			div.col-lg-4
+				div.text-center.pull-right.
+						<input type="hidden" name="lokal" value="on" />
+						<input type="hidden" name="online" value="on" />
+						<div class="col-lg-8">
+							<input class="form-control input-lg" type="text" name="term" placeholder="Kleidung in Ulm" />
+							<button type="submit" class="btn btn-default btn-lg">
+							<img src="/img/wabe.png" style="height:20px;margin-right:10px;" />
+							Suchen
+							</button>
+								</div>
+	div.container.text-center(style="margin-top:100px;")
+		div.row
+			div.col-lg-5.col-lg-offset-2
+				img.img-responsive(src="/img/index.png",,alt="findsgut logo",title="findsgut: Verantwortungsvolle Produkte und Dienstleistungen")
+		div.row
+			div.col-lg-6.col-lg-offset-2.
+				<input class="form-control input-lg" style="border:2px solid #e9ab13;margin-top:20px;" type="text" name="term" placeholder="Kleidung in Ulm" />
+			div.col-lg-3.
+				<button type="submit" class="btn btn-default btn-lg" style="border:none;color:#6194be;float:left;margin-left:-10px;margin-top:7px;font-size:24px;">
+					<img src="/img/waben/blau.png" style="height:60px;margin-right:10px;" />
+					Suchen
+				</button>
+		div.row
+			div.col-lg-3.col-lg-offset-7(style="margin-top:0px;").
+				<button type="submit" class="btn btn-default btn-lg" style="border:none;color:#6194be;float:left;margin-left:-10px;margin-top:7px;font-size:24px;">
+					<img src="/img/waben/biene.png" style="height:60px;margin-right:10px;" />
+					Eintrag
+				</button>
+
+	div.container(style="display:none")
 		div.row
 			div.col-lg-12
 				h2 Mit Konsum die Welt verändern 
+				h3.foo.
+					Findsgut ist ein gemeinschaftlich gepflegtes Verzeichnis<br />
+					für verantwortungsvolle Produkte und Dienstleistungen. 
