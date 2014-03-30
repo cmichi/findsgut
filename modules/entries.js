@@ -492,7 +492,7 @@ function saveEntry(_id, _rev, res, body, validation_results) {
 			//console.log(JSON.stringify(err));
 		}
 
-		res.redirect('/eintraege/' + res_updated.id);
+		res.redirect('/eintraege/' + res_updated.id + "?success=edit");
 		return;
 	});
 }
@@ -783,7 +783,7 @@ function newEntry(res, body, validation_results) {
 
 		console.log(JSON.stringify(res_created));
 
-		res.redirect('/eintraege/' + res_created.id + "?success=true");
+		res.redirect('/eintraege/' + res_created.id + "?success=creation");
 		return;
 	});
 }
@@ -862,7 +862,7 @@ function validate(body) {
 		var chk = validator.check(body.uri, "Bitte checke die Internetadresse.").isUrl();
 		if (chk._errors.length > chk_cnt)
 			error_fields.uri = "has-error";
-		values.uri = uri.substr(300);
+		//uri = uri.substr(300);
 	}
 	/* if this is only an "online" entry, we don't save a "real" address.
 	the interface should strip the inputs then (using JavaScript). But 
