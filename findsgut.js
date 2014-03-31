@@ -1,6 +1,7 @@
 var config = require('./config_local.js');
 var layout = require('./modules/layout.js');
 var entries = require('./modules/entries.js');
+var info = require('./modules/info.js');
 var express = require('express');
 var http = require('http');
 
@@ -91,6 +92,10 @@ app.post('/feedback', function(req, res) {
 	email.feedback(req, res, layout, db);
 });
 
+app.get('/info', function(req, res) {
+	info.get(req, res);
+});
+
 app.use(function(req,res){
 	res.render('404', layout.get_vars('', { status: 404, missingurl: req.url }));
 });
@@ -98,4 +103,5 @@ app.use(function(req,res){
 (function initApp() {
 	layout.init(db);
 	entries.init(app, db, layout);
+	info.init(app, db, layout);
 })();

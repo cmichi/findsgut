@@ -1,5 +1,6 @@
 var db;
 var count_entries = 0;
+var underscore = require('underscore');
 
 exports.set_var = function(k, v) {
 	if (k === "count_entries")
@@ -61,3 +62,25 @@ function get_navi(k, req) {
 	return navi;
 }
 
+/* prepare for frontend output */
+exports.prepareDoc = function(doc) {
+	//console.log(JSON.stringify(doc, null, "\t"));
+
+	//doc.name = doc.name.replace("&amp;", "&");
+	doc.name = underscore.unescape(doc.name);
+	doc.uri = underscore.unescape(doc.uri);
+
+	/* set the 'local' fields to "". otherwise the input fields
+	in the edit/new entry mask will output 'undefined' */
+	if (doc.street === undefined) doc.street = "";
+	if (doc.zipcode === undefined) doc.zipcode = "";
+	if (doc.city === undefined) doc.city = "";
+
+	if (doc.description.length > 0)
+		doc.description = underscore.unescape(doc.description);
+
+	doc.name = doc.name.replace(" - ", " – ");
+	doc.description = doc.description.replace(" - ", " – ");
+
+	return doc;
+}

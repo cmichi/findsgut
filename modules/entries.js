@@ -1,5 +1,4 @@
 var util = require('util')
-var underscore = require('underscore');
 var app, db, layout; 
 
 var classifications = [
@@ -302,7 +301,7 @@ exports.all = function(req, res) {
 		var entries = res_entries;
 
 		for (var e in entries) 
-			entries[e].value = prepareDoc(entries[e].value);
+			entries[e].value = layout.prepareDoc(entries[e].value);
 
 		entries = orderBy("created_at", entries);
 
@@ -348,7 +347,7 @@ exports.post_new = function(req, res) {
 		//console.log("\nvalues:");
 		//console.log(JSON.stringify(validation_results.values));
 
-		validation_results.values = prepareDoc(validation_results.values);
+		validation_results.values = layout.prepareDoc(validation_results.values);
 
 		// render site again, show error note, show previously entered input
 		var additional_params = {
@@ -388,7 +387,7 @@ exports.edit = function(req, res) {
 			doc[doc.classifications[c]] = true;
 		}
 
-		doc = prepareDoc(doc);
+		doc = layout.prepareDoc(doc);
 		doc.description = doc.description.split("\r\n");
 
 		var additional_params = {
@@ -421,7 +420,7 @@ exports.saveEdit = function(req, res) {
 		validation_results.values._id = req.param('_id');
 		validation_results.values._rev = req.param('_rev');
 
-		validation_results.values = prepareDoc(validation_results.values);
+		validation_results.values = layout.prepareDoc(validation_results.values);
 
 		// render site again, show error note, show previously entered input
 		var additional_params = {
@@ -480,7 +479,7 @@ function saveEntry(_id, _rev, res, body, validation_results) {
 			validation_results.values._id = _id;
 			validation_results.values._rev = _rev;
 
-			validation_results.values = prepareDoc(validation_results.values);
+			validation_results.values = layout.prepareDoc(validation_results.values);
 
 			var additional_params = {
 				  "errors": ["Es gab einen Fehler beim Speichern des Eintrags."
@@ -520,7 +519,7 @@ exports.get = function(req, res) {
 		}
 
 		//console.log(doc);
-		doc = prepareDoc(doc);
+		doc = layout.prepareDoc(doc);
 		doc.description = doc.description.split("\r\n");
 
 		doc.categories = parse(categories, doc.categories);
@@ -541,29 +540,6 @@ exports.get = function(req, res) {
 
 		res.render('entries/detail', ps);
 	});
-}
-
-/* prepare for frontend output */
-function prepareDoc(doc) {
-	//console.log(JSON.stringify(doc, null, "\t"));
-
-	//doc.name = doc.name.replace("&amp;", "&");
-	doc.name = underscore.unescape(doc.name);
-	doc.uri = underscore.unescape(doc.uri);
-
-	/* set the 'local' fields to "". otherwise the input fields
-	in the edit/new entry mask will output 'undefined' */
-	if (doc.street === undefined) doc.street = "";
-	if (doc.zipcode === undefined) doc.zipcode = "";
-	if (doc.city === undefined) doc.city = "";
-
-	if (doc.description.length > 0)
-		doc.description = underscore.unescape(doc.description);
-
-	doc.name = doc.name.replace(" - ", " – ");
-	doc.description = doc.description.replace(" - ", " – ");
-
-	return doc;
 }
 
 function parse(all_categories, categories_arr) {
