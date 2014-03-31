@@ -15,7 +15,7 @@ $(function() {
 
 
 	$('#popfair').popover({html: true, content: fair, title: title, placement: 'bottom'});
-	$('#popbio').popover({html: true, content: bio, title: title, placement: 'left'});
+	$('#popbio').popover({html: true, content: bio, title: title, placement: 'bottom'});
 	$('#popregional').popover({html: true, content: regional, title: title, placement: 'bottom'});
 	$('#popused').popover({html: true, content: used, title: title, placement: 'bottom'});
 });
