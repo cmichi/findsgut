@@ -1,19 +1,21 @@
 - if (list != undefined && list.length > 0)
-	div.row
-		div.col-lg-12(style="display:none")
-			p
-				strong.
-					Anzeige: #{list.length}/#{list.length} Eintr&auml;ge
-			p
-				&nbsp;
+	div.row(style="margin-bottom:10px")
+		div.col-lg-12
+			h4.
+				#{list.length}/#{list.length} Eintr&auml;ge.
+				Sortiert nach neuesten.
 
+	div.row
 		each entry in list
 			div.col-lg-6
 				div.panel.panel-default(style="height:150px")
 					div.panel-body
 						p	
-							a(href="/eintraege/#{entry.value._id}/").
-								#{entry.value.name}
+							a(href="/eintraege/#{entry.value._id}/")
+								- if (entry.value.name.length > 60)
+									|#{entry.value.name.substr(0,60)}&hellip;
+								- else
+									|#{entry.value.name}
 						p
 							- if (entry.value.description.length > 125)
 								|#{entry.value.description.substr(0,125)}&hellip;
@@ -22,6 +24,9 @@
 							- endif
 						p.
 							<a class="pull-right btn btn-default" href="/eintraege/#{entry.value._id}/">&raquo; Mehr</a> 
+			- if (show_last) {
+				div.col-lg-6
+			- }
 - else
 	div.row
 		div.col-lg-12

@@ -288,6 +288,9 @@ exports.init = function(_app, _db, _layout) {
 }
 
 exports.all = function(req, res) {
+	this.search(req, res);
+	return;
+
 	db.view('db/entries', {reduce: false}, function (err, res_entries) {
 		if (err) {
 			console.dir(err);
@@ -300,6 +303,8 @@ exports.all = function(req, res) {
 
 		for (var e in entries) 
 			entries[e].value = prepareDoc(entries[e].value);
+
+		entries = orderBy("created_at", entries);
 
 		var params = {
 			list: entries
@@ -724,9 +729,16 @@ exports.search = function(req, res) {
 						searchresults.push(res_search[i]);
 					}
 				}
+
+				searchresults = orderBy("created_at", searchresults);
+				//console.log(JSON.stringify(res_search, null, "\t"))
+
 				//searchresults[res_search[i].value._id] = res_search[i].value;
+
 			}
 			additional_params.list = searchresults;
+			if (searchresults.length === 1)
+				additional_params.show_last = true;
 		} else {
 			additional_params.list = undefined;
 		}
@@ -742,6 +754,17 @@ exports.search = function(req, res) {
 			res.render('entries/search', layout.get_vars('entries_all', additional_params));
 		}
 	});
+}
+
+function orderBy(key, arr) {
+	function compare(a,b) {
+		if (a.value[key] < b.value[key])
+			return 1;
+		if (a.value[key] > b.value[key])
+			return -1;
+		return 0;
+	}
+	return arr.sort(compare);
 }
 
 function newEntry(res, body, validation_results) {
