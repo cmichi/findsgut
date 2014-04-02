@@ -12,6 +12,7 @@
     "validator": "1.2.1",
     "moment" : "1.7.2",
     "emailjs": "0.3.3",
-    "underscore": "1.6.0"
+    "underscore": "1.6.0",
+    "piwik-client": "0.2.2"
   }
 }

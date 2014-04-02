@@ -15,10 +15,10 @@ block content
 				tbody
 					tr
 						td Zugriffe diese Woche
-						td 100
+						td #{statistic.week.visits}
 					tr
-						td Zugriffe Gesamt
-						td 200
+						td Zugriffe dieses Jahr
+						td #{statistic.year.visits}
 				
 		div.col-lg-6
 			h3 Eintr&auml;ge 
@@ -27,43 +27,50 @@ block content
 				tbody
 					tr
 						td Eintr&auml;ge diese Woche
-						td 100
+						td #{statistic.week.entries}
 					tr
 						td &Auml;nderungen diese Woche
-						td 100
+						td #{statistic.week.changes}
+					tr
+						td &Auml;nderungen All-Time
+						td #{statistic.alltime.changes}
 					tr
 						td Gesamtzahl Eintr&auml;ge 
-						td 200
+						td #{statistic.alltime.entries}
 	div.row
 		div.col-lg-6
-			h3 Top-3 Referrer diese Woche
+			h3.
+				Top-3 Suchw&ouml;rter, die in dieser Woche zu findsgut
+				gef&uuml;hrt haben
 
-			table.table.table-striped.table-bordered
-				tbody
-					tr
-						td Zugriffe diese Woche
-						td 100
-					tr
-						td Zugriffe Gesamt
-						td 200
-					tr
-						td Zugriffe Gesamt
-						td 200
+			- if (statistic.week.keywords.length === 0) {
+				p.
+					Es sind noch keine Suchw&ouml;rter vorhanden.
+			- } else {
+				table.table.table-striped.table-bordered
+					tbody
+						each entry in statistic.week.keywords
+							tr
+								td foo
+								td bar
+			- }
 				
 		div.col-lg-6
-			h3 Top-3 Referrer All-Time
+			h3.
+				Top-3 Websites, die diese Woche zu findsgut
+				weitergeleitet haben
 
-			table.table.table-striped.table-bordered
-				tbody
-					tr
-						td Zugriffe diese Woche
-						td 100
-					tr
-						td Zugriffe Gesamt
-						td 200
-					tr
-						td Zugriffe Gesamt
-						td 200
+			- if (statistic.week.keywords.length === 0) {
+				p.
+					Es sind noch keine Referrer vorhanden.
+			- } else {
+				table.table.table-striped.table-bordered
+					tbody
+						each entry in statistic.week.referrer
+							tr
+								td foo
+								td bar
+			- }
 	div.row
 		div.col-lg-12
 			h3 Letzte &Auml;nderungen in der Datenbank
@@ -88,4 +95,3 @@ block content
 						td 
 							a(href="").
 								Eintrag auf findsgut
-				
