@@ -76,11 +76,12 @@ exports.prepareDoc = function(doc) {
 	if (doc.zipcode === undefined) doc.zipcode = "";
 	if (doc.city === undefined) doc.city = "";
 
-	if (doc.description.length > 0)
+	if (doc.description && doc.description.length > 0) {
 		doc.description = underscore.unescape(doc.description);
+		doc.description = doc.description.replace(" - ", " – ");
+	}
 
 	doc.name = doc.name.replace(" - ", " – ");
-	doc.description = doc.description.replace(" - ", " – ");
 
 	return doc;
 }

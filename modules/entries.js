@@ -437,17 +437,34 @@ exports.saveEdit = function(req, res) {
 
 		return;
 	} else {
-		saveEntry(req.param('_id'), req.param('_rev'), res, req.body, validation_results)
+		db.get(req.param('_id'), req.param('_rev'), function(err, doc) {
+			if (err) {
+				res.render('500', layout.get_vars('entries_all'));
+				console.log("err");
+				console.log(JSON.stringify(err));
+				return;
+			}
+
+			saveEntry(req.param('_id'), req.param('_rev'), res, req.body, validation_results, doc);
+		});
 	}
 }
 
-function saveEntry(_id, _rev, res, body, validation_results) {
+function saveEntry(_id, _rev, res, body, validation_results, doc) {
 	body = validation_results.values;
 
 	// does the uri start with 'http://' or something similar?
 	var patt = new RegExp(/^[A-Za-z]+:\/\//);
 	if (!patt.test(body.uri))
 		body.uri = 'http://' + body.uri;
+
+	// save the "before-save" doc into the revisions array
+	var revs;
+	if (doc.revisions == undefined) revs = [];
+	else revs = doc.revisions;
+
+	delete doc.revisions;
+	revs.push(doc);
 
 	var merge_obj = {
 		  type: "entry"
@@ -460,6 +477,7 @@ function saveEntry(_id, _rev, res, body, validation_results) {
 		, subcategories: validation_results.subcats_chosen
 		, classifications: validation_results.classifications_chosen
 		, last_modified: (new Date().getTime())
+		, revisions: revs
 	};
 
 	if (body.local) {
@@ -513,12 +531,12 @@ exports.get = function(req, res) {
 		success_edit = true;
 
 	db.get(id, function (err, doc) {
-		if (err || doc == undefined) {
+		if (err || doc == undefined || doc.type !== "entry") {
 			res.render('404', layout.get_vars('', { status: 404, missingurl: req.url }));
 			return;
 		}
 
-		//console.log(doc);
+		//console.log(JSON.stringify(doc));
 		doc = layout.prepareDoc(doc);
 		doc.description = doc.description.split("\r\n");
 
@@ -624,7 +642,7 @@ exports.search = function(req, res) {
 			res.render('500', layout.get_vars('entries_all'));
 			console.log("err");
 			console.log(JSON.stringify(err));
-			return
+			return;
 		  }
 
 		//var searchresults = {};
@@ -701,7 +719,7 @@ exports.search = function(req, res) {
 						}
 					}
 					if (exists === false) {
-						res_search[i].value = prepareDoc(res_search[i].value);
+						res_search[i].value = layout.prepareDoc(res_search[i].value);
 						searchresults.push(res_search[i]);
 					}
 				}

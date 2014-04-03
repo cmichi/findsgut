@@ -30,7 +30,7 @@ block content
 						td #{statistic.week.entries}
 					tr
 						td &Auml;nderungen diese Woche
-						td #{statistic.week.changes}
+						td #{statistic.week.changes.length}
 					tr
 						td &Auml;nderungen All-Time
 						td #{statistic.alltime.changes}
@@ -75,23 +75,30 @@ block content
 		div.col-lg-12
 			h3 Letzte &Auml;nderungen in der Datenbank
 
+			p
+				span.text-warning Vor &Auml;nderung
+				|&nbsp;&nbsp;
+				span.text-success Nach &Auml;nderung
+
 			table.table.table-striped.table-bordered
 				thead
 					tr
-						td Eintrags-Typ
 						td Datenbank-Id
 						td &Auml;nderungen
 						td Link zum Eintrag
 				tbody
-					tr
-						td Eintrag
-						td 
-							a(href="").
-								1230asdf
-						td
-							pre.
-								ksjdflkas
-								asdflkjasdf
-						td 
-							a(href="").
-								Eintrag auf findsgut
+					each entry in statistic.week.changes
+						tr
+							td 
+								a(href="http://localhost:5498/findsgut/#{entry.id}").
+									#{entry.id}
+							td
+								each diff in entry.diff
+									pre
+										span #{diff.Property.replace("this.","")} wurde verändert:
+										p.text-warning #{diff.ObjectA}
+										span.text-success #{diff.ObjectB}
+
+							td 
+								a(href="/eintraege/#{entry.id}").
+									Eintrag auf findsgut
