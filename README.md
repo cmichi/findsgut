@@ -13,7 +13,7 @@ Verzeichnis zum Gelingen dieses Projektes beizutragen.
 **Project Status:** Online! [findsgut.de](http://www.findsgut.de).
 
 
-# Aufsetzen einer Instanz
+## Aufsetzen einer Instanz
 
 Make sure you have node.js, npm, CouchDB and couchapp installed.
 The frontend within `views/` is written using the [Jade Templating
@@ -42,6 +42,12 @@ Engine](http://jade-lang.com/reference/).
 	# variables: 
 	# $ export PORT=5001
 	# $ export DBNAME="findsgut"
+
+## Cronjob
+
+Die Produktiv-Instanz generiert woechentlich einen Report:
+
+	45 23 * * 0 (curl http://findsgut.de/report > /dev/null)
 
 
 # License
