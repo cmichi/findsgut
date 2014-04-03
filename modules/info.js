@@ -2,7 +2,7 @@ var util = require('util')
 var Barrier = require('../lib/barrierpoints.js').Barrier;
 var app, db, layout; 
 var PiwikClient = require('piwik-client');
-var piwik = new PiwikClient('http://statistik.findsgut.de/', '1725be0b0b088839cb258b1ef6e025a4')
+var piwik = new PiwikClient('https://findsgut.de/statistik/index.php', '1725be0b0b088839cb258b1ef6e025a4')
 
 
 exports.init = function(_app, _db, _layout) {
