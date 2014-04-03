@@ -1,3 +1,4 @@
+// week number starts at mon 00 am and ends at sun 00 pm
 Date.prototype.getWeekNumber = function(){
 	var d = new Date(+this);
 	d.setHours(0,0,0);
