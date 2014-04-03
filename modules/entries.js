@@ -848,7 +848,7 @@ function validate(body) {
 	if (chk._errors.length > chk_cnt)
 		error_fields.description = "has-error";
 	*/
-	values.description = description.substr(0, 100);
+	values.description = description.substr(0, 500);
 
 	chk_cnt = chk._errors.length;
 
