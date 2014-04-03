@@ -48,11 +48,15 @@ block content
 					Es sind noch keine Suchw&ouml;rter vorhanden.
 			- } else {
 				table.table.table-striped.table-bordered
+					thead
+							tr
+								td Keyword
+								td Besuche dar&uuml;ber
 					tbody
 						each entry in statistic.week.keywords
 							tr
-								td foo
-								td bar
+								td #{entry.label}
+								td #{entry.nb_visits}
 			- }
 				
 		div.col-lg-6
@@ -60,16 +64,20 @@ block content
 				Top-3 Websites, die diese Woche zu findsgut
 				weitergeleitet haben
 
-			- if (statistic.week.keywords.length === 0) {
+			- if (statistic.week.referrer.length === 0) {
 				p.
 					Es sind noch keine Referrer vorhanden.
 			- } else {
 				table.table.table-striped.table-bordered
+					thead
+							tr
+								td Label
+								td Type
 					tbody
 						each entry in statistic.week.referrer
 							tr
-								td foo
-								td bar
+								td #{entry.label}
+								td #{entry.referrer_type}
 			- }
 
 	div.row

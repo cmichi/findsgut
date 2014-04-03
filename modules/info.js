@@ -29,6 +29,7 @@ function collectStatistic(req, res, cb) {
 			, entries: 0
 			, visits: 0
 			, keywords: []
+			, referrer: []
 		}
 		, alltime: {
 			changes: 0
@@ -51,18 +52,21 @@ function collectStatistic(req, res, cb) {
 				getKeywords(res, 'week', function(piwikobj) {
 					obj.week.keywords = piwikobj;
 					//console.log(JSON.stringify(piwikobj, null, "\t"));
+					getReferrer(res, 'week', function(piwikobj) {
+						obj.week.referrer = piwikobj;
 
-					getCountEntries('alltime', function(cntEntries) {
-						obj.alltime.entries = cntEntries;
-						getCountEntries('week', function(cntEntries) {
-							obj.week.entries = cntEntries;
+						getCountEntries('alltime', function(cntEntries) {
+							obj.alltime.entries = cntEntries;
+							getCountEntries('week', function(cntEntries) {
+								obj.week.entries = cntEntries;
 
-							getLowestSeq(res, "week", function(lowestSeqThisWeek) {
-								console.log("lowest seq nr this week " + lowestSeqThisWeek);
-							
-								getChanges(res, lowestSeqThisWeek, function(chgs) {
-									obj.week.changes = prepareDiff(chgs);
-									cb(obj);
+								getLowestSeq(res, "week", function(lowestSeqThisWeek) {
+									//console.log("lowest seq nr this week " + lowestSeqThisWeek);
+								
+									getChanges(res, lowestSeqThisWeek, function(chgs) {
+										obj.week.changes = prepareDiff(chgs);
+										cb(obj);
+									});
 								});
 							});
 						});
@@ -214,6 +218,26 @@ function getKeywords(res, period, cb) {
 			res.render('500', layout.get_vars('index'));
 			return;
 		}
+		//console.log(JSON.stringify(obj, null, "\t"));
+
+		cb(obj);
+	});
+}
+
+function getReferrer(res, period, cb) {
+	piwik.api({
+		method:   'Referrers.getAll',
+		idSite:   1,
+		period:   period,
+		date:     'today',
+		filter_limit: 3
+	}, function(err, obj) {
+		if (err) {
+			console.dir(err);
+			res.render('500', layout.get_vars('index'));
+			return;
+		}
+		//console.log(JSON.stringify(obj, null, "\t"));
 
 		cb(obj);
 	});
