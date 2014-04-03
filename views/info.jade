@@ -105,10 +105,12 @@ block content
 									#{entry.id}
 							td
 								each diff in entry.diff
-									pre
-										span #{diff.Property.replace("this.","")} wurde verändert:
-										p.text-warning #{diff.ObjectA}
-										span.text-success #{diff.ObjectB}
+									- if (diff.Property != "this._rev" && diff.Property != "this.last_modified") {
+										pre
+											span #{diff.Property.replace("this.","")} wurde verändert:
+											p.text-warning #{diff.ObjectA}
+											span.text-success #{diff.ObjectB}
+									- }
 
 							td.text-right
 								a(href="/eintraege/#{entry.id}").
