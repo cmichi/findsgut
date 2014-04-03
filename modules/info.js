@@ -58,7 +58,7 @@ function collectStatistic(req, res, cb) {
 							obj.week.entries = cntEntries;
 
 							getLowestSeq(res, "week", function(lowestSeqThisWeek) {
-								//console.log("lowest seq nr this week " + lowestSeqThisWeek);
+								console.log("lowest seq nr this week " + lowestSeqThisWeek);
 							
 								getChanges(res, lowestSeqThisWeek, function(chgs) {
 									obj.week.changes = prepareDiff(chgs);
@@ -147,6 +147,8 @@ getLowestSeq = function(res, period, cb) {
 			res.render('500', layout.get_vars('index'));
 			return;
 		}
+
+		if (entries.length === 0) cb(0);
 
 		getChanges(res, 0, function(chgs) {
 			//console.log("foo");
