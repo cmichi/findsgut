@@ -292,14 +292,14 @@ var txt =
 "Hallo zusammen!\n\n\
 Dies ist ein automatisch generierter Bericht fuer findsgut.\n\
 \n" + cmon + 
-In dieser Woche hat sich folgendes getan:\n\
-
+"In dieser Woche hat sich folgendes getan:\n\
+\n\
 Neue Eintraege: " + obj.week.entries + "\n\
 Aenderungen an Eintraegen: " + obj.week.changes.length + "\n\
 Besucher diese Woche: " + obj.week.visits + "\n\
 \n\
 Insgesamt stehen wir damit so da:\n\
-
+\n\
 Eintraege Gesamt: " + obj.alltime.entries + "\n\
 Aenderungen Gesamt: " + obj.alltime.changes + "\n\
 Besucher dieses Jahr: " + obj.year.visits + "\n\
