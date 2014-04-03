@@ -10,7 +10,7 @@ Die Internetseite ist als Gemeinschaftsprojekt (vergleiche Wikipedia)
 ausgelegt. Jede und jeder ist daher eingeladen mit Einträgen in das 
 Verzeichnis zum Gelingen dieses Projektes beizutragen.
 
-**Project Status:** Online! [findsgut.de](http://www.findsgut.de).
+**Project Status:** Online! [findsgut.de](https://www.findsgut.de).
 
 
 ## Aufsetzen einer Instanz
@@ -47,7 +47,7 @@ Engine](http://jade-lang.com/reference/).
 
 Die Produktiv-Instanz generiert woechentlich einen Report:
 
-	45 23 * * 0 (curl http://findsgut.de/report > /dev/null)
+	45 23 * * 0 (curl https://findsgut.de/report > /dev/null)
 
 
 # License
