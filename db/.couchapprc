@@ -2,9 +2,12 @@
   "env" : {
       "default" : {
 	    "db" : "http://localhost:5984/findsgut_dev"
-	},
-	"productive" : {
+	}
+	, "productive" : {
 		"db" : "http://admin:wirel@localhost:5498/findsgut"
+	}
+	, "productive_dev" : {
+		"db" : "http://admin:wirel@localhost:5498/findsgut_dev"
 	}
   }
 }

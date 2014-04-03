@@ -12,3 +12,6 @@ push:
 
 productive:
 	couchapp push productive
+
+productive_dev:
+	couchapp push productive_dev
