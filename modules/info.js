@@ -238,8 +238,7 @@ function getReferrer(res, period, cb) {
 }
 
 function getCountChanges(res, since, cb) {
-	getChanges(res, undefined, function(chgs) {
-	//getChanges(res, since, function(chgs) {
+	getChanges(res, since, function(chgs) {
 		cb(chgs.length);
 	});
 }
