@@ -292,9 +292,7 @@ exports.all = function(req, res) {
 
 	db.view('db/entries', {reduce: false}, function (err, res_entries) {
 		if (err) {
-			console.dir(err);
-			res.render('500', layout.get_vars('entries_all'));
-
+			layout.error(500, err, req, res, layout.get_vars('entries_all'));
 			return;
 		}
 
@@ -439,9 +437,7 @@ exports.saveEdit = function(req, res) {
 	} else {
 		db.get(req.param('_id'), req.param('_rev'), function(err, doc) {
 			if (err) {
-				res.render('500', layout.get_vars('entries_all'));
-				console.log("err");
-				console.log(JSON.stringify(err));
+				layout.error(500, err, req, res, layout.get_vars('entries_all'));
 				return;
 			}
 
@@ -639,11 +635,9 @@ exports.search = function(req, res) {
 
 	db.view('db/search', opts, function (err, res_search) {
 		if (err) {
-			res.render('500', layout.get_vars('entries_all'));
-			console.log("err");
-			console.log(JSON.stringify(err));
+			layout.error(500, err, req, res, layout.get_vars('entries_all'));
 			return;
-		  }
+		}
 
 		//var searchresults = {};
 		var searchresults = [];

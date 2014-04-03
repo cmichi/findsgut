@@ -47,6 +47,28 @@ exports.report = function(req, res, layout, db, content) {
 	});
 };
 
+exports.error = function(code, err, req, res) {
+	var content = JSON.stringify(err, null, "\t");
+	content += "\n\n";
+	content += JSON.stringify(req, null, "\t");
+
+	this.send({
+		//to           : config.feedback_to,
+		to           : config.admin_mail,
+		subject      : '[findsgut] ERROR 500!',
+		from         : "reporter@findsgut.de",
+		text         : content
+	}, function(err, m){
+		console.log(err || m);
+		if (err) {
+			res.render('500', layout.get_vars('feedback') );
+			return;
+		}
+
+		return;
+	});
+};
+
 exports.server = require("emailjs/email").server.connect({
 	host : config.host,
 	user : config.user,

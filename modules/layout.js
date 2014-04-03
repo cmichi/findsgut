@@ -1,4 +1,5 @@
 var db;
+var email;
 var count_entries = 0;
 var underscore = require('underscore');
 
@@ -24,8 +25,9 @@ exports.get_vars = function(navi_key, additional_vars) {
 	return vars;
 }
 
-exports.init = function(d) {
+exports.init = function(d, e) {
 	db = d;
+	email = e;
 	this.updateCounter();
 }
 
@@ -85,3 +87,13 @@ exports.prepareDoc = function(doc) {
 
 	return doc;
 }
+
+
+exports.error = function(code, err, req, res, params) {
+	if (code === 500) {
+		console.dir(err);
+		email.error(code, err, req, res);
+		res.render('500', params);
+	}
+}
+

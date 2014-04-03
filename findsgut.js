@@ -105,7 +105,7 @@ app.use(function(req,res){
 });
 
 (function initApp() {
-	layout.init(db);
+	layout.init(db, email);
 	entries.init(app, db, layout);
 	info.init(app, db, layout);
 })();

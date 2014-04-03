@@ -129,8 +129,7 @@ getCountEntries = function(period, cb) {
 
 	db.view(view, {reduce: false}, function (err, entries) {
 		if (err) {
-			console.dir(err);
-			res.render('500', layout.get_vars('index'));
+			layout.error(500, err, null, null, layout.get_vars('index'));
 			return;
 		}
 
@@ -146,9 +145,7 @@ getLowestSeq = function(res, period, cb) {
 
 	db.view(view, {reduce: false}, function (err, entries) {
 		if (err) {
-			console.log("this_week view");
-			console.dir(err);
-			res.render('500', layout.get_vars('index'));
+			layout.error(500, err, null, res, layout.get_vars('index'));
 			return;
 		}
 
@@ -196,8 +193,7 @@ function getViews(res, period, cb) {
 		date:     'today'
 	}, function(err, obj) {
 		if (err) {
-			console.dir(err);
-			res.render('500', layout.get_vars('index'));
+			layout.error(500, err, null, res, layout.get_vars('index'));
 			return;
 		}
 
@@ -214,8 +210,7 @@ function getKeywords(res, period, cb) {
 		filter_limit: 3
 	}, function(err, obj) {
 		if (err) {
-			console.dir(err);
-			res.render('500', layout.get_vars('index'));
+			layout.error(500, err, null, res, layout.get_vars('index'));
 			return;
 		}
 		//console.log(JSON.stringify(obj, null, "\t"));
@@ -233,8 +228,7 @@ function getReferrer(res, period, cb) {
 		filter_limit: 3
 	}, function(err, obj) {
 		if (err) {
-			console.dir(err);
-			res.render('500', layout.get_vars('index'));
+			layout.error(500, err, null, res, layout.get_vars('index'));
 			return;
 		}
 		//console.log(JSON.stringify(obj, null, "\t"));
@@ -244,7 +238,8 @@ function getReferrer(res, period, cb) {
 }
 
 function getCountChanges(res, since, cb) {
-	getChanges(res, since, function(chgs) {
+	getChanges(res, undefined, function(chgs) {
+	//getChanges(res, since, function(chgs) {
 		cb(chgs.length);
 	});
 }
@@ -252,9 +247,7 @@ function getCountChanges(res, since, cb) {
 function getChanges(res, since, cb) {
 	db.changes({"since": since, "include_docs": true}, function (err, chgs) {
 		if (err) {
-			console.dir("getChanges " + since);
-			console.dir(err);
-			res.render('500', layout.get_vars('entries_all'));
+			layout.error(500, err, null, res, layout.get_vars('index'));
 			return;
 		}
 		//console.log(JSON.stringify(chgs, null, "\t"));
