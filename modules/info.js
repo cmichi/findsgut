@@ -275,44 +275,47 @@ function findDifferences(objectA, objectB) {
    return propertyChanges;
 }
 
-exports.report = function() {
-/*
-Hallo zusammen!
+exports.report = function(req, res, email) {
+	collectStatistic(req, res, function(obj) {
 
-Dies ist ein automatisch generierter Bericht fuer findsgut.de.
-Im Zeitraum vom Sonntag, 12.1.2014, 00:00 bis Sonntag, 19.1.2014, 00:00
-hat sich folgendes getan:
+var cmon = "";
+obj.week.entries = 0;
+if (obj.week.entries === 0) {
+cmon = ":( :( :( :( :( :( :( :( :( :( :( :( :( :( :( :( :( :( :( :( :( :(\n\
+Bevor diese Woche der Bericht losgeht wird es Zeit fuer\n\
+ein ernstes Woertchen! Es gab diese Woche KEINE neuen Eintraege!\n\
+Das wird naechste Woche hoffentlich wieder anders sein!\n\
+:( :( :( :( :( :( :( :( :( :( :( :( :( :( :( :( :( :( :( :( :( :(\n\n";
+}
 
-# Diese Woche
-Neue Eintraege: 23
-Aenderungen an Eintraegen: 12
+var txt =
+"Hallo zusammen!\n\n\
+Dies ist ein automatisch generierter Bericht fuer findsgut.\n\
+\n" + cmon + 
+In dieser Woche hat sich folgendes getan:\n\
 
-Besucher: 120
-Top-3 Referrer:
- 1)
- 2) 
- 3)
+Neue Eintraege: " + obj.week.entries + "\n\
+Aenderungen an Eintraegen: " + obj.week.changes.length + "\n\
+Besucher diese Woche: " + obj.week.visits + "\n\
+\n\
+Insgesamt stehen wir damit so da:\n\
 
+Eintraege Gesamt: " + obj.alltime.entries + "\n\
+Aenderungen Gesamt: " + obj.alltime.changes + "\n\
+Besucher dieses Jahr: " + obj.year.visits + "\n\
+\n\
+Diesen Bericht koennt ihr auch jederzeit online abrufen,\n\
+dann sogar ausfuerhlicher, in Farbe und mit aktuellsten Zahlen:\n\
+http://findsgut.de/info\n\
+\n\
+Adieu\n\
+\n\
+-- \n\
+Der findsgut Reporter";
 
-# Gesamt
-Eintraege: 36
-Aenderungen: 36
-
-Beucher: 30
-Top-3 Referrer:
- 1)
- 2)
- 3)
-
-
-Dieser Bericht ist auch jederzeit online abrufbar (sogar in Farbe! und mit 
-Grafiken!): http://findsgut.de/info
-
-Adieu
-
--- 
-Your friendly message service
-*/
+		//console.log(txt);
+		email.report(req, res, layout, db, txt);
+	});
 }
 
 

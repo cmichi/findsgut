@@ -26,7 +26,7 @@ block content
 			table.table.table-striped.table-bordered
 				tbody
 					tr
-						td Eintr&auml;ge diese Woche
+						td Neue Eintr&auml;ge diese Woche
 						td #{statistic.week.entries}
 					tr
 						td &Auml;nderungen diese Woche
@@ -71,8 +71,11 @@ block content
 								td foo
 								td bar
 			- }
+
 	div.row
 		div.col-lg-12
+			p &nbsp;
+
 			h3 Letzte &Auml;nderungen in der Datenbank
 
 			p
@@ -85,7 +88,7 @@ block content
 					tr
 						td Datenbank-Id
 						td &Auml;nderungen
-						td Link zum Eintrag
+						td.text-right Link zum Eintrag
 				tbody
 					each entry in statistic.week.changes
 						tr
@@ -99,6 +102,6 @@ block content
 										p.text-warning #{diff.ObjectA}
 										span.text-success #{diff.ObjectB}
 
-							td 
+							td.text-right
 								a(href="/eintraege/#{entry.id}").
 									Eintrag&nbsp;auf&nbsp;findsgut

@@ -13,7 +13,7 @@ exports.feedback = function(req, res, layout, db) {
 
 	this.send({
 		to           : config.feedback_to,
-		subject      : 'www.findsgut.de Kontaktformular',
+		subject      : '[findsgut] Kontaktformular',
 		from         : mail,
 		text         : content
 	}, function(err, m){
@@ -24,6 +24,25 @@ exports.feedback = function(req, res, layout, db) {
 		}
 
 		res.render('feedback', layout.get_vars('feedback', { success: true }) );
+		return;
+	});
+};
+
+exports.report = function(req, res, layout, db, content) {
+	this.send({
+		//to           : config.feedback_to,
+		to           : config.admin_mail,
+		subject      : '[findsgut] Weekly Report',
+		from         : "reporter@findsgut.de",
+		text         : content
+	}, function(err, m){
+		console.log(err || m);
+		if (err) {
+			res.render('500', layout.get_vars('feedback') );
+			return;
+		}
+
+		res.redirect('/');
 		return;
 	});
 };

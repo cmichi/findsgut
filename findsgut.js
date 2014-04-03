@@ -96,6 +96,10 @@ app.get('/info', function(req, res) {
 	info.get(req, res);
 });
 
+app.get('/report', function(req, res) {
+	info.report(req, res, email);
+});
+
 app.use(function(req,res){
 	res.render('404', layout.get_vars('', { status: 404, missingurl: req.url }));
 });
