@@ -279,7 +279,6 @@ exports.report = function(req, res, email) {
 	collectStatistic(req, res, function(obj) {
 
 var cmon = "";
-obj.week.entries = 0;
 if (obj.week.entries === 0) {
 cmon = ":( :( :( :( :( :( :( :( :( :( :( :( :( :( :( :( :( :( :( :( :( :(\n\
 Bevor diese Woche der Bericht losgeht wird es Zeit fuer\n\
