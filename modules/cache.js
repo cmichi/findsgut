@@ -9,6 +9,7 @@ refreshEntries = function(cb) {
 		}
 
 		entries = res_entries;
+		console.log("loaded " + res_entries.length + " entries into cache");
 	});
 }
 

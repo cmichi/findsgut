@@ -505,6 +505,8 @@ function saveEntry(_id, _rev, res, body, validation_results, doc) {
 			//console.log(JSON.stringify(err));
 		}
 
+		cache.refresh();
+
 		res.redirect('/eintraege/' + res_updated.id + "?success=edit");
 		return;
 	});
