@@ -6,6 +6,10 @@ var cache = require('./modules/cache.js');
 var express = require('express');
 var http = require('http');
 
+var PRODUCTIVE = process.env.PRODUCTIVE || false;
+if (PRODUCTIVE !== false)
+	console.log("running in productive mode" );
+
 var cradle = require('cradle');
 var dbname = process.env.DBNAME || 'findsgut';
 var db = new(cradle.Connection)('127.0.0.1', 5984).database(dbname);
@@ -25,14 +29,16 @@ var app = express();
 app.configure(function () {
 	app.set('views', __dirname + '/views');
 	app.set('view engine', 'jade');
-	app.locals.pretty = true;
 
 	app.use(express.bodyParser());
-	app.use(express.cookieParser());
-	app.use(express.session({ secret: config.session_secret }));
 	app.use(express.methodOverride());
 	app.use(app.router);
-	app.use(express.static(__dirname + '/static'));
+
+	if (PRODUCTIVE === false) {
+		app.locals.pretty = true;
+		app.use(express.static(__dirname + '/static'));
+		http.globalAgent.maxSockets = 500;
+	}
 });
 
 var server = require('http').createServer(app);
