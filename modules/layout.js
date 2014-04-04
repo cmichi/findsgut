@@ -74,6 +74,14 @@ exports.prepareDoc = function(doc) {
 exports.error = function(code, err, req, res, params) {
 	if (code === 500) {
 		console.dir(err);
+
+		console.trace("trace:");
+
+		if (err) {
+			console.log("stack:");
+			console.log(err.stack);
+		}
+
 		email.error(code, err, req, res);
 		if (res) res.render('500', params);
 	}

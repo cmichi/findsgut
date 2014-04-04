@@ -4,7 +4,6 @@ var app, db, layout;
 var PiwikClient = require('piwik-client');
 var piwik = new PiwikClient('https://findsgut.de/statistik/index.php', '1725be0b0b088839cb258b1ef6e025a4')
 
-
 exports.init = function(_app, _db, _layout) {
 	app = _app;
 	db = _db;
@@ -128,6 +127,7 @@ getCountEntries = function(period, cb) {
 	if (period === "week") view = "db/this_week";
 
 	db.view(view, {reduce: false}, function (err, entries) {
+		//console.log(JSON.stringify(entries));
 		if (err) {
 			layout.error(500, err, null, null, layout.get_vars('index'));
 			return;

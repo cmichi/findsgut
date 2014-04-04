@@ -28,11 +28,22 @@ exports.feedback = function(req, res, layout, db) {
 	});
 };
 
+Date.prototype.getWeekNumber = function(){
+	var d = new Date(+this);
+	d.setHours(0,0,0);
+	d.setDate(d.getDate()+4-(d.getDay()||7));
+	return Math.ceil((((d-new Date(d.getFullYear(),0,1))/8.64e7)+1)/7);
+};
+
 exports.report = function(req, res, layout, db, content) {
+	var now = new Date();
+	var subj = '[findsgut] Weekly Report, KW ' + 
+		now.getWeekNumber() + " " + now.getFullYear();
+
 	this.send({
 		//to           : config.feedback_to,
 		to           : config.admin_mail,
-		subject      : '[findsgut] Weekly Report',
+		subject      : subj,
 		from         : "reporter@findsgut.de",
 		text         : content
 	}, function(err, m){
@@ -42,7 +53,7 @@ exports.report = function(req, res, layout, db, content) {
 			return;
 		}
 
-		res.redirect('/');
+		if (res) res.redirect('/');
 		return;
 	});
 };
@@ -51,6 +62,9 @@ exports.error = function(code, err, req, res) {
 	var content = JSON.stringify(err, null, "\t");
 	content += "\n\n";
 	content += JSON.stringify(req, null, "\t");
+
+	if (err) 
+		content += "\n\nstack:\n" + err.stack + "\n\n";
 
 	this.send({
 		//to           : config.feedback_to,
