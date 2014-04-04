@@ -21,8 +21,6 @@ html
 
 		include ./flattr
 
-		script(src='/js/jquery-1.10.1.min.js') 
-		script(src='/js/bootstrap.js') 
 
 	body
 
@@ -44,8 +42,11 @@ html
 				</p>
 
 
-		script(src='/js/main.js') 
-		script(src='/js/holder.js')
+		- if (navi.home !== "active") {
+			script(src='/js/jquery-1.10.1.min.js') 
+		- } 
+		script(src='/js/bootstrap.js') 
+
 
 		block scripts
 		include piwik

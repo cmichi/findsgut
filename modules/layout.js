@@ -71,7 +71,6 @@ exports.prepareDoc = function(doc) {
 	return doc;
 }
 
-
 exports.error = function(code, err, req, res, params) {
 	if (code === 500) {
 		console.dir(err);
@@ -79,5 +78,3 @@ exports.error = function(code, err, req, res, params) {
 		if (res) res.render('500', params);
 	}
 }
-
-
