@@ -1,16 +1,11 @@
 var db;
+var cache;
 var email;
-var count_entries = 0;
 var underscore = require('underscore');
-
-exports.set_var = function(k, v) {
-	if (k === "count_entries")
-		count_entries = v;
-}
 
 exports.get_vars = function(navi_key, additional_vars) {
 	var vars = {
-		count_entries: count_entries
+		count_entries: cache.getEntries().length
 	};
 
 	vars.navi = get_navi(navi_key);
@@ -25,22 +20,10 @@ exports.get_vars = function(navi_key, additional_vars) {
 	return vars;
 }
 
-exports.init = function(d, e) {
+exports.init = function(d, e, c) {
 	db = d;
 	email = e;
-	this.updateCounter();
-}
-
-exports.updateCounter = function() {
-	db.view('db/entries', {reduce: false}, function (err, res) {
-		if (err) {
-			console.dir(err);
-			return;
-		}
-
-		count_entries = res.length;
-		//layout_vars.entries = res;
-	});
+	cache = c;
 }
 
 function get_navi(k, req) {
@@ -93,7 +76,8 @@ exports.error = function(code, err, req, res, params) {
 	if (code === 500) {
 		console.dir(err);
 		email.error(code, err, req, res);
-		res.render('500', params);
+		if (res) res.render('500', params);
 	}
 }
+
 

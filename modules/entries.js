@@ -1,5 +1,5 @@
 var util = require('util')
-var app, db, layout; 
+var app, db, layout, cache; 
 
 var classifications = [
 	{
@@ -278,9 +278,10 @@ var subcategories = {
 	]
 };
 
-exports.init = function(_app, _db, _layout) {
+exports.init = function(_app, _db, _layout, _cache) {
 	app = _app;
 	db = _db;
+	cache = _cache;
 	layout = _layout;
 
 	return;
@@ -290,12 +291,8 @@ exports.all = function(req, res) {
 	this.search(req, res);
 	return;
 
-	db.view('db/entries', {reduce: false}, function (err, res_entries) {
-		if (err) {
-			layout.error(500, err, req, res, layout.get_vars('entries_all'));
-			return;
-		}
 
+	cache.getEntries(function (res_entries) {
 		var entries = res_entries;
 
 		for (var e in entries) 
@@ -317,8 +314,6 @@ exports.all = function(req, res) {
 			, regional: true
 			*/
 		};
-
-		layout.set_var("count_entries", entries.length);
 
 		res.render('entries/all', layout.get_vars('entries_all', params));
 	});
@@ -806,7 +801,7 @@ function newEntry(res, body, validation_results) {
 
 		//console.log(JSON.stringify(res_created));
 
-		layout.updateCounter();
+		cache.refresh();
 
 		res.redirect('/eintraege/' + res_created.id + "?success=creation");
 		return;
