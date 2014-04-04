@@ -288,10 +288,6 @@ exports.init = function(_app, _db, _layout, _cache) {
 }
 
 exports.all = function(req, res) {
-	this.search(req, res);
-	return;
-
-
 	cache.getEntries(function (res_entries) {
 		var entries = res_entries;
 
@@ -591,7 +587,7 @@ results should only contain products with this feature */
 exports.search = function(req, res) {
 	var ajax = false;
 	if (req.param("ajax") === "true") ajax = true;
-
+	
 	var online = false;
 	if (req.param("online") === "on") online = true;
 
@@ -613,6 +609,32 @@ exports.search = function(req, res) {
 	var term = db.prepare(req.param("term"))
 	var term_original = term; /* for the view */
 	term = term.toLowerCase();
+
+	var additional_params = {
+		term: term_original
+		, online: online
+		, local: local
+		, fair: fair
+		, used: used
+		, bio: bio
+		, regional: regional
+		, ajax: ajax
+	};
+
+	if (term.length === 0 && !online && !local && !bio && !fair && !used && !regional) {
+		additional_params.list = cache.getEntries();
+		if (additional_params.list.length === 1)
+			additional_params.show_last = true;
+
+		if (ajax === true) {
+			if (req.param("jumbotron") === "true")
+				res.render('entries/ajax-search-jumbotron', layout.get_vars('entries_all', additional_params));
+			else
+				res.render('entries/ajax-list', layout.get_vars('entries_all', additional_params));
+		} else {
+			res.render('entries/search', layout.get_vars('entries_all', additional_params));
+		}
+	}
 
 	//console.log(term + "!!");
 
@@ -638,16 +660,6 @@ exports.search = function(req, res) {
 
 		//var searchresults = {};
 		var searchresults = [];
-		var additional_params = {
-			term: term_original
-			, online: online
-			, local: local
-			, fair: fair
-			, used: used
-			, bio: bio
-			, regional: regional
-			, ajax: ajax
-		};
 		//console.log(JSON.stringify(additional_params));
 
 		if (res_search && res_search.length > 0) {
