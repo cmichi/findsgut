@@ -66,9 +66,12 @@ block content
 					label.col-lg-2.control-label(for="subcategories") Produkt-Unterkategorien
 					div.col-lg-8
 						each subcategory in subcategories["products"]
-							div.col-lg-12
+							div.col-lg-12.selectAll
 								div.col-lg-3
 									strong #{subcategory.title}
+									br
+									a(href="#") alle ausw&auml;hlen
+
 								div.col-lg-9(id="subcategory_group_#{subcategory.key}")
 									each sub in subcategory.list
 										div.col-lg-6
@@ -120,10 +123,6 @@ block content
 						a(href="#",data-toggle="popover").btn.btn-large.btn-default.pull-right#popfair.
 							Was heisst das?
 
-						//div.alert.alert-info(style="margin-top:10px;") 
-						//include ../classifications/fair
-
-
 					div.col-lg-5
 						- if (values["bio"] === true)
 							input(name="bio", type="checkbox", checked="checked")
@@ -135,14 +134,6 @@ block content
 
 						a(href="#",data-toggle="popover").btn.btn-large.btn-default.pull-right#popbio.
 							Was heisst das?
-
-						//div.alert.alert-info(style="margin-top:10px;") 
-						//p.
-						//&hellip; wenn die angebotenen Produkte
-						//eine der folgenden Bedingungen erfüllen: 
-						//include ../classifications/bio
-
-
 
 				div.row
 					label.col-lg-2.control-label(for="") &nbsp;
@@ -158,9 +149,6 @@ block content
 						a(href="#",data-toggle="popover").btn.btn-large.btn-default.pull-right#popregional.
 							Was heisst das?
 
-						//div.alert.alert-info(style="margin-top:10px;") 
-						//include ../classifications/regional
-
 					div.col-lg-5
 						- if (values["used"] === true)
 							input(name="used", type="checkbox", checked="checked")
@@ -172,10 +160,6 @@ block content
 
 						a(href="#",data-toggle="popover").btn.btn-large.btn-default.pull-right#popused.
 							Was heisst das?
-
-						//div.alert.alert-info(style="margin-top:10px;") 
-						//include ../classifications/used
-
 
 				div.row
 					&nbsp;

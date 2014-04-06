@@ -21,8 +21,32 @@ var updateForm = function() {
 		$("form[id=new] #servicesubs").show();
 }
 
+
 $("form[id=new]").change(updateForm);
 
 $(function() {
 	updateForm();
+	(function() {
+		$(".selectAll a").click(function(e) {
+			e.preventDefault();
+			var prop = true;
+
+			if ($(this).prop('checked') === "all")
+				prop = false;
+
+			$(this)
+				.parent()
+				.parent()
+				.find(":checkbox")
+				.prop('checked', prop);
+
+			if (prop) {
+				$(this).prop('checked', 'all');
+				$(this).html('keine ausw&auml;hlen');
+			} else {
+				$(this).prop('checked', 'none');
+				$(this).html('alle ausw&auml;hlen');
+			}
+		});
+	})(jQuery);
 });
