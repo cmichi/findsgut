@@ -41,8 +41,8 @@ exports.report = function(req, res, layout, db, content) {
 		now.getWeekNumber() + " " + now.getFullYear();
 
 	this.send({
-		//to           : config.feedback_to,
-		to           : config.admin_mail,
+		to           : config.feedback_to,
+		//to           : config.admin_mail, //use for testing purposes
 		subject      : subj,
 		from         : "reporter@findsgut.de",
 		text         : content
