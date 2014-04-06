@@ -42,6 +42,7 @@ Engine](http://jade-lang.com/reference/).
 	# variables: 
 	# $ export PORT=5001
 	# $ export DBNAME="findsgut"
+	# $ export NODE_ENV="production"
 
 ## Cronjob
 

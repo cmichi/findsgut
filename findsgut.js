@@ -6,10 +6,6 @@ var cache = require('./modules/cache.js');
 var express = require('express');
 var http = require('http');
 
-var PRODUCTIVE = process.env.PRODUCTIVE || false;
-if (PRODUCTIVE !== false)
-	console.log("running in productive mode" );
-
 var cradle = require('cradle');
 var dbname = process.env.DBNAME || 'findsgut';
 var db = new(cradle.Connection)('127.0.0.1', 5984).database(dbname);
@@ -34,10 +30,13 @@ app.configure(function () {
 	app.use(express.methodOverride());
 	app.use(app.router);
 
-	if (PRODUCTIVE === false) {
+	if (process.env.NODE_ENV == 'production') {
+		console.log("running in productive mode" );
+		app.enable('view cache');
+		http.globalAgent.maxSockets = 500;
+	} else {
 		app.locals.pretty = true;
 		app.use(express.static(__dirname + '/static'));
-		http.globalAgent.maxSockets = 500;
 	}
 });
 
