@@ -40,6 +40,15 @@ block content
 									|#{doc.categories[c].value}<br />
 								- }
 
+							- if (doc.subcategories.length > 0) {
+								dt Unterkategorien
+								dd
+									- for (var c in doc.subcategories) {
+										|#{doc.subcategories[c].value}<br />
+									- }
+							- }
+
+
 							dt Klassifikation
 							dd
 								- for (var c in doc.classifications) {

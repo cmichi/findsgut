@@ -525,12 +525,13 @@ exports.get = function(req, res) {
 			return;
 		}
 
-		//console.log(JSON.stringify(doc));
 		doc = layout.prepareDoc(doc);
 		doc.description = doc.description.split("\r\n");
 
 		doc.categories = parse(categories, doc.categories);
+		doc.subcategories = parseSub(doc.subcategories);
 		doc.classifications = parse(classifications, doc.classifications);
+		//console.log(JSON.stringify(doc, null, "\t"));
 
 		var additional_params = {
 			  "doc": doc
@@ -541,12 +542,31 @@ exports.get = function(req, res) {
 		var ps = layout.get_vars('entries_all', additional_params)
 
 		// db will not yet be updated, but already show an
-		// incremented counter
-		if (success_creation) 
+		// incremented counter if (success_creation) 
 			ps.count_entries = ps.count_entries + 1;
 
 		res.render('entries/detail', ps);
 	});
+}
+
+/* return subcategories objects which are correct for subcategories_arr */
+function parseSub(subcategories_arr) {
+	var arr = [];
+
+	for (var c0 in subcategories_arr) {
+		for (var c1 in subcategories) {
+			for (var c2 in subcategories[c1]) {
+				var obj = subcategories[c1][c2];
+				for (var c3 in obj.list) {
+					var obj2 = obj.list[c3];
+					if (obj2.key === subcategories_arr[c0])
+						arr.push(obj2);
+				}
+			}
+		}
+	}
+
+	return arr;
 }
 
 function parse(all_categories, categories_arr) {
