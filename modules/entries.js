@@ -57,7 +57,7 @@ var subcategories = {
 				}
 				, {
 					key: "werkzeug_zubehoer"
-					, value: "Werkzeug & Zubehoer"
+					, value: "Werkzeug & Zubehör"
 				}
 				, {
 					key: "baumaterialien_farbe"
