@@ -42,6 +42,9 @@ Engine](http://jade-lang.com/reference/).
 	# variables: 
 	# $ export PORT=5001
 	# $ export DBNAME="findsgut"
+
+	# if used in production don't forget to set NODE_ENV,
+	# otherwise no caching will take place.
 	# $ export NODE_ENV="production"
 
 ## Cronjob
@@ -55,7 +58,7 @@ Die Produktiv-Instanz generiert woechentlich einen Report:
 
 The code is licensed under the MIT license:
 
-	Copyright (c) 2013
+	Copyright (c) 2013-2014
 
 		Michael Mueller <http://micha.elmueller.net/>
 

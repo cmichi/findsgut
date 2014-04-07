@@ -14,7 +14,8 @@ exports.feedback = function(req, res, layout, db) {
 	this.send({
 		to           : config.feedback_to,
 		subject      : '[findsgut] Kontaktformular',
-		from         : mail,
+		from         : config.feedback_to,
+		//from         : mail,
 		text         : content
 	}, function(err, m){
 		console.log(err || m);
@@ -44,7 +45,7 @@ exports.report = function(req, res, layout, db, content) {
 		to           : config.feedback_to,
 		//to           : config.admin_mail, //use for testing purposes
 		subject      : subj,
-		from         : "reporter@findsgut.de",
+		from         : config.feedback_to,
 		text         : content
 	}, function(err, m){
 		console.log(err || m);
@@ -70,7 +71,7 @@ exports.error = function(code, err, req, res) {
 		//to           : config.feedback_to,
 		to           : config.admin_mail,
 		subject      : '[findsgut] ERROR 500!',
-		from         : "reporter@findsgut.de",
+		from         : config.feedback_to,
 		text         : content
 	}, function(err, m){
 		console.log(err || m);
