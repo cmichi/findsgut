@@ -6,6 +6,10 @@ Internetseite ist es, die Suche nach fair, ökologisch und regional
 hergestellten Produkten sowie an Nachhaltigkeit ausgerichteten Marken 
 und Dienstleistungen zu erleichtern. 
 
+Geboren aus einer Idee entwickelt eine bunte Gruppe von 5-10 Leuten u.a.
+aus den Bereichen Informatik, Design und Umweltschutz seit Mai 2013 in
+ihrer Freizeit an der Projektverwirklichung. 
+
 Die Internetseite ist als Gemeinschaftsprojekt (vergleiche Wikipedia) 
 ausgelegt. Jede und jeder ist daher eingeladen mit Einträgen in das 
 Verzeichnis zum Gelingen dieses Projektes beizutragen.
