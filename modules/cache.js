@@ -55,11 +55,18 @@ exports.getEntries = function(cb) {
 }
 
 exports.init = function(_db) {
+	console.log("initializing cache...").
 	db = _db;
 	this.refresh();
 
 	if (process.env.NODE_ENV == 'production') {
-		this.pingCache();
-		this.pingCache();
+		setTimeout(function() {
+			console.log("about to ping cache");
+			this.pingCache();
+		}, 5000);
+		setTimeout(function() {
+			console.log("about to ping cache");
+			this.pingCache();
+		}, 25000);
 	}
 }
