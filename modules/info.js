@@ -415,11 +415,11 @@ Eintraege Gesamt: " + obj.alltime.entries + "\n\
 Aenderungen Gesamt: " + obj.alltime.count_changes + "\n\
 Besucher dieses Jahr: " + obj.year.visits + "\n\
 \n\
-Diesen Bericht koennt ihr auch jederzeit online abrufen,\n\
-dann sogar ausfuerhlicher, in Farbe und mit aktuellsten Zahlen:\n\
+Diesen Bericht koennt ihr auch jederzeit online abrufen, dann\n\
+sogar ausfuehrlicher, in Farbe und mit aktuellsten Zahlen:\n\
 http://findsgut.de/info\n\
 \n\
-Adieu\n\
+Bis naechste Woche!\n\
 \n\
 -- \n\
 Der findsgut Reporter";
