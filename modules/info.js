@@ -14,7 +14,7 @@ exports.init = function(_app, _db, _layout) {
 
 exports.get = function(req, res) {
 	collectStatistic(req, res, function(obj) {
-		var params = {statistic: obj}
+		var params = {statistic: obj};
 		//console.log(JSON.stringify(params, null, "\t"));
 
 		res.render('info', layout.get_vars('index', params));
@@ -25,6 +25,7 @@ function collectStatistic(req, res, cb) {
 	var obj = {
 		week: {
 			  changes: 0
+			, count_changes: 0
 			, entries: 0
 			, visits: 0
 			, keywords: []
@@ -60,11 +61,15 @@ function collectStatistic(req, res, cb) {
 								obj.week.entries = cntEntries;
 
 								getLowestSeq(res, "week", function(lowestSeqThisWeek) {
-									//console.log("lowest seq nr this week " + lowestSeqThisWeek);
+									console.log("lowest seq nr this week " + lowestSeqThisWeek);
+									getCountChanges(res, lowestSeqThisWeek, function(count_chgs_week) {
+										obj.week.count_changes = count_chgs_week;
 								
-									getChanges(res, lowestSeqThisWeek, function(chgs) {
-										obj.week.changes = prepareDiff(chgs);
-										cb(obj);
+										getDiffChanges(res, lowestSeqThisWeek, function(chgs) {
+											//chgs.reverse();
+											obj.week.changes = prepareDiff(chgs);
+											cb(obj);
+										});
 									});
 								});
 							});
@@ -78,6 +83,58 @@ function collectStatistic(req, res, cb) {
 	var params = { };
 }
 
+exports.test = function(req, res) {
+	var obj = {
+		week: {
+			  changes: 0
+			, count_changes: 0
+			, entries: 0
+			, visits: 0
+			, keywords: []
+			, referrer: []
+		}
+		, alltime: {
+			changes: 0
+			, entries: 0
+		}
+		, year: {
+			visits: 0
+		}
+	};
+	getDiffChanges(res, 150, function(chgs) {
+		chgs.reverse();
+		console.log(JSON.stringify(chgs, null, "\t"));
+		obj.week.changes = prepareDiff(chgs);
+		//console.log(JSON.stringify(prepareDiff(chgs), null, "\t"));
+
+		var params = {statistic: obj};
+		//console.log(JSON.stringify(params, null, "\t"));
+
+		res.render('info', layout.get_vars('index', params));
+	});
+}
+
+
+function prepareDiff(chgs) {
+	var diff = [];
+
+	for (var c in chgs) {
+		var doc = chgs[c].value;
+		//if (!chgs[c].doc) continue;
+
+		//console.log("doc:")
+		//console.log(JSON.stringify(chgs[c], null, "\t"));
+
+		//chgs[c].diff = [];
+
+		delete doc[0].revisions;
+		console.log(JSON.stringify(doc[1], null, "\t"));
+		console.log(JSON.stringify(doc[0], null, "\t"));
+		chgs[c].diff = findDifferences(doc[1], doc[0]);
+	}
+	return chgs;
+}
+/*
 function prepareDiff(chgs) {
 	for (var c in chgs) {
 		if (!chgs[c].doc) continue;
@@ -95,7 +152,9 @@ function prepareDiff(chgs) {
 	}
 	return chgs;
 }
+*/
 
+/*
 var diffs = [];
 function getDiffForChanges(chgs, cb) {
 	var barrier = new Barrier(chgs.length, function() {
@@ -121,12 +180,19 @@ function getDiffForChange(chg, cb) {
 		chg.revisions = data.revisions;
 	});
 }
+*/
 
 getCountEntries = function(period, cb) {
 	var view = "db/entries";
-	if (period === "week") view = "db/this_week";
+	var opts = {reduce: false};
 
-	db.view(view, {reduce: false}, function (err, entries) {
+	if (period === "week") {
+		view = "db/entries_by_weeknumber";
+		opts.startkey = opts.endkey = (new Date()).getFullYear() 
+			+ "" + (new Date()).getWeekNumber();
+	}
+
+	db.view(view, opts, function (err, entries) {
 		//console.log(JSON.stringify(entries));
 		if (err) {
 			layout.error(500, err, null, null, layout.get_vars('index'));
@@ -138,12 +204,15 @@ getCountEntries = function(period, cb) {
 }
 
 getLowestSeq = function(res, period, cb) {
-	// only works for this_week view
+	// only works for entries_by_weeknumber view
 	if (period !== "week") return null;
 
-	var view = "db/this_week";
+	var view = "db/entries_by_weeknumber";
+	var opts = {reduce: false};
+	opts.startkey = opts.endkey = (new Date()).getFullYear() 
+		+ "" + (new Date()).getWeekNumber();
 
-	db.view(view, {reduce: false}, function (err, entries) {
+	db.view(view, opts, function (err, entries) {
 		if (err) {
 			layout.error(500, err, null, res, layout.get_vars('index'));
 			return;
@@ -239,12 +308,28 @@ function getReferrer(res, period, cb) {
 
 function getCountChanges(res, since, cb) {
 	getChanges(res, since, function(chgs) {
-		cb(chgs.length);
+		//cb(chgs.length);
+		console.log(chgs[chgs.length-1].seq + " - " + since);
+		cb(chgs[chgs.length-1].seq - since);
 	});
 }
 
 function getChanges(res, since, cb) {
 	db.changes({"since": since, "include_docs": true}, function (err, chgs) {
+		if (err) {
+			layout.error(500, err, null, res, layout.get_vars('index'));
+			return;
+		}
+		//console.log(JSON.stringify(chgs, null, "\t"));
+
+		cb(chgs);
+
+		//res.render('info', layout.get_vars('entries_all'));
+	});
+}
+
+function getDiffChanges(res, since, cb) {
+	db.view("db/changes", {reduce: false}, function (err, chgs) {
 		if (err) {
 			layout.error(500, err, null, res, layout.get_vars('index'));
 			return;
