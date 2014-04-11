@@ -377,7 +377,6 @@ exports.edit = function(req, res) {
 		}
 
 		doc = layout.prepareDoc(doc);
-		doc.description = doc.description.split("\r\n");
 
 		var additional_params = {
 			  categories: categories
