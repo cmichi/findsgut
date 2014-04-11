@@ -16,7 +16,7 @@ var refreshEntries = function(cb) {
 
 /* execute get request for those uris in order to make sure
 the cache gets initialized */
-exports.pingCache = function() {
+var pingCache = function() {
 	var prefix = "https://findsgut.de";
 	var uris = [
 		'/', 
@@ -54,19 +54,18 @@ exports.getEntries = function(cb) {
 		return entries;
 }
 
-exports.init = function(_db) {
-	console.log("initializing cache...").
-	db = _db;
+exports.init = function(d) {
+	db = d;
 	this.refresh();
 
 	if (process.env.NODE_ENV == 'production') {
 		setTimeout(function() {
 			console.log("about to ping cache");
-			this.pingCache();
+			pingCache();
 		}, 5000);
 		setTimeout(function() {
 			console.log("about to ping cache");
-			this.pingCache();
+			pingCache();
 		}, 25000);
 	}
 }

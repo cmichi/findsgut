@@ -111,8 +111,9 @@ app.use(function(req,res){
 });
 
 (function initApp() {
-	cache.init(db);
 	layout.init(db, email, cache);
 	entries.init(app, db, layout, cache);
 	info.init(app, db, layout);
+
+	cache.init(db);
 })();
