@@ -32,55 +32,68 @@ function collectStatistic(req, res, cb) {
 			, referrer: []
 		}
 		, alltime: {
-			changes: 0
+			  count_changes: 0
 			, entries: 0
 		}
 		, year: {
 			visits: 0
 		}
 	};
+	var barrier = new Barrier(9, function() {
+		//console.log(JSON.stringify(obj, null, "\t"));
+
+		obj.week.count_changes -= obj.week.entries;
+		obj.alltime.count_changes -= obj.alltime.entries;
+		cb(obj);
+	}, function() {} );
 
 	getCountChanges(res, 0, function(cntAllChgs) {
-		obj.alltime.changes = cntAllChgs;
-
-		getViews(res, 'week', function(piwikobj) {
-			obj.week.visits = piwikobj.value;
-
-			getViews(res, 'year', function(piwikobj) {
-				obj.year.visits = piwikobj.value;
-
-				getKeywords(res, 'week', function(piwikobj) {
-					obj.week.keywords = piwikobj;
-					//console.log(JSON.stringify(piwikobj, null, "\t"));
-					getReferrer(res, 'week', function(piwikobj) {
-						obj.week.referrer = piwikobj;
-
-						getCountEntries('alltime', function(cntEntries) {
-							obj.alltime.entries = cntEntries;
-							getCountEntries('week', function(cntEntries) {
-								obj.week.entries = cntEntries;
-
-								getLowestSeq(res, "week", function(lowestSeqThisWeek) {
-									console.log("lowest seq nr this week " + lowestSeqThisWeek);
-									getCountChanges(res, lowestSeqThisWeek, function(count_chgs_week) {
-										obj.week.count_changes = count_chgs_week;
-								
-										getDiffChanges(res, lowestSeqThisWeek, function(chgs) {
-											//chgs.reverse();
-											obj.week.changes = prepareDiff(chgs);
-											cb(obj);
-										});
-									});
-								});
-							});
-						});
-					});
-				});
-			});
-		});
-		
+		obj.alltime.count_changes = cntAllChgs;
+		barrier.submit();
 	});
-	var params = { };
+
+	getViews(res, 'week', function(piwikobj) {
+		obj.week.visits = piwikobj.value;
+		barrier.submit();
+	});
+
+	getViews(res, 'year', function(piwikobj) {
+		obj.year.visits = piwikobj.value;
+		barrier.submit();
+	});
+
+	getKeywords(res, 'week', function(piwikobj) {
+		obj.week.keywords = piwikobj;
+		barrier.submit();
+	});
+
+	getReferrer(res, 'week', function(piwikobj) {
+		obj.week.referrer = piwikobj;
+		barrier.submit();
+	});
+
+	getCountEntries('alltime', function(cntEntries) {
+		obj.alltime.entries = cntEntries;
+		barrier.submit();
+	});
+
+	getCountEntries('week', function(cntEntries) {
+		obj.week.entries = cntEntries;
+		barrier.submit();
+	});
+
+	getLowestSeq(res, "week", function(lowestSeqThisWeek) {
+		//console.log("lowest seq nr this week " + lowestSeqThisWeek);
+		getCountChanges(res, lowestSeqThisWeek, function(count_chgs_week) {
+				obj.week.count_changes = count_chgs_week;
+		});
+		barrier.submit();
+	});
+
+	getDiffChanges(res, 20, function(chgs) {
+		obj.week.changes = prepareDiff(chgs);
+		barrier.submit();
+	});
 }
 
 exports.test = function(req, res) {
@@ -101,15 +114,11 @@ exports.test = function(req, res) {
 			visits: 0
 		}
 	};
-	getDiffChanges(res, 150, function(chgs) {
-		chgs.reverse();
-		console.log(JSON.stringify(chgs, null, "\t"));
+	getDiffChanges(res, 20, function(chgs) {
+		//chgs.reverse();
 		obj.week.changes = prepareDiff(chgs);
-		//console.log(JSON.stringify(prepareDiff(chgs), null, "\t"));
 
 		var params = {statistic: obj};
-		//console.log(JSON.stringify(params, null, "\t"));
-
 		res.render('info', layout.get_vars('index', params));
 	});
 }
@@ -328,8 +337,8 @@ function getChanges(res, since, cb) {
 	});
 }
 
-function getDiffChanges(res, since, cb) {
-	db.view("db/changes", {reduce: false}, function (err, chgs) {
+function getDiffChanges(res, limit, cb) {
+	db.view("db/changes", {reduce: false, descending: true, "limit": limit}, function (err, chgs) {
 		if (err) {
 			layout.error(500, err, null, res, layout.get_vars('index'));
 			return;
@@ -403,7 +412,7 @@ Besucher diese Woche: " + obj.week.visits + "\n\
 Insgesamt stehen wir damit so da:\n\
 \n\
 Eintraege Gesamt: " + obj.alltime.entries + "\n\
-Aenderungen Gesamt: " + obj.alltime.changes + "\n\
+Aenderungen Gesamt: " + obj.alltime.count_changes + "\n\
 Besucher dieses Jahr: " + obj.year.visits + "\n\
 \n\
 Diesen Bericht koennt ihr auch jederzeit online abrufen,\n\

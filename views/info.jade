@@ -33,7 +33,7 @@ block content
 						td #{statistic.week.count_changes}
 					tr
 						td &Auml;nderungen All-Time
-						td #{statistic.alltime.changes}
+						td #{statistic.alltime.count_changes}
 					tr
 						td Gesamtzahl Eintr&auml;ge 
 						td #{statistic.alltime.entries}
@@ -84,7 +84,7 @@ block content
 		div.col-lg-12
 			p &nbsp;
 
-			h3 Letzte Ver&auml;nderungen an Dokumenten in dieser Woche. Sortiert nach Neuesten.
+			h3 Letzte 10 Ver&auml;nderungen an Dokumenten. Sortiert nach Neuesten.
 
 			p
 				span.text-warning Vor der &Auml;nderung
@@ -105,7 +105,7 @@ block content
 									#{entry.id}
 							td
 								each diff in entry.diff
-									- if (diff.Property != "this._rev" && diff.Property != "this.last_modified") {
+									- if (1===1 || diff.Property != "this._rev" && diff.Property != "this.last_modified") {
 										pre
 											span #{diff.Property.replace("this.","")} wurde verändert:
 											p.text-warning #{diff.ObjectA}
