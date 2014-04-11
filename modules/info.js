@@ -137,8 +137,8 @@ function prepareDiff(chgs) {
 		//chgs[c].diff = [];
 
 		delete doc[0].revisions;
-		console.log(JSON.stringify(doc[1], null, "\t"));
-		console.log(JSON.stringify(doc[0], null, "\t"));
+		//console.log(JSON.stringify(doc[1], null, "\t"));
+		//console.log(JSON.stringify(doc[0], null, "\t"));
 		chgs[c].diff = findDifferences(doc[1], doc[0]);
 	}
 	return chgs;
@@ -318,7 +318,7 @@ function getReferrer(res, period, cb) {
 function getCountChanges(res, since, cb) {
 	getChanges(res, since, function(chgs) {
 		//cb(chgs.length);
-		console.log(chgs[chgs.length-1].seq + " - " + since);
+		//console.log(chgs[chgs.length-1].seq + " - " + since);
 		cb(chgs[chgs.length-1].seq - since);
 	});
 }
