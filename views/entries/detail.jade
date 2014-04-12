@@ -37,7 +37,8 @@ block content
 							dt Klassifikation
 							dd
 								- for (var c in doc.classifications) {
-									|#{doc.classifications[c].value}<br />
+										a(href="/kategorie/#{doc.classifications[c].key}")
+												|#{doc.classifications[c].value}<br />
 								- }
 
 							dt Angebot
@@ -69,17 +70,18 @@ block content
 							dt Kategorien
 							dd
 								- for (var c in doc.categories) {
-									|#{doc.categories[c].value}<br />
+										a(href="/kategorie/#{doc.categories[c].key}")
+											|#{doc.categories[c].value}<br />
 								- }
 
 							- if (doc.subcategories.length > 0) {
 								dt Unterkategorien
 								dd
 									- for (var c in doc.subcategories) {
-										- if (c == doc.subcategories.length-1) {
-											|#{doc.subcategories[c].value}
-										- } else {
-											|#{doc.subcategories[c].value},&thinsp;
+										a(href="/kategorie/#{doc.subcategories[c].key}")
+												|#{doc.subcategories[c].value}
+										- if (c != doc.subcategories.length-1) {
+											|, 
 										- }
 									- }
 							- }

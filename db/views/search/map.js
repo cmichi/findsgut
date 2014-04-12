@@ -300,7 +300,7 @@ function(doc) {
 
 	var txt = doc.name + " " + doc.description + " " + doc.address;
 
-	if (doc.type == "entry" && doc.classifications) {
+	if (doc.classifications) {
 		for (var c in classifications) {
 			for (var doc_c in doc.classifications) {
 				if (classifications[c].key == doc.classifications[doc_c])
@@ -309,7 +309,7 @@ function(doc) {
 		}
 	}
 
-	if (doc.type == "entry" && doc.categories) {
+	if (doc.categories) {
 		for (var c in categories) {
 			for (var doc_c in doc.categories) {
 				if (categories[c].key == doc.categories[doc_c])

@@ -78,6 +78,10 @@ app.post('/eintraege/bearbeiten/:id', function(req, res) {
 	entries.saveEdit(req, res);
 });
 
+app.get('/kategorie/:id', function(req, res) {
+	entries.get_category(req, res);
+});
+
 app.get('/impressum', function(req, res) {
 	res.render('impressum', layout.get_vars('index'));
 });

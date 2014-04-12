@@ -1,6 +1,8 @@
 var util = require('util')
 var app, db, layout, cache; 
 
+// when updating this var do not forget to also update `db/views/search/map.js`
+// and `db/views/categories/map.js`!
 var classifications = [
 	{
 		key: "bio"
@@ -19,6 +21,9 @@ var classifications = [
 		, value: "Gebraucht"
 	}
 ];
+
+// when updating this var do not forget to also update `db/views/search/map.js`
+// and `db/views/categories/map.js`!
 var categories = [
 	{
 		key: "product"
@@ -29,6 +34,9 @@ var categories = [
 		, value: "Dienstleistung"
 	}
 ];
+
+// when updating this var do not forget to also update `db/views/search/map.js`
+// and `db/views/categories/map.js`!
 var subcategories = {
 	products: [
 		{
@@ -545,6 +553,36 @@ exports.get = function(req, res) {
 			ps.count_entries = ps.count_entries + 1;
 
 		res.render('entries/detail', ps);
+	});
+}
+
+exports.get_category = function(req, res) {
+	var id = req.params.id;
+	console.log(id);
+
+	db.view("db/categories", {reduce: false, key: id}, function (err, docs) {
+		if (err || docs == undefined) {
+			res.render('404', layout.get_vars('', { status: 404, missingurl: req.url }));
+			return;
+		}
+
+		for (var d in docs) {
+			//console.log(docs[d].name);
+			docs[d].value = layout.prepareDoc(docs[d].value);
+			//doc.description = doc.description.split("\r\n");
+
+			//doc.categories = parse(categories, doc.categories);
+			//doc.subcategories = parseSub(doc.subcategories);
+			//doc.classifications = parse(classifications, doc.classifications);
+			//console.log(JSON.stringify(docs, null, "\t"));
+			//console.log(JSON.stringify(docs[d], null, "\t"));
+		}
+
+		var additional_params = {
+			  "list": docs
+		};
+
+		res.render('entries/search', layout.get_vars('stoebern', additional_params));
 	});
 }
 
