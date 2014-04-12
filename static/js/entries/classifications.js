@@ -18,4 +18,8 @@ $(function() {
 	$('#popbio').popover({html: true, content: bio, title: title, placement: 'bottom'});
 	$('#popregional').popover({html: true, content: regional, title: title, placement: 'bottom'});
 	$('#popused').popover({html: true, content: used, title: title, placement: 'bottom'});
+
+	$( "#popfair, #popbio, #popregional, #popused " ).click(function( event ) {
+		event.preventDefault();
+	});
 });

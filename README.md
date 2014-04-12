@@ -22,9 +22,7 @@ Verzeichnis zum Gelingen dieses Projektes beizutragen.
  * URI-Id to Slug (`/eintraege/:id` to `/eintraege/:slug`).
  * Improve search (also search in `var categories` and `var subategories`).
  * Add filters for (sub-)categories to search page.
- * Rewrite `modules/info.js` to work with barrier points lib.
- * There is a bug in the reporter, count of new entries in this week does 
-   not give the correct number?
+ * `/report` has to be solved differently.
 
 
 ## Aufsetzen einer Instanz
@@ -65,7 +63,7 @@ Engine](http://jade-lang.com/reference/).
 
 Die Produktiv-Instanz generiert woechentlich einen Report:
 
-	45 23 * * 0 (curl https://findsgut.de/report > /dev/null)
+	45 23 * * 0 (curl http://localhost:5001/report > /dev/null)
 
 
 # License
