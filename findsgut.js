@@ -103,10 +103,13 @@ app.get('/info', function(req, res) {
 });
 
 app.get('/report', function(req, res) {
-	info.report(req, res, email);
+	if (req.headers.host === "localhost:5001")
+		info.report(req, res, email);
 });
 
 app.get('/test', function(req, res) {
+	//console.log(JSON.stringify(req.headers, null, "\t"));
+	//res.send();
 	info.test(req, res);
 });
 
