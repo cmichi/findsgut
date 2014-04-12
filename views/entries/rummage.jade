@@ -1,0 +1,50 @@
+extends ../layout
+
+block jumbotron
+	div.jumbotron
+		div.container
+			h1 St&ouml;bern
+
+block content
+	div.row
+		div.col-lg-12
+			div.row
+				label.col-lg-2.control-label(for="subcategories") 
+					a(href="/kategorie/product") Produkte
+
+				div.col-lg-8
+					each subcategory in subcategories["products"]
+						div.col-lg-12
+							div.col-lg-3
+								//a(href="/kategorie/#{subcategory.key}") #{subcategory.title}
+								strong #{subcategory.title}
+
+							div.col-lg-9(id="subcategory_group_#{subcategory.key}")
+								each sub in subcategory.list
+									div.col-lg-6
+										a(href="/kategorie/#{sub.key}") #{sub.value}
+						div.col-lg-12(style="clear:both").
+							&nbsp;
+
+
+			div.row
+				label.col-lg-2.control-label(for="subcategories") 
+					a(href="/kategorie/service") Dienstleistungen
+
+				div.col-lg-8
+					each subcategory in subcategories["services"]
+						div.col-lg-12
+							div.col-lg-3
+								strong #{subcategory.title}
+							div.col-lg-9(id="subcategory_group_#{subcategory.key}")
+								each sub in subcategory.list
+									div.col-lg-6
+										a(href="/kategorie/#{sub.key}") #{sub.value}
+											#{sub.value}
+						div.col-lg-12(style="clear:both").
+							&nbsp;
+
+
+block scripts
+		script(src='/js/entries/new.js') 
+		script(src='/js/entries/classifications.js') 

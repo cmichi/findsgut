@@ -32,6 +32,7 @@ function get_navi(k, req) {
 		, entries_new: ""
 		, entries_all: ""
 		, feedback: ""
+		, rummage: ""
 		, idee: ""
 	};
 
@@ -41,6 +42,8 @@ function get_navi(k, req) {
 		navi.entries_all = "active";
 	else if (k === "feedback")
 		navi.feedback = "active";
+	else if (k === "rummage")
+		navi.rummage = "active";
 	else
 		navi.home = "active";
 

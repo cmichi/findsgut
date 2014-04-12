@@ -323,6 +323,14 @@ exports.all = function(req, res) {
 	});
 }
 
+exports.rummage = function(req, res) {
+	res.render('entries/rummage', layout.get_vars('rummage', {
+		  categories: categories
+		, subcategories: subcategories
+		, values: get_global_values()
+	 }));
+}
+
 exports.get_new = function(req, res) {
 	res.render('entries/new', layout.get_vars('entries_new', {
 		  error_fields: get_error_fields()
@@ -558,7 +566,7 @@ exports.get = function(req, res) {
 
 exports.get_category = function(req, res) {
 	var id = req.params.id;
-	console.log(id);
+	//console.log(id);
 
 	db.view("db/categories", {reduce: false, key: id}, function (err, docs) {
 		if (err || docs == undefined) {

@@ -82,6 +82,10 @@ app.get('/kategorie/:id', function(req, res) {
 	entries.get_category(req, res);
 });
 
+app.get('/stoebern', function(req, res) {
+	entries.rummage(req, res);
+});
+
 app.get('/impressum', function(req, res) {
 	res.render('impressum', layout.get_vars('index'));
 });
