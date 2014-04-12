@@ -275,6 +275,26 @@ var subcategories = {
 	]
 };
 
+/* return subcategories objects which are correct for subcategories_arr */
+function parseSub(subcategories_arr) {
+	var arr = [];
+
+	for (var c0 in subcategories_arr) {
+		for (var c1 in subcategories) {
+			for (var c2 in subcategories[c1]) {
+				var obj = subcategories[c1][c2];
+				for (var c3 in obj.list) {
+					var obj2 = obj.list[c3];
+					if (obj2.key === subcategories_arr[c0])
+						arr.push(obj2.value);
+				}
+			}
+		}
+	}
+
+	return arr;
+}
+
 function(doc) {
 	if (doc.type != "entry") return;
 
@@ -289,9 +309,16 @@ function(doc) {
 		}
 	}
 
+	if (doc.type == "entry" && doc.categories) {
+		for (var c in categories) {
+			for (var doc_c in doc.categories) {
+				if (categories[c].key == doc.categories[doc_c])
+					txt += " " + categories[c].value + " ";
+			}	
+		}
+	}
 
-	//txt += doc.categories.join(" ");
-	//txt += doc.subcategories.join(" ");
+	txt += parseSub(doc.subcategories).join(" ");
 
 	// TODO merge lines
 	txt = txt.replace(/\&[A-Za-z]+\;/gi, ' ');
