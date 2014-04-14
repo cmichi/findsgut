@@ -45,6 +45,9 @@ exports.containsWord = function(txt, word, file) {
 	if (word.length === 0)
 		return {match: false};
 
+	txt = txt.toLowerCase();
+	word = word.toLowerCase();
+
 	if (txt.match(word)) {
 		console.log("match for " + word);
 		return {match: true, for: word, where: file};
