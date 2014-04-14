@@ -227,7 +227,10 @@ getLowestSeq = function(res, period, cb) {
 			return;
 		}
 
-		if (entries.length === 0) cb(0);
+		if (entries.length === 0) {
+			cb(0);
+			return;
+		}
 
 		getChanges(res, 0, function(chgs) {
 			//console.log("foo");
