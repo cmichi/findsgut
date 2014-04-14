@@ -11,13 +11,17 @@ exports.init = function(_app, _db, _layout, _cache, _email) {
 	layout = _layout;
 	email = _email;
 
+	var loaded_badwords = 0;
+
 	for (var f in files) {
 		var data = fs.readFileSync('./lib/badwords/' + files[f], 'utf8');
 		data = data.split('\n');
 		badwords[ files[f] ] = data;
 		//badwords = badwords.concat(data);
+
+		loaded_badwords += data.length;
 	}
-	console.log("loaded " + badwords.length + " badwords");
+	console.log("loaded " + loaded_badwords + " badwords");
 
 	//console.log( this.containsBadWord("this is so ass, i say") );
 
