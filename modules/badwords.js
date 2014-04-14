@@ -50,25 +50,31 @@ exports.containsWord = function(txt, word, file) {
 }
 
 exports.check = function(obj, id, action) {
+	var matches = 0;
 	var test = ['name', 'description', 'uri'];
-	var log = "# Eintrag\nLink: https://findsgut.de/eintraege/" + id + "\n\n";
+
+	var log = "# Eintrag\nLink: https://findsgut.de/eintraege/" + id + "\n\n\n";
 	log += "# Bericht\n"
 
-	//console.log(JSON.stringify(obj, null, "\t"))
+	console.log(JSON.stringify(obj, null, "\t"))
 
 	for (var t in test) {
 		console.log( test[t] );
 		console.log( obj[test[t]] );
+
 		var chkResult = this.containsBadWord(obj[ test[t] ]);
 		if (chkResult.match === true) {
+			matches++;
 			log += "* Treffer bei '" + test[t] + "' fuer das Wort '" + chkResult.for;
 			log += "' (Woerterliste: ./lib/badwords/" + chkResult.where + ")\n";
 		}
 	}
 
-	log += "\n\n# Daten-Objekt:\n";
-	log += JSON.stringify(obj, null, "\t");
-	console.log(log);
+	if (matches > 0) {
+		log += "\n\n# Daten-Objekt:\n";
+		log += JSON.stringify(obj, null, "\t");
 
-	email.badword(log, action);
+		console.log(log);
+		email.badword(log, action);
+	}
 }

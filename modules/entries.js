@@ -886,7 +886,7 @@ function newEntry(res, body, validation_results) {
 
 		//console.log(JSON.stringify(res_created));
 
-		badwords.check(res_created, res_created.id, "created");
+		badwords.check(new_obj, res_created.id, "created");
 
 		cache.refresh();
 
