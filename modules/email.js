@@ -84,6 +84,33 @@ exports.error = function(code, err, req, res) {
 	});
 };
 
+exports.badword = function(report, action, req, res) {
+	//var content = JSON.stringify(err, null, "\t");
+	//content += "\n\n";
+	//content += JSON.stringify(req, null, "\t");
+
+	//if (err) 
+		//content += "\n\nstack:\n" + err.stack + "\n\n";
+
+	var content = report;
+
+	this.send({
+		to           : config.feedback_to,
+		//to           : config.admin_mail,
+		subject      : '[findsgut] Bad Word Match on Entry (action: ' + action + ')',
+		from         : config.feedback_to,
+		text         : content
+	}, function(err, m){
+		console.log(err || m);
+		if (err) {
+			res.render('500', layout.get_vars('feedback') );
+			return;
+		}
+
+		return;
+	});
+};
+
 exports.server = require("emailjs/email").server.connect({
 	host : config.host,
 	user : config.user,

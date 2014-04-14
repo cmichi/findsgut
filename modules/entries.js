@@ -1,5 +1,6 @@
 var util = require('util')
-var app, db, layout, cache; 
+var badwords = require('./badwords.js')
+var app, db, layout, cache, email; 
 
 // when updating this var do not forget to also update `db/views/search/map.js`
 // and `db/views/categories/map.js`!
@@ -286,11 +287,14 @@ var subcategories = {
 	]
 };
 
-exports.init = function(_app, _db, _layout, _cache) {
+exports.init = function(_app, _db, _layout, _cache, _email) {
 	app = _app;
 	db = _db;
 	cache = _cache;
 	layout = _layout;
+	email = _email;
+
+	badwords.init(app, db, layout, cache, email);
 
 	return;
 }
@@ -517,6 +521,8 @@ function saveEntry(_id, _rev, res, body, validation_results, doc) {
 		}
 
 		cache.refresh();
+
+		badwords.check(merge_obj, res_updated.id, "edited");
 
 		res.redirect('/eintraege/' + res_updated.id + "?success=edit");
 		return;
@@ -879,6 +885,8 @@ function newEntry(res, body, validation_results) {
 		}
 
 		//console.log(JSON.stringify(res_created));
+
+		badwords.check(res_created, res_created.id, "created");
 
 		cache.refresh();
 

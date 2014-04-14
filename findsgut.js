@@ -127,7 +127,7 @@ app.use(function(req,res){
 
 (function initApp() {
 	layout.init(db, email, cache);
-	entries.init(app, db, layout, cache);
+	entries.init(app, db, layout, cache, email);
 	info.init(app, db, layout);
 
 	cache.init(db);

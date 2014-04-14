@@ -66,6 +66,11 @@ Die Produktiv-Instanz generiert woechentlich einen Report:
 	45 23 * * 0 (curl http://localhost:5001/report > /dev/null)
 
 
+## Used libraries
+
+ * The `./lib/badwords/*` list is taken from [shutterstock/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words](https://github.com/shutterstock/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words)
+
+
 # License
 
 The code is licensed under the MIT license:
