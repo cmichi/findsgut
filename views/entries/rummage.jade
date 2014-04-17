@@ -7,40 +7,50 @@ block jumbotron
 
 block content
 	div.row
-		div.col-lg-12
+		div.col-lg-6
 			div.row
-				label.col-lg-2.control-label(for="subcategories") 
-					a(href="/kategorie/product") Produkte
+				div.col-lg-12
+					label.col-lg-12.control-label(for="subcategories") 
+						h3
+							a(href="/kategorie/product") Produkte (#{count_categories["product"]})
 
-				div.col-lg-8
+			div.row
+				div.col-lg-11.col-lg-offset-1
 					each subcategory in subcategories["products"]
-						div.col-lg-12
-							div.col-lg-3
+						div.row
+							div.col-lg-12
 								//a(href="/kategorie/#{subcategory.key}") #{subcategory.title}
-								strong #{subcategory.title}
+								h4 #{subcategory.title}
 
-							div.col-lg-9(id="subcategory_group_#{subcategory.key}")
+						div.row
+							div.col-lg-11(id="subcategory_group_#{subcategory.key}").col-lg-offset-1
 								each sub in subcategory.list
 									div.col-lg-6
-										a(href="/kategorie/#{sub.key}") #{sub.value}
+										a(href="/kategorie/#{sub.key}") #{sub.value} (#{count_subcategories[sub.key]})
+
 						div.col-lg-12(style="clear:both").
 							&nbsp;
 
 
+		div.col-lg-6
 			div.row
-				label.col-lg-2.control-label(for="subcategories") 
-					a(href="/kategorie/service") Dienstleistungen
+				div.col-lg-12
+					label.col-lg-12.control-label(for="subcategories") 
+						h3
+							a(href="/kategorie/service") Dienstleistungen (#{count_categories["product"]})
 
-				div.col-lg-8
+			div.row
+				div.col-lg-12
 					each subcategory in subcategories["services"]
-						div.col-lg-12
-							div.col-lg-3
-								strong #{subcategory.title}
-							div.col-lg-9(id="subcategory_group_#{subcategory.key}")
+						div.row
+							div.col-lg-12
+								h4 &nbsp;
+						div.row
+							div.col-lg-11(id="subcategory_group_#{subcategory.key}").col-lg-offset-1
 								each sub in subcategory.list
 									div.col-lg-6
 										a(href="/kategorie/#{sub.key}") #{sub.value}
-											#{sub.value}
+											#{sub.value} (#{count_subcategories[sub.key]})
 						div.col-lg-12(style="clear:both").
 							&nbsp;
 

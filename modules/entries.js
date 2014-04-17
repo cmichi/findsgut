@@ -1,298 +1,14 @@
 var util = require('util')
 var badwords = require('./badwords.js')
-var app, db, layout, cache, email; 
+var app, db, layout, cache, email, model; 
 
-// when updating this var do not forget to also update `db/views/search/map.js`
-// and `db/views/categories/map.js`!
-var classifications = [
-	{
-		key: "bio"
-		, value: "Bio"
-	},
-	{
-		key: "fair"
-		, value: "Fair"
-	},
-	{
-		key: "regional"
-		, value: "Regional"
-	},
-	{
-		key: "used"
-		, value: "Gebraucht"
-	}
-];
-
-// when updating this var do not forget to also update `db/views/search/map.js`
-// and `db/views/categories/map.js`!
-var categories = [
-	{
-		key: "product"
-		, value: "Produkt"
-	}
-	, {
-		key: "service"
-		, value: "Dienstleistung"
-	}
-];
-
-// when updating this var do not forget to also update `db/views/search/map.js`
-// and `db/views/categories/map.js`!
-var subcategories = {
-	products: [
-		{
-			title: "Büro & Schreibwaren"
-			, list: [
-				{
-					key: "schreibwaren"
-					, value: "Schreibwaren"
-				}
-				, {
-					key: "bastelbedarf"
-					, value: "Bastelbedarf"
-				}
-			]
-		}
-		, {
-			title: "Haus & Garten"
-			, list: [
-				{
-					key: "moebel"
-					, value: "Möbel"
-				}
-				, {
-					key: "kueche_bad"
-					, value: "Küche & Bad"
-				}
-				, {
-					key: "werkzeug_zubehoer"
-					, value: "Werkzeug & Zubehör"
-				}
-				, {
-					key: "baumaterialien_farbe"
-					, value: "Baumaterialien & Farbe"
-				}
-				, {
-					key: "pflanzen"
-					, value: "Pflanzen"
-				}
-				, {
-					key: "tierbedarf"
-					, value: "Tierbedarf"
-				}
-				, {
-					key: "dekoration"
-					, value: "Dekoration"
-				}
-			]
-		}
-		
-		, {
-			title: "Elektronik"
-			, list: [
-				{
-					key: "computer"
-					, value: "Computer"
-				}
-				, {
-					key: "foto_video_audio_tv"
-					, value: "Foto, Video, Audio, TV"
-				}
-				, {
-					key: "handy_kommunikation"
-					, value: "Handy & Kommunikation"
-				}
-			]
-		}
-		, {
-			title: "Drogerie"
-			, list: [
-				{
-					key: "schoenheit"
-					, value: "Schönheit"
-				}
-				, {
-					key: "wellness_gesundheit"
-					, value: "Wellnes & Gesundheit"
-				}
-				, {
-					key: "hygiene"
-					, value: "Hygiene"
-				}
-				, {
-					key: "waschen_reinigen"
-					, value: "Waschen & Reinigen"
-				}
-				, {
-					key: "haushalt"
-					, value: "Haushalt"
-				}
-			]
-		}
-		, {
-			title: "Mode"
-			, list: [
-				{
-					key: "damenmode"
-					, value: "Damenmode"
-				}
-				, {
-					key: "herrenmode"
-					, value: "Herrenmode"
-				}
-				, {
-					key: "kindermode"
-					, value: "Kindermode"
-				}
-				, {
-					key: "accessoires"
-					, value: "Accessoires"
-				}
-				, {
-					key: "schmuck"
-					, value: "Schmuck"
-				}
-				, {
-					key: "schuhe"
-					, value: "Schuhe"
-				}
-			]
-		}
-		, {
-			title: "Lebensmittel"
-			, list: [
-				{
-					key: "brot_backwaren"
-					, value: "Brot & Backwaren"
-				}
-				, {
-					key: "milchprodukte"
-					, value: "Milchprodukte"
-				}
-				, {
-					key: "obst"
-					, value: "Obst"
-				}
-				, {
-					key: "gemuese"
-					, value: "Gemüse"
-				}
-				, {
-					key: "getraenke"
-					, value: "Getränke"
-				}
-				, {
-					key: "gewuerze"
-					, value: "Gewürze"
-				}
-				, {
-					key: "brotaufstriche"
-					, value: "Brotaufstriche"
-				}
-				, {
-					key: "suesses_salziges"
-					, value: "Süßes & Salziges"
-				}
-				, {
-					key: "fleischersatz_tofu"
-					, value: "Fleischersatz & Tofu"
-				}
-				, {
-					key: "eier"
-					, value: "Eier"
-				}
-				, {
-					key: "oele_fette"
-					, value: "Öle & Fette"
-				}
-				, {
-					key: "suppen_soszen"
-					, value: "Suppen & Soßen"
-				}
-				, {
-					key: "nahrungsergaenzungsmittel"
-					, value: "Nahrungsergänzungsmittel"
-				}
-				, {
-					key: "reis_huelsenfruechte"
-					, value: "Reis & Hülsenfrüchte"
-				}
-				, {
-					key: "wurst_fleisch_fisch"
-					, value: "Wurst & Fleisch & Fisch"
-				}
-				, {
-					key: "getreideprodukte"
-					, value: "Getreideprodukte"
-				}
-				, {
-					key: "backen_dessert"
-					, value: "Backen & Dessert"
-				}
-				, {
-					key: "fertigprodukte_konserven"
-					, value: "Fertigprodukte & Konserven"
-				}
-			]
-		}
-		, {
-			title: "Baby & Kind"
-			, list: [
-				{
-					key: "kleidung"
-					, value: "Kleidung"
-				}
-				, {
-					key: "zubehoer"
-					, value: "Zubehör"
-				}
-				, {
-					key: "hygiene"
-					, value: "Hygiene"
-				}
-				, {
-					key: "spielzeug"
-					, value: "Spielzeug"
-				}
-				, {
-					key: "nahrung"
-					, value: "Nahrung"
-				}
-			]
-		}
-		, {
-			title: "Sonstiges"
-			, list: [
-				{
-					key: "sonstige"
-					, value: "Sonstiges"
-				}
-			]
-		}
-	]
-	, services: [
-		{
-			title: ""
-			, list: [
-				{
-					key: "gastronomie"
-					, value: "Gastronomie"
-				}
-				, {
-					key: "sonstiges"
-					, value: "Sonstiges"
-				}
-			]
-		}
-	]
-};
-
-exports.init = function(_app, _db, _layout, _cache, _email) {
+exports.init = function(_app, _db, _layout, _cache, _email, _model) {
 	app = _app;
 	db = _db;
 	cache = _cache;
 	layout = _layout;
 	email = _email;
+	model = _model;
 
 	badwords.init(app, db, layout, cache, email);
 
@@ -329,9 +45,11 @@ exports.all = function(req, res) {
 
 exports.rummage = function(req, res) {
 	res.render('entries/rummage', layout.get_vars('rummage', {
-		  categories: categories
-		, subcategories: subcategories
+		  categories: model.categories
+		, subcategories: model.subcategories
 		, values: get_global_values()
+		, count_categories: cache.getCountCategories()
+		, count_subcategories: cache.getCountSubCategories()
 	 }));
 }
 
@@ -339,8 +57,8 @@ exports.get_new = function(req, res) {
 	res.render('entries/new', layout.get_vars('entries_new', {
 		  error_fields: get_error_fields()
 		, errors: []
-		, categories: categories
-		, subcategories: subcategories
+		, categories: model.categories
+		, subcategories: model.subcategories
 		, values: get_global_values()
 	 }));
 }
@@ -363,8 +81,8 @@ exports.post_new = function(req, res) {
 			  errors: errors
 			, previous_input: req.body
 			, error_fields: validation_results.error_fields
-			, categories: categories
-			, subcategories: subcategories
+			, categories: model.categories
+			, subcategories: model.subcategories
 			, values: validation_results.values
 		};
 
@@ -399,9 +117,9 @@ exports.edit = function(req, res) {
 		doc = layout.prepareDoc(doc);
 
 		var additional_params = {
-			  categories: categories
+			  categories: model.categories
 			, error_fields: []
-			, subcategories: subcategories
+			, subcategories: model.subcategories
 			, values: doc
 			, modifyExisting: true
 		};
@@ -435,8 +153,8 @@ exports.saveEdit = function(req, res) {
 			  errors: errors
 			, previous_input: req.body
 			, error_fields: validation_results.error_fields
-			, categories: categories
-			, subcategories: subcategories
+			, categories: model.categories
+			, subcategories: model.subcategories
 			, values: validation_results.values
 			, modifyExisting: true
 		};
@@ -510,8 +228,8 @@ function saveEntry(_id, _rev, res, body, validation_results, doc) {
 					  + "Bitte versuche es in K&uuml;rze noch einmal."]
 				, previous_input: body
 				, error_fields: validation_results.error_fields
-				, categories: categories
-				, subcategories: subcategories
+				, categories: model.categories
+				, subcategories: model.subcategories
 				, values: validation_results.values
 				, modifyExisting: true
 			};
@@ -549,7 +267,7 @@ exports.get = function(req, res) {
 		doc = layout.prepareDoc(doc);
 		doc.description = doc.description.split("\r\n");
 
-		doc.categories = parse(categories, doc.categories);
+		doc.categories = parse(model.categories, doc.categories);
 		doc.subcategories = parseSub(doc.subcategories);
 		doc.classifications = parse(classifications, doc.classifications);
 		//console.log(JSON.stringify(doc, null, "\t"));
@@ -570,16 +288,19 @@ exports.get = function(req, res) {
 	});
 }
 
-exports.get_category = function(req, res) {
-	var id = req.params.id;
-	//console.log(id);
-
+exports.getCategoryEntries = function(id, req, res, cb) {
 	db.view("db/categories", {reduce: false, key: id}, function (err, docs) {
 		if (err || docs == undefined) {
 			res.render('404', layout.get_vars('', { status: 404, missingurl: req.url }));
 			return;
 		}
+		
+		cb(docs);
+	});
+}
 
+exports.get_category = function(req, res) {
+	this.getCategeoryEntries(req.params.id, req, res, function() {
 		for (var d in docs) {
 			//console.log(docs[d].name);
 			docs[d].value = layout.prepareDoc(docs[d].value);
@@ -605,9 +326,9 @@ function parseSub(subcategories_arr) {
 	var arr = [];
 
 	for (var c0 in subcategories_arr) {
-		for (var c1 in subcategories) {
-			for (var c2 in subcategories[c1]) {
-				var obj = subcategories[c1][c2];
+		for (var c1 in model.subcategories) {
+			for (var c2 in model.subcategories[c1]) {
+				var obj = model.subcategories[c1][c2];
 				for (var c3 in obj.list) {
 					var obj2 = obj.list[c3];
 					if (obj2.key === subcategories_arr[c0])
@@ -875,8 +596,8 @@ function newEntry(res, body, validation_results) {
 					  + "Bitte versuche es in K&uuml;rze noch einmal."]
 				, previous_input: body
 				, error_fields: validation_results.error_fields
-				, categories: categories
-				, subcategories: subcategories
+				, categories: model.categories
+				, subcategories: model.subcategories
 				, values: validation_results.values
 			};
 
@@ -1004,9 +725,9 @@ function validate(body) {
 
 	/* categories */
 	var cats_chosen = [];
-	for (var c in categories) {
-		if (body["category_" + categories[c].key] === "on")
-			cats_chosen.push(categories[c].key)
+	for (var c in model.categories) {
+		if (body["category_" + model.categories[c].key] === "on")
+			cats_chosen.push(model.categories[c].key)
 	}
 	if (cats_chosen.length === 0) {
 		validator.error("Bitte wähle eine Kategorie.");
@@ -1018,16 +739,16 @@ function validate(body) {
 
 	/* subcategories */
 	var subcats_chosen = [];
-	for (var sc in subcategories.products) {
-		for (var scs in subcategories.products[sc].list) {
-			var subc = subcategories.products[sc].list[scs];
+	for (var sc in model.subcategories.products) {
+		for (var scs in model.subcategories.products[sc].list) {
+			var subc = model.subcategories.products[sc].list[scs];
 			if (body["subcategory_" + subc.key] === "on")
 				subcats_chosen.push(subc.key)
 		}
 	}
-	for (var sc in subcategories.services) {
-		for (var scs in subcategories.services[sc].list) {
-			var subc = subcategories.services[sc].list[scs];
+	for (var sc in model.subcategories.services) {
+		for (var scs in model.subcategories.services[sc].list) {
+			var subc = model.subcategories.services[sc].list[scs];
 			if (body["subcategory_" + subc.key] === "on")
 				subcats_chosen.push(subc.key)
 		}

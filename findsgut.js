@@ -2,6 +2,7 @@ var config = require('./config_local.js');
 var layout = require('./modules/layout.js');
 var entries = require('./modules/entries.js');
 var info = require('./modules/info.js');
+var model = require('./modules/model.js');
 var cache = require('./modules/cache.js');
 var express = require('express');
 var http = require('http');
@@ -127,8 +128,8 @@ app.use(function(req,res){
 
 (function initApp() {
 	layout.init(db, email, cache);
-	entries.init(app, db, layout, cache, email);
+	entries.init(app, db, layout, cache, email, model);
 	info.init(app, db, layout);
 
-	cache.init(db);
+	cache.init(db, model);
 })();
