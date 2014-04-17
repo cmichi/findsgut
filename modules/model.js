@@ -282,3 +282,25 @@ exports.subcategories = {
 		}
 	]
 };
+
+exports.getCategoryTitle = function(key) {
+	for (var c in this.categories) {
+		var obj = this.categories[c];
+		if (obj.key === key) return obj.value;
+	}
+
+	for (var sc in this.subcategories.products) {
+		var obj = this.subcategories[sc];
+		for (var sc_l in this.subcategories.products[sc].list) {
+			var obj_l = this.subcategories.products[sc].list[sc_l];
+			if (obj_l.key === key) return obj_l.value; 
+		} 
+	}
+	for (var sc in this.subcategories.services) {
+		var obj = this.subcategories[sc];
+		for (var sc_l in this.subcategories.services[sc].list) {
+			var obj_l = this.subcategories.services[sc].list[sc_l];
+			if (obj_l.key === key) return obj_l.value; 
+		} 
+	}
+}

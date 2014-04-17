@@ -313,7 +313,7 @@ exports.get_category = function(req, res) {
 			//console.log(JSON.stringify(docs[d], null, "\t"));
 		}
 
-		var title = req.params.id;
+		var title = model.getCategoryTitle(req.params.id);
 		//if (model.categories[req.params.id])
 			//title = model.categories[req.params.id];
 
