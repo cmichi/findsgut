@@ -1,9 +1,11 @@
 - if (list != undefined && list.length > 0)
-	div.row(style="margin-bottom:10px")
-		div.col-lg-12
-			h4.
-				#{list.length}/#{count_entries} Eintr&auml;ge.
-				Sortiert nach neuesten.
+	- if (!category) {
+		div.row(style="margin-bottom:10px")
+			div.col-lg-12
+				h4.
+					#{list.length}/#{count_entries} Eintr&auml;ge.
+					Sortiert nach neuesten.
+	- }
 
 	div.row
 		each entry in list

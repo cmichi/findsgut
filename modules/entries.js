@@ -313,8 +313,16 @@ exports.get_category = function(req, res) {
 			//console.log(JSON.stringify(docs[d], null, "\t"));
 		}
 
+		var title = req.params.id;
+		//if (model.categories[req.params.id])
+			//title = model.categories[req.params.id];
+
+		//else if (model.subcategories[req.params.id])
+			//title = model.subcategories[req.params.id];
+
 		var additional_params = {
-			  "list": docs
+			    "list": docs
+			  , category: title
 		};
 
 		res.render('entries/search', layout.get_vars('stoebern', additional_params));

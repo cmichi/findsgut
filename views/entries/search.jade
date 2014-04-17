@@ -8,7 +8,9 @@ block jumbotron
 block content
 	div.row
 		div.col-lg-12
-			include ./filter
+			- if (!category) {
+				include ./filter
+			- }
 
 			div#list
 				include ./list

@@ -1,6 +1,10 @@
 div.container
-	- if (term == undefined || term.length === 0)
+	- if (!category && (term == undefined || term.length === 0))
 		h1 Alle Eintr&auml;ge
+	- else if (category)
+		h1 
+			|Eintr&auml;ge f&uuml;r Kategorie 
+			em #{category}
 	- else
 		h1 Suche nach 
 			em #{term}
