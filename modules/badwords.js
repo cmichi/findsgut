@@ -1,7 +1,8 @@
 var fs = require('fs');
 var app, db, layout, cache, email; 
 
-var files = ['da','de','en','es','fr','it','ja','nl','pt','zh']; // ,'ru'
+// 'da','de','en','es','fr','it','ja','nl','pt','zh' ,'ru'
+var files = ['de', 'en'];
 var badwords = {};
 
 exports.init = function(_app, _db, _layout, _cache, _email) {
