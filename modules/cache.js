@@ -2,6 +2,10 @@ var https = require('https');
 var db;
 var entries = 0;
 
+var categories_count = {
+	/* key: 0 */
+};
+
 var refreshEntries = function(cb) {
 	db.view('db/entries', {reduce: false}, function (err, res_entries) {
 		if (err) {
@@ -24,6 +28,7 @@ var pingCache = function() {
 		'/eintraege/alle', 
 		'/feedback', 
 		'/idee',
+		'/stoebern',
 		'/impressum'
 	];
 
@@ -62,10 +67,18 @@ exports.init = function(d) {
 		setTimeout(function() {
 			console.log("about to ping cache");
 			pingCache();
-		}, 5000);
+		}, 6000);
 		setTimeout(function() {
 			console.log("about to ping cache");
 			pingCache();
-		}, 25000);
+		}, 45000);
+		setTimeout(function() {
+			console.log("about to ping cache");
+			pingCache();
+		}, 65000);
+		setTimeout(function() {
+			console.log("about to ping cache");
+			pingCache();
+		}, 85000);
 	}
 }
