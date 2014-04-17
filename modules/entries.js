@@ -300,7 +300,7 @@ exports.getCategoryEntries = function(id, req, res, cb) {
 }
 
 exports.get_category = function(req, res) {
-	this.getCategeoryEntries(req.params.id, req, res, function() {
+	this.getCategoryEntries(req.params.id, req, res, function(docs) {
 		for (var d in docs) {
 			//console.log(docs[d].name);
 			docs[d].value = layout.prepareDoc(docs[d].value);
