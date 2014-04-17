@@ -269,7 +269,7 @@ exports.get = function(req, res) {
 
 		doc.categories = parse(model.categories, doc.categories);
 		doc.subcategories = parseSub(doc.subcategories);
-		doc.classifications = parse(classifications, doc.classifications);
+		doc.classifications = parse(model.classifications, doc.classifications);
 		//console.log(JSON.stringify(doc, null, "\t"));
 
 		var additional_params = {
@@ -777,9 +777,9 @@ function validate(body) {
 
 	var classifications_chosen = [];
 	var classifications = ["fair", "bio", "regional", "used"];
-	for (var c in classifications) {
-		if (body[classifications[c]] === "on")
-			classifications_chosen.push(classifications[c]);
+	for (var c in model.classifications) {
+		if (body[model.classifications[c]] === "on")
+			classifications_chosen.push(model.classifications[c]);
 	}
 	if (classifications_chosen.length === 0) {
 		validator.error("Bitte ordne das Angebot ein.");
