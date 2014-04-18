@@ -298,7 +298,12 @@ function parseSub(subcategories_arr) {
 function(doc) {
 	if (doc.type != "entry") return;
 
-	var txt = doc.name + " " + doc.description + " " + doc.address;
+	var address = "";
+	if (doc.street) address += doc.street + " ";
+	if (doc.city) address += doc.city + " ";
+	if (doc.zipcode) address += doc.zipcode + " ";
+
+	var txt = doc.name + " " + doc.description + " " + address;
 
 	if (doc.classifications) {
 		for (var c in classifications) {
