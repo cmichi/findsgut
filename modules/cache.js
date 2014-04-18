@@ -1,14 +1,28 @@
 var https = require('https');
 var db, model;
+
 var entries = 0;
+var entries_coords = [];
 
 var count_categories = { /* key: 0 */ };
 var count_subcategories = { /* key: 0 */ };
 
+var refreshAllEntriesCoords = function() {
+	db.view('db/coords', {reduce: false}, function (err, res_entries) {
+		if (err) {
+			console.dir(err);
+			return;
+		}
+
+		entries_coords = res_entries;
+		console.log("loaded " + entries_coords.length + " coord entries into cache")
+	});
+}
+
 var refreshEntries = function(cb) {
 	db.view('db/entries', {reduce: false}, function (err, res_entries) {
 		if (err) {
-			layout.error(500, err, null, null, layout.get_vars('entries_all'));
+			console.dir(err);
 			return;
 		}
 
@@ -79,11 +93,17 @@ var pingCache = function() {
 
 exports.refresh = function() {
 	refreshEntries();
+	refreshAllEntriesCoords();
 }
 
 exports.getEntries = function(cb) {
 	if (cb) cb(entries);
 	else return entries;
+}
+
+exports.getAllEntriesCoords = function(cb) {
+	if (cb) cb(entries_coords);
+	else return entries_coords;
 }
 
 exports.getCountCategories = function(cb) {

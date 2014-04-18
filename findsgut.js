@@ -131,11 +131,12 @@ app.use(function(req,res){
 
 (function initApp() {
 	layout.init(db, email, cache);
-	entries.init(app, db, layout, cache, email, model);
+	entries.init(app, db, layout, cache, email, model, umkreissuche);
 	info.init(app, db, layout);
 
-	cronjob_geocoding.init(db, model, cache);
-	//umkreissuche.init(db, model, cache);
-
 	cache.init(db, model);
+
+	//cronjob_geocoding.init(db, model, cache);
+	umkreissuche.init(db, model, cache);
+
 })();

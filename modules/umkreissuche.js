@@ -5,8 +5,15 @@ exports.init = function(_db, _model, _cache) {
 	model = _model;
 	cache = _cache;
 
-	this.getNearMe(["48.4004841", "9.9885268"]);
+	//getNearMe(["48.4004841", "9.9885268"]);
+}
 
+exports.isWithinDistance = function(me_coords, dist, entry_coords) {
+	//console.log (distance(me_coords, entry_coords) + " <= " +dist )
+	if (distance(me_coords, entry_coords) <= dist) 
+		return true;
+	else
+		return false;
 }
 
 var distance = function(from, to) {
@@ -30,25 +37,16 @@ var distance = function(from, to) {
 
 	dist = dist * 1.609344; // kilometers
 
-	return dist
+	return dist;
 }                                                                           
 
 exports.getNearMe = function(me_coords) {
-	(function (me) {
-		db.view("db/coords", {reduce: false}, function (err, docs) {
-			if (err || docs == undefined) {
-				console.dir(err);
-				return;
-			}
+	var coords = cache.getAllEntriesCoords();
+	console.log(coords.length + "!");
 
-			for (var d in docs) {
-				var entry = docs[d].value;
-				//console.log(docs[d])
-
-				var dist = distance(me, entry.coords);
-
-				console.log(dist + " km");
-			}
-		});
-	})(me_coords);
+	for (var c in coords) {
+		var entry = coords[c].value;
+		var dist = distance(me_coords, entry.coords);
+		console.log(dist + " km");
+	}
 }

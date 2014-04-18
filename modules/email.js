@@ -95,8 +95,8 @@ exports.badword = function(report, action, req, res) {
 	var content = report;
 
 	this.send({
-		to           : config.feedback_to,
-		//to           : config.admin_mail,
+		//to           : config.feedback_to,
+		to           : config.admin_mail,
 		subject      : '[findsgut] Bad Word Match on Entry (action: ' + action + ')',
 		from         : config.feedback_to,
 		text         : content

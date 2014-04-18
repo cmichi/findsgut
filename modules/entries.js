@@ -1,14 +1,15 @@
 var util = require('util')
 var badwords = require('./badwords.js')
-var app, db, layout, cache, email, model; 
+var app, db, layout, cache, email, model, umkreissuche; 
 
-exports.init = function(_app, _db, _layout, _cache, _email, _model) {
+exports.init = function(_app, _db, _layout, _cache, _email, _model, _umkreissuche) {
 	app = _app;
 	db = _db;
 	cache = _cache;
 	layout = _layout;
 	email = _email;
 	model = _model;
+	umkreissuche = _umkreissuche;
 
 	badwords.init(app, db, layout, cache, email);
 
@@ -406,6 +407,23 @@ exports.search = function(req, res) {
 	var regional = false;
 	if (req.param("regional") === "on") regional = true;
 
+	var umkreissuche_active = false;
+	var distance = 50;
+	var umkreis = "";
+	if (req.param("umkreis")) {
+		console.log("umkreis active");
+		umkreissuche_active = true;
+		regional = true;
+		online = false;
+
+		umkreis = req.param("umkreis");
+
+		if (req.param("distance"))
+			distance = req.param("distance");
+	}
+
+	var me_coords = ["48.4004841", "9.9885268"];
+
 	var term = db.prepare(req.param("term"))
 	var term_original = term; /* for the view */
 	term = term.toLowerCase();
@@ -485,6 +503,15 @@ exports.search = function(req, res) {
 
 				if (regional === true && classified(r, "regional") === false)
 					show = false;
+
+				if (umkreissuche_active) {
+					if (r.coords) {
+						if (!umkreissuche.isWithinDistance(me_coords, distance, r.coords))
+							show = false;
+					} else {
+						show = false;
+					}
+				}
 
 
 /*
