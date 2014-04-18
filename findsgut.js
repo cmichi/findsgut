@@ -5,6 +5,7 @@ var info = require('./modules/info.js');
 var model = require('./modules/model.js');
 var cache = require('./modules/cache.js');
 var cronjob_geocoding = require('./modules/cronjob_geocoding.js');
+var umkreissuche = require('./modules/umkreissuche.js');
 
 var express = require('express');
 var http = require('http');
@@ -133,6 +134,8 @@ app.use(function(req,res){
 	entries.init(app, db, layout, cache, email, model);
 	info.init(app, db, layout);
 
-	cronjob_geocoding.init(db, model);
+	cronjob_geocoding.init(db, model, cache);
+	//umkreissuche.init(db, model, cache);
+
 	cache.init(db, model);
 })();
