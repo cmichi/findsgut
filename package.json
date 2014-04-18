@@ -13,6 +13,7 @@
     "moment" : "1.7.2",
     "emailjs": "0.3.3",
     "underscore": "1.6.0",
-    "piwik-client": "0.2.2"
+    "piwik-client": "0.2.2",
+    "nominatim": "0.1.0"
   }
 }
