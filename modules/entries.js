@@ -416,7 +416,7 @@ exports.search = function(req, res) {
 	var umkreissuche_active = false;
 	var distance;
 	var umkreis = "";
-	if (req.param("umkreis")) {
+	if (req.param("umkreis") && req.param("umkreis").length > 0) {
 		console.log("umkreis active 1");
 		umkreissuche_active = true;
 		umkreis = req.param("umkreis");
@@ -446,8 +446,7 @@ exports.search = function(req, res) {
 		, searching: searching
 	};
 
-	//if (term.length === 0 && !online && !local && !bio && !fair && !used && !regional && !searching && !umkreissuche_active) {
-	if (!searching) {
+	if (term.length === 0 && !online && !local && !bio && !fair && !used && !regional && !umkreissuche_active) {
 		additional_params.list = cache.getEntries();
 		if (additional_params.list.length === 1)
 			additional_params.show_last = true;
