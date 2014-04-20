@@ -417,7 +417,7 @@ exports.search = function(req, res) {
 	var distance = 50;
 	var umkreis = "";
 	if (req.param("umkreis") && req.param("umkreis").length > 0) {
-		console.log("umkreis active 1");
+		//console.log("umkreis active 1");
 		umkreissuche_active = true;
 		umkreis = req.param("umkreis");
 
@@ -530,7 +530,7 @@ function executeSearch(opts, online, local, bio, used, fair, regional, umkreissu
 					show = false;
 
 				if (umkreissuche_active) {
-					console.log("umkreissuche_active");
+					//console.log("umkreissuche_active");
 					if (r.coords) {
 						if (!umkreissuche.isWithinDistance(me_coords, distance, r.coords))
 							show = false;
