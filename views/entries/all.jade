@@ -10,8 +10,10 @@ block content
 
 	include ../entries/filter
 
-	div#list
-		include ../entries/list
+	- if (searching) {
+			div#list
+				include ../entries/list
+	- }
 
 block scripts
 		//script(src='/js/entries/filter.js') 

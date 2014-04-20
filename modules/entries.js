@@ -444,7 +444,8 @@ exports.search = function(req, res) {
 		, searching: searching
 	};
 
-	if (term.length === 0 && !online && !local && !bio && !fair && !used && !regional && !searching && !umkreissuche_active) {
+	//if (term.length === 0 && !online && !local && !bio && !fair && !used && !regional && !searching && !umkreissuche_active) {
+	if (!searching) {
 		additional_params.list = cache.getEntries();
 		if (additional_params.list.length === 1)
 			additional_params.show_last = true;

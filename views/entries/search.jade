@@ -8,12 +8,14 @@ block jumbotron
 block content
 	div.row
 		div.col-lg-12
-			- if (!category) {
-				include ./filter
-			- }
+				- if (!category) {
+						include ./filter
+				- }
 
-			div#list
-				include ./list
+				- if (searching) {
+						div#list
+								include ./list
+				- }
 
 //script(src='/js/entries/filter.js') 
 //block scripts
