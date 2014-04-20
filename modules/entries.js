@@ -408,15 +408,15 @@ exports.search = function(req, res) {
 	var regional = false;
 	if (req.param("regional") === "on") regional = true;
 
+	var searching = false;
+	if (req.param("searching") === "true") searching = true;
+
 	var umkreissuche_active = false;
 	var distance = 50;
 	var umkreis = "";
 	if (req.param("umkreis")) {
-		console.log("umkreis active");
+		console.log("umkreis active 1");
 		umkreissuche_active = true;
-		regional = true;
-		online = false;
-
 		umkreis = req.param("umkreis");
 
 		if (req.param("distance"))
@@ -438,9 +438,13 @@ exports.search = function(req, res) {
 		, bio: bio
 		, regional: regional
 		, ajax: ajax
+		, umkreis: umkreis
+		, distance: distance
+		, umkreissuche_active: umkreissuche_active
+		, searching: searching
 	};
 
-	if (term.length === 0 && !online && !local && !bio && !fair && !used && !regional) {
+	if (term.length === 0 && !online && !local && !bio && !fair && !used && !regional && !searching && !umkreissuche_active) {
 		additional_params.list = cache.getEntries();
 		if (additional_params.list.length === 1)
 			additional_params.show_last = true;
@@ -453,6 +457,7 @@ exports.search = function(req, res) {
 		} else {
 			res.render('entries/search', layout.get_vars('entries_all', additional_params));
 		}
+		return;
 	}
 
 	var opts = {
@@ -466,12 +471,12 @@ exports.search = function(req, res) {
 			  opts, online, local, bio, used, fair, regional, umkreissuche_active, 
 			  distance, req, res, additional_params, ajax) {
 
-			nominatim.search({ q: addr }, function(err, opts, results) {
-				console.log("searched for " + addr);
-				console.log(JSON.stringify(results[0], null, "\t"));
+			nominatim.search({ q: addr }, function(err, _opts, results) {
+				//console.log("searched for " + addr);
+				//console.log(JSON.stringify(results[0], null, "\t"));
 
 				me_coords = [ results[0].lat, results[0].lon ];
-				console.log(JSON.stringify(me_coords, null, "\t"));
+				//console.log(JSON.stringify(me_coords, null, "\t"));
 
 				executeSearch(opts, online, local, bio, used, fair, regional, umkreissuche_active, 
 					me_coords, distance, req, res, additional_params, ajax);
@@ -486,6 +491,8 @@ exports.search = function(req, res) {
 
 function executeSearch(opts, online, local, bio, used, fair, regional, umkreissuche_active, 
 		me_coords, distance, req, res, additional_params, ajax) {
+
+console.log(JSON.stringify(opts));
 	db.view('db/search', opts, function (err, res_search) {
 		if (err) {
 			layout.error(500, err, req, res, layout.get_vars('entries_all'));
@@ -495,6 +502,7 @@ function executeSearch(opts, online, local, bio, used, fair, regional, umkreissu
 		//var searchresults = {};
 		var searchresults = [];
 		//console.log(JSON.stringify(additional_params));
+		//console.log(JSON.stringify(res_search));
 
 		if (res_search && res_search.length > 0) {
 			for (var i in res_search) {
@@ -521,7 +529,7 @@ function executeSearch(opts, online, local, bio, used, fair, regional, umkreissu
 					show = false;
 
 				if (umkreissuche_active) {
-					//console.log("umkreissuche_active");
+					console.log("umkreissuche_active");
 					if (r.coords) {
 						if (!umkreissuche.isWithinDistance(me_coords, distance, r.coords))
 							show = false;
@@ -547,6 +555,7 @@ function executeSearch(opts, online, local, bio, used, fair, regional, umkreissu
 
 				searchresults = orderBy("created_at", searchresults);
 
+				//console.log(searchresults.length + "!!");
 				//console.log(JSON.stringify(res_search, null, "\t"))
 				//searchresults[res_search[i].value._id] = res_search[i].value;
 
@@ -560,13 +569,16 @@ function executeSearch(opts, online, local, bio, used, fair, regional, umkreissu
 
 		//console.log("searchres: \n" + JSON.stringify(additional_params.list));
 		//console.log("")
+		console.log(ajax)
 		if (ajax === true) {
 			if (req.param("jumbotron") === "true")
 				res.render('entries/ajax-search-jumbotron', layout.get_vars('entries_all', additional_params));
 			else
 				res.render('entries/ajax-list', layout.get_vars('entries_all', additional_params));
+			return;
 		} else {
 			res.render('entries/search', layout.get_vars('entries_all', additional_params));
+			return;
 		}
 	});
 }

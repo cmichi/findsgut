@@ -2,9 +2,11 @@
 	- if (!category) {
 		div.row(style="margin-bottom:10px")
 			div.col-lg-12
-				h4.
-					#{list.length}/#{count_entries} Eintr&auml;ge.
-					Sortiert nach neuesten.
+				h4.pull-left.
+					Es werden #{list.length} Eintr&auml;ge angezeigt.
+					Insgesamt sind #{count_entries} Eintr&auml;ge in der Datenbank.
+				h4.pull-right.
+					Sortierung: Neueste zuerst.
 	- }
 
 	div.row

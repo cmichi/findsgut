@@ -9,7 +9,7 @@ exports.init = function(_db, _model, _cache) {
 }
 
 exports.isWithinDistance = function(me_coords, dist, entry_coords) {
-	//console.log (distance(me_coords, entry_coords) + " <= " +dist )
+	console.log (distance(me_coords, entry_coords) + " <= " +dist )
 	if (distance(me_coords, entry_coords) <= dist) 
 		return true;
 	else
