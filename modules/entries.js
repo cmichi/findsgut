@@ -329,7 +329,7 @@ exports.get_category = function(req, res) {
 			  , searching: true
 		};
 
-		res.render('entries/search', layout.get_vars('stoebern', additional_params));
+		res.render('entries/search', layout.get_vars('rummage', additional_params));
 	});
 }
 
@@ -414,7 +414,7 @@ exports.search = function(req, res) {
 	if (req.param("searching") === "true") searching = true;
 
 	var umkreissuche_active = false;
-	var distance = 50;
+	var distance;
 	var umkreis = "";
 	if (req.param("umkreis")) {
 		console.log("umkreis active 1");
