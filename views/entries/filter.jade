@@ -107,4 +107,15 @@ div.row
 											//include ../classifications/used
 											a(href="#",data-toggle="popover").btn.btn-large.btn-default#popused.
 												Was heisst das?
+
+
+									div.row
+										div.col-lg-5
+											div.input-group 
+												span.input-group-addon
+													span.glyphicon.glyphicon-search
+												- if (term == undefined || term.length === 0)
+													input(type="text",class="form-control",placeholder="Dein Suchbegriff",name="term") 
+												- else
+													input(type="text",class="form-control",placeholder="",name="term",value="#{term}") 
 				hr

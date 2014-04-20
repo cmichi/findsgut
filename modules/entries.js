@@ -1,4 +1,5 @@
 var util = require('util')
+var nominatim = require('nominatim');
 var badwords = require('./badwords.js')
 var app, db, layout, cache, email, model, umkreissuche; 
 
@@ -422,14 +423,14 @@ exports.search = function(req, res) {
 			distance = req.param("distance");
 	}
 
-	var me_coords = ["48.4004841", "9.9885268"];
+	//var me_coords = ["48.4004841", "9.9885268"];
 
 	var term = db.prepare(req.param("term"))
 	var term_original = term; /* for the view */
 	term = term.toLowerCase();
 
 	var additional_params = {
-		term: term_original
+		  term: term_original
 		, online: online
 		, local: local
 		, fair: fair
@@ -454,22 +455,37 @@ exports.search = function(req, res) {
 		}
 	}
 
-	//console.log(term + "!!");
-
-	/*
-	if (term.length === 0) {
-		//res.redirect('/eintraege/alle');
-		res.render('entries/search', layout.get_vars('entries_all', {term: "", searchresults: undefined}));
-		return;
-	}
-	*/
-
 	var opts = {
-		startkey: term
+		  startkey: term
 		, endkey: term + '\u9999'
 		, reduce: false
 	};
 
+	if (umkreissuche_active) {
+		(function(addr, 
+			  opts, online, local, bio, used, fair, regional, umkreissuche_active, 
+			  distance, req, res, additional_params, ajax) {
+
+			nominatim.search({ q: addr }, function(err, opts, results) {
+				console.log("searched for " + addr);
+				console.log(JSON.stringify(results[0], null, "\t"));
+
+				me_coords = [ results[0].lat, results[0].lon ];
+				console.log(JSON.stringify(me_coords, null, "\t"));
+
+				executeSearch(opts, online, local, bio, used, fair, regional, umkreissuche_active, 
+					me_coords, distance, req, res, additional_params, ajax);
+			});
+		})(umkreis, opts, online, local, bio, used, fair, regional, umkreissuche_active, 
+		   distance, req, res, additional_params, ajax);
+	} else {
+		executeSearch(opts, online, local, bio, used, fair, regional, umkreissuche_active, 
+			[], distance, req, res, additional_params, ajax);
+	}
+}
+
+function executeSearch(opts, online, local, bio, used, fair, regional, umkreissuche_active, 
+		me_coords, distance, req, res, additional_params, ajax) {
 	db.view('db/search', opts, function (err, res_search) {
 		if (err) {
 			layout.error(500, err, req, res, layout.get_vars('entries_all'));
@@ -505,6 +521,7 @@ exports.search = function(req, res) {
 					show = false;
 
 				if (umkreissuche_active) {
+					//console.log("umkreissuche_active");
 					if (r.coords) {
 						if (!umkreissuche.isWithinDistance(me_coords, distance, r.coords))
 							show = false;
@@ -512,32 +529,6 @@ exports.search = function(req, res) {
 						show = false;
 					}
 				}
-
-
-/*
-				//if (online === true && r.online === false || online === false && r.online === true)
-				if (online === false && r.online === true)
-					show = false;
-
-				//if (local === true && r.local === false || local === false && r.local === true)
-				if (local === false && r.local === true)
-					show = false;
-
-				//if (bio === true && classified(r, "bio") === false || bio === false && classified(r, "bio") === true)
-				if (bio === false && classified(r, "bio") === true)
-					show = false;
-
-				if (used === false && classified(r, "used") === true)
-					show = false;
-
-				//if (fair === true && classified(r, "fair") === false || fair === false && classified(r, "fair") === true)
-				if (fair === false && classified(r, "fair") === true)
-					show = false;
-
-				//if (regional === true && classified(r, "regional") === false || regional === false && classified(r, "regional") === true)
-				if (regional === false && classified(r, "regional") === true)
-					show = false;
-				*/
 
 				if (show === true) {
 					/* definitely has to be optimized */
@@ -555,8 +546,8 @@ exports.search = function(req, res) {
 				}
 
 				searchresults = orderBy("created_at", searchresults);
-				//console.log(JSON.stringify(res_search, null, "\t"))
 
+				//console.log(JSON.stringify(res_search, null, "\t"))
 				//searchresults[res_search[i].value._id] = res_search[i].value;
 
 			}
