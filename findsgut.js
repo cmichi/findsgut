@@ -136,7 +136,9 @@ app.use(function(req,res){
 
 	cache.init(db, model);
 
-	//cronjob_geocoding.init(db, model, cache);
+	if (process.env.NODE_ENV == 'production') 
+		cronjob_geocoding.init(db, model, cache);
+
 	umkreissuche.init(db, model, cache);
 
 })();

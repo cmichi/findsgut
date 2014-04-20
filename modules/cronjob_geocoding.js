@@ -89,8 +89,8 @@ exports.init = function(_db, _model, _cache) {
 			update_cache = false;
 		}
 
-		console.log("#####################################");
+		console.log((new Date()).getTime() + ": executing searchAndGeocode()");
 		searchAndGeocode();
-	}, 1000 * 60 * 2);
+	}, 1000 * 60 * 5);
 	//}, 1000 * 60 * 15);
 };

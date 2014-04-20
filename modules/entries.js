@@ -414,7 +414,7 @@ exports.search = function(req, res) {
 	if (req.param("searching") === "true") searching = true;
 
 	var umkreissuche_active = false;
-	var distance;
+	var distance = 50;
 	var umkreis = "";
 	if (req.param("umkreis") && req.param("umkreis").length > 0) {
 		console.log("umkreis active 1");
