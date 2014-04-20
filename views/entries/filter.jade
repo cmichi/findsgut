@@ -107,19 +107,19 @@ div.row
 										div.col-lg-5
 											div.input-group 
 												span.input-group-addon
-													span Rund um 
+													span Rund um:
 												- if (umkreis == undefined || umkreis.length === 0)
 													input(type="text",class="form-control",placeholder="Ort",name="umkreis") 
 												- else
 													input(type="text",class="form-control",placeholder="",name="umkreis",value="#{umkreis}") 
-										div.col-lg-2
+										div.col-lg-3
 											div.input-group 
-												span.input-group-addon
-													span Distanz
+												span.input-group-addon Distanz:
 												- if (distance == undefined || distance.length === 0)
 													input(type="text",class="form-control",placeholder="Entfernung",name="distance") 
 												- else
 													input(type="text",class="form-control",placeholder="",name="distance",value="#{distance}") 
+												span.input-group-addon km
 									div.row
 										div.col-lg-12.
 													&nbsp;<br/>
