@@ -303,6 +303,7 @@ exports.getCategoryEntries = function(id, req, res, cb) {
 
 exports.get_category = function(req, res) {
 	this.getCategoryEntries(req.params.id, req, res, function(docs) {
+		//console.log(JSON.stringify(docs, null, "\t"));
 		for (var d in docs) {
 			//console.log(docs[d].name);
 			docs[d].value = layout.prepareDoc(docs[d].value);
@@ -325,6 +326,7 @@ exports.get_category = function(req, res) {
 		var additional_params = {
 			    "list": docs
 			  , category: title
+			  , searching: true
 		};
 
 		res.render('entries/search', layout.get_vars('stoebern', additional_params));
@@ -493,7 +495,6 @@ exports.search = function(req, res) {
 function executeSearch(opts, online, local, bio, used, fair, regional, umkreissuche_active, 
 		me_coords, distance, req, res, additional_params, ajax) {
 
-console.log(JSON.stringify(opts));
 	db.view('db/search', opts, function (err, res_search) {
 		if (err) {
 			layout.error(500, err, req, res, layout.get_vars('entries_all'));
@@ -809,9 +810,13 @@ function validate(body) {
 	var classifications_chosen = [];
 	var classifications = ["fair", "bio", "regional", "used"];
 	for (var c in model.classifications) {
-		if (body[model.classifications[c]] === "on")
-			classifications_chosen.push(model.classifications[c]);
+		if (body[model.classifications[c].key] === "on")
+			classifications_chosen.push(model.classifications[c].key);
 	}
+
+	console.log(JSON.stringify(body, null, "\t"));
+	console.log(JSON.stringify(classifications_chosen, null, "\t"));
+
 	if (classifications_chosen.length === 0) {
 		validator.error("Bitte ordne das Angebot ein.");
 		error_fields.classifications = "has-error";
