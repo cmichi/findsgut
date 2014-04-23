@@ -3,6 +3,8 @@ extends layout
 block content
 	div.container.text-center(style="margin-top:80px;")
 		form.bs-example(method="GET",action="/suche/")
+			input(type="hidden",name="searching",value="true")
+			
 			div.row
 				div.col-lg-5.col-lg-offset-3
 					img.img-responsive(src="/img/index.png",alt="findsgut logo",title="findsgut: Verantwortungsvolle Produkte und Dienstleistungen")
