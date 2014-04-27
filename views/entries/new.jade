@@ -121,7 +121,7 @@ block content
 
 
 						a(href="#",data-toggle="popover").btn.btn-large.btn-default.pull-right#popfair.
-							Was heisst das?
+							Info
 
 					div.col-lg-5
 						- if (values["bio"] === true)
@@ -133,7 +133,7 @@ block content
 								&nbsp; überwiegend biologisch
 
 						a(href="#",data-toggle="popover").btn.btn-large.btn-default.pull-right#popbio.
-							Was heisst das?
+							Info
 
 				div.row
 					label.col-lg-2.control-label(for="") &nbsp;
@@ -147,7 +147,7 @@ block content
 								&nbsp; überwiegend regional
 
 						a(href="#",data-toggle="popover").btn.btn-large.btn-default.pull-right#popregional.
-							Was heisst das?
+							Info
 
 					div.col-lg-5
 						- if (values["used"] === true)
@@ -159,7 +159,7 @@ block content
 								&nbsp; überwiegend gebraucht
 
 						a(href="#",data-toggle="popover").btn.btn-large.btn-default.pull-right#popused.
-							Was heisst das?
+							Info
 
 				div.row
 					&nbsp;
@@ -260,19 +260,17 @@ block content
 								<em>Das Kopieren urheberrechtlich
 								geschützter Werke ist verboten!</em>
 
-				div(class="form-group #{error_fields.agb} hidden")
-					label.col-lg-2.control-label(for="agb") AGB
+				div(class="form-group #{error_fields.agb}")
+					label.col-lg-2.control-label(for="agb") &nbsp;
 					div.col-lg-10
 						- if (values["agb"] === true)
 							input(id="agb", name="agb", type="checkbox", checked="checked") 
 						- else
-							input(id="agb", name="agb", type="checkbox", checked="checked") 
-							//agb have temporarily been disabled!
-							//input(id="agb", name="agb", type="checkbox") 
+							input(id="agb", name="agb", type="checkbox") 
 						-endif
 
 						span.
-							&nbsp; Ich stimme den <a target="_blank" href='/agb'>Nutzungsbedingungen</a> dieser Plattform zu.
+							&nbsp; Nach meiner Kenntniss entpsricht dieser Eintrag der <a target="_blank" href='/idee'>Idee</a> von findsgut.
 
 				div.form-group
 					label.col-lg-2.control-label(for="agb") &nbsp;
