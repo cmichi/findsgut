@@ -6,7 +6,7 @@ body {
 
 .jumbotron h1 {
 	color: #fff;
-	margin-top:16px;
+	margin-top:13px;
 	/*
 	font-family: ff-meta-web-pro-1,ff-meta-web-pro-2,"Century Schoolbook",Century,Garamond,serif;
 	font-style:italic;
@@ -23,7 +23,7 @@ body {
 
 .jumbotron {
 	padding: 10px 10px;
-	height: 80px;
+	height: 70px;
 }
 
 .jumbotron .sub {
