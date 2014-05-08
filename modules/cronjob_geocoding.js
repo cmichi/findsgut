@@ -160,6 +160,6 @@ exports.init = function(_db, _model, _cache) {
 		searchAndGeocode();
 		console.log((new Date()).getTime() + ": executing searchAndGeocodeFallback()");
 		searchAndGeocodeFallback();
-	}, 1000 * 60 * 5);
-	//}, 1000 * 60 * 15);
+	//}, 1000 * 60 * 5);
+	}, 1000 * 60 * 30);
 };
