@@ -7,10 +7,16 @@ var entries_coords = [];
 var count_categories = { /* key: 0 */ };
 var count_subcategories = { /* key: 0 */ };
 
-exports.search = function(foo, opts, cb) {
+exports.searchTerm = function(foo, opts, cb) {
 	var term = opts.startkey;
 	var search_words = term.replace(/[!.,;?\r\n\t]+/g," ").toLowerCase().split(" ");
 	var results = [];
+
+	//console.log(search_words);
+	if (search_words.length === 0 || term.replace(/\s*/g, "").length === 0) {
+		cb(null, entries);
+		return;
+	}
 
 	for (var e in entries) {
 		var entry = entries[e].value;

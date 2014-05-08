@@ -494,12 +494,18 @@ exports.search = function(req, res) {
 function executeSearch(opts, online, local, bio, used, fair, regional, umkreissuche_active, 
 		me_coords, distance, req, res, additional_params, ajax) {
 
+
 	//db.view('db/search', opts, function (err, res_search) {
-	cache.search('db/search', opts, function (err, res_search) {
+(function (opts, online, local, bio, used, fair, regional, umkreissuche_active, 
+		me_coords, distance, req, res, additional_params, ajax) {
+
+		//console.log(umkreissuche_active + " 1");
+	cache.searchTerm('db/search', opts, function (err, res_search) {
 		if (err) {
 			layout.error(500, err, req, res, layout.get_vars('entries_all'));
 			return;
 		}
+		//console.log(res_search.length);
 
 		//var searchresults = {};
 		var searchresults = [];
@@ -571,7 +577,7 @@ function executeSearch(opts, online, local, bio, used, fair, regional, umkreissu
 
 		//console.log("searchres: \n" + JSON.stringify(additional_params.list));
 		//console.log("")
-		console.log(ajax)
+		//console.log(ajax)
 		if (ajax === true) {
 			if (req.param("jumbotron") === "true")
 				res.render('entries/ajax-search-jumbotron', layout.get_vars('entries_all', additional_params));
@@ -582,7 +588,9 @@ function executeSearch(opts, online, local, bio, used, fair, regional, umkreissu
 			res.render('entries/search', layout.get_vars('entries_all', additional_params));
 			return;
 		}
-	});
+	})
+	})(opts, online, local, bio, used, fair, regional, umkreissuche_active, 
+	   me_coords, distance, req, res, additional_params, ajax);
 }
 
 function orderBy(key, arr) {
