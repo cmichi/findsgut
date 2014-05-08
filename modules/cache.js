@@ -7,6 +7,32 @@ var entries_coords = [];
 var count_categories = { /* key: 0 */ };
 var count_subcategories = { /* key: 0 */ };
 
+exports.search = function(foo, opts, cb) {
+	var term = opts.startkey;
+	var results = [];
+
+	for (var e in entries) {
+		var entry = entries[e].value;
+		//console.log(JSON.stringify(entry, null, "\t"));
+		var searchTxt = assembleSearchTxt(entry);
+		//console.log(searchTxt);
+		//console.log("!" + term + "!");
+
+		var re = new RegExp(term, "gi");
+		console.log(re);
+		if (searchTxt.match(re)) {
+			results.push(entries[e]);
+		}
+	}
+
+	console.log(results.length);
+	cb(null, results);
+}
+
+var assembleSearchTxt = function(entry) {
+	return entry.name + entry.description;
+}
+
 var refreshAllEntriesCoords = function() {
 	db.view('db/coords', {reduce: false}, function (err, res_entries) {
 		if (err) {

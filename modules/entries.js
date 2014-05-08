@@ -494,7 +494,8 @@ exports.search = function(req, res) {
 function executeSearch(opts, online, local, bio, used, fair, regional, umkreissuche_active, 
 		me_coords, distance, req, res, additional_params, ajax) {
 
-	db.view('db/search', opts, function (err, res_search) {
+	//db.view('db/search', opts, function (err, res_search) {
+	cache.search('db/search', opts, function (err, res_search) {
 		if (err) {
 			layout.error(500, err, req, res, layout.get_vars('entries_all'));
 			return;
