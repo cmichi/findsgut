@@ -1,5 +1,5 @@
 $(function() {
-	var title = "Was heisst das?";
+	var title = "Was hei&szlig;t das?";
 	var fair = 'Die Produkte/Leistungen&hellip;<ul>' 
 	+ '<li>haben ein Siegel: das Fair-Trade-Siegel nach den Kriterien der FLO oder vergleichbare.</li>'
 	+ '<li>haben kein Siegel: der Anbieter versichert jedoch nachvollziehbar, dass vergleichbare '
