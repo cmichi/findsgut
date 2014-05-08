@@ -9,16 +9,31 @@ var count_subcategories = { /* key: 0 */ };
 
 exports.search = function(foo, opts, cb) {
 	var term = opts.startkey;
+	var search_words = term.replace(/[!.,;?\r\n\t]+/g," ").toLowerCase().split(" ");
 	var results = [];
 
 	for (var e in entries) {
 		var entry = entries[e].value;
 		var searchTxt = assembleSearchTxt(entry);
+		var matched = false;
 
-		var re = new RegExp(term, "gi");
-		if (searchTxt.match(re)) {
-			results.push(entries[e]);
+		for (var w in search_words) {
+			var word = search_words[w];
+
+			// > 2 because we need "bio" included, so > 3 is not possible
+			if (word.replace(/\s*/g, "").length > 2)  {
+				var re = new RegExp(word, "gi");
+				if (searchTxt.match(re)) {
+					matched = true;
+				} else {
+					matched = false;
+					break;
+				}
+			}
 		}
+
+		if (matched) 
+			results.push(entries[e]);
 	}
 
 	cb(null, results);
