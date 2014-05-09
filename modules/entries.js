@@ -323,13 +323,17 @@ exports.get_category = function(req, res) {
 	this.getCategoryEntries(req.params.id, req, res, function(docs) {
 		//console.log(JSON.stringify(docs, null, "\t"));
 		for (var d in docs) {
+			var doc = docs[d].value;
+
 			//console.log(docs[d].name);
-			docs[d].value = layout.prepareDoc(docs[d].value);
+			doc = layout.prepareDoc(doc);
 			//doc.description = doc.description.split("\r\n");
 
-			//doc.categories = parse(categories, doc.categories);
-			//doc.subcategories = parseSub(doc.subcategories);
-			//doc.classifications = parse(classifications, doc.classifications);
+			doc.categories = parse(model.categories, doc.categories);
+			doc.subcategories = parseSub(doc.subcategories);
+			doc.classifications = parse(model.classifications, doc.classifications);
+
+			docs[d].value = doc;
 			//console.log(JSON.stringify(docs, null, "\t"));
 			//console.log(JSON.stringify(docs[d], null, "\t"));
 		}
