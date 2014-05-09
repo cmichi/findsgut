@@ -16,15 +16,6 @@ Verzeichnis zum Gelingen dieses Projektes beizutragen.
 
 **Project Status:** Online! [findsgut.de](https://www.findsgut.de).
 
-
-## Shortterm-ToDos
-
- * URI-Id to Slug (`/eintraege/:id` to `/eintraege/:slug`).
- * Improve search (also search in `var categories` and `var subategories`).
- * Add filters for (sub-)categories to search page.
- * `/report` has to be solved differently.
-
-
 ## Aufsetzen einer Instanz
 
 Make sure you have node.js, npm, CouchDB and couchapp installed.
