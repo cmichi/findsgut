@@ -116,7 +116,7 @@ div.row
 											div.input-group 
 												span.input-group-addon Distanz:
 												- if (distance == undefined || distance.length === 0)
-													input(type="text",class="form-control",placeholder="Entfernung",name="distance",placeholder="") 
+													input(type="text",class="form-control",placeholder="Entfernung",name="distance",value="50") 
 												- else
 													input(type="text",class="form-control",placeholder="",name="distance",value="#{distance}") 
 												span.input-group-addon km

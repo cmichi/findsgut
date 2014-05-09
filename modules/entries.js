@@ -472,6 +472,11 @@ exports.search = function(req, res) {
 		var coords = [];
 		for (var l in additional_params.list) {
 			var doc = additional_params.list[l];
+
+			doc.categories = parse(model.categories, doc.categories);
+			doc.subcategories = parseSub(doc.subcategories);
+			doc.classifications = parse(model.classifications, doc.classifications);
+
 			if (doc.coords)
 				coords.push({id: doc._id, coords: doc.coords});
 		}
@@ -494,7 +499,8 @@ exports.search = function(req, res) {
 		, reduce: false
 	};
 
-	if (umkreissuche_active) {
+	if (umkreissuche_active && umkreis.length > 2) {
+		console.log("executing umkreissuche");
 		(function(addr, 
 			  opts, online, local, bio, used, fair, regional, umkreissuche_active, 
 			  distance, req, res, additional_params, ajax) {
@@ -599,7 +605,7 @@ function executeSearch(opts, online, local, bio, used, fair, regional, umkreissu
 				additional_params.show_last = true;
 
 			var coords = [];
-			console.log(searchresults.length + "!");
+			//console.log(searchresults.length + "!");
 			for (var i in searchresults) {
 				var doc = searchresults[i].value;
 
@@ -607,7 +613,6 @@ function executeSearch(opts, online, local, bio, used, fair, regional, umkreissu
 				doc.subcategories = parseSub(doc.subcategories);
 				doc.classifications = parse(model.classifications, doc.classifications);
 
-				console.log(doc.coords);
 				if (doc.coords)
 					coords.push({id: doc._id, coords: doc.coords});
 			}

@@ -27,7 +27,7 @@ exports.searchTerm = function(foo, opts, cb) {
 			var word = search_words[w];
 
 			// > 2 because we need "bio" included, so > 3 is not possible
-			if (word.replace(/\s*/g, "").length > 2)  {
+			//if (word.replace(/\s*/g, "").length > 2)  {
 				var re = new RegExp(word, "gi");
 				if (searchTxt.match(re)) {
 					matched = true;
@@ -35,7 +35,7 @@ exports.searchTerm = function(foo, opts, cb) {
 					matched = false;
 					break;
 				}
-			}
+			//}
 		}
 
 		if (matched) 

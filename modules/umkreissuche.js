@@ -42,7 +42,7 @@ var distance = function(from, to) {
 
 exports.getNearMe = function(me_coords) {
 	var coords = cache.getAllEntriesCoords();
-	console.log(coords.length + "!");
+	console.log("near me: " + coords.length + "!");
 
 	for (var c in coords) {
 		var entry = coords[c].value;

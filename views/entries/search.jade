@@ -12,11 +12,11 @@ block content
 						include ./filter
 				- }
 
-				- if (searching) {
-						div#list
-								include ./list
-				- }
+				div#list
+					- if (searching) {
+						include ./list
+					- }
 
-//script(src='/js/entries/filter.js') 
 block scripts
 	script(src='/js/entries/classifications.js') 
+	script(src='/js/entries/filter.js') 

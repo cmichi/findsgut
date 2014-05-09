@@ -1,5 +1,7 @@
 var updateList = function() { 
-	console.log("update");
+	//console.log("update");
+	$("#list").html("Deine Suche wird ausgef&uuml;hrt&hellip;");
+	$(".jumbotron").html("<div class='container'><h1>Deine Suche wird ausgef&uuml;hrt&hellip;</h1></div>");
 
 	var local = $("form[id=filter] input[name=lokal]").prop("checked");
 	if (local === true) local = "on";
@@ -23,13 +25,21 @@ var updateList = function() {
 
 	var term = $("form[id=filter] input[name=term]").val();
 
+	var distance = $("form[id=filter] input[name=distance]").val();
+	var umkreis = $("form[id=filter] input[name=umkreis]").val();
+	//console.log("umkreis " + umkreis)
+
 	var uri = "/suche/?ajax=true" 
 		+ "&local=" + local 
 		+ "&online=" + online 
 		+ "&bio=" + bio 
 		+ "&fair=" + fair 
 		+ "&regional=" + regional 
-		+ "&term=" + term;
+		+ "&term=" + term
+
+		+ "&umkreis=" + umkreis
+		+ "&distance=" + distance
+		+ "&searching=true"
 
 	$.ajax({
 		url: uri
@@ -123,8 +133,18 @@ function loadContent(id) {
 	*/
 }
 
-$("form[id=filter]").change(updateList);
-$("form[id=filter] input[name=term]").keyup(updateList);
+var lastChg;
+var to;
+function chg() {
+	// wait 500ms until search starts (in order to prevent a search whilst typing)
+	window.clearTimeout(to);
+	to = window.setTimeout("updateList()", 500);
+}
+
+$("form[id=filter]").change(chg);
+$("form[id=filter] input[name=term]").keyup(chg);
+$("form[id=filter] input[name=distance]").keyup(chg);
+$("form[id=filter] input[name=umkreis]").keyup(chg);
 
 // this is necessary because: a user may click various filters and then 
 // reload the page. the browser will then keep the checkboxes
