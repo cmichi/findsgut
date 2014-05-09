@@ -12,25 +12,104 @@
 	div.row
 		each entry in list
 			div.col-lg-6
-				div.panel.panel-default(style="height:150px")
+				div.panel.panel-default(style="height:150px",id="panel_#{entry.value._id}")
 					div.panel-body
-						p	
-							a(href="/eintraege/#{entry.value._id}/")
-								- if (entry.value.name.length > 60)
-									|#{entry.value.name.substr(0,60)}&hellip;
+						div.content(id="content_small_#{entry.value._id}")
+							p	
+								a(href="/eintraege/#{entry.value._id}/")
+									- if (entry.value.name.length > 56)
+										|#{entry.value.name.substr(0,56)}&hellip;
+									- else
+										|#{entry.value.name}
+							p
+								- if (entry.value.description.length > 125)
+									|#{entry.value.description.substr(0,125)}&hellip;
 								- else
+									|#{entry.value.description}
+								- endif
+
+						div.content(id="content_large_#{entry.value._id}",style="display:none;")
+							p	
+								a(href="/eintraege/#{entry.value._id}/")
 									|#{entry.value.name}
-						p
-							- if (entry.value.description.length > 125)
-								|#{entry.value.description.substr(0,125)}&hellip;
-							- else
-								|#{entry.value.description}
-							- endif
+
+							each paragraph in entry.value.description.split("\r\n")
+								p.
+									#{paragraph}
+
+							- if (entry.value.coords && entry.value.coords.length > 0) {
+								div(style="height:200px;width:100%;",id="map_#{entry.value._id}" ,data-lat="#{entry.value.coords[0]}" ,data-lon="#{entry.value.coords[1]}") 
+							- } else {
+								div(id="map_#{entry.value._id}")
+							- }
+
+							dl.dl-horizontal
+								dt Klassifikation
+								dd
+									- for (var c in entry.value.classifications) {
+											a(href="/kategorie/#{entry.value.classifications[c].key}")
+													|#{entry.value.classifications[c].value}<br />
+									- }
+
+								dt Angebot
+								dd
+									- if (entry.value.local)
+										|Lokal<br />
+									- endif
+									- if (entry.value.online)
+										|Online<br />
+									- endif
+
+								- if (entry.value.uri.length > 0) {
+									dt Website
+									dd
+										a(href="#{entry.value.uri}",rel="nofollow")
+												|#{entry.value.uri}
+								- }
+
+								- if (entry.value.local) {
+									dt Adresse
+									dd
+										|#{entry.value.street}<br />
+										|#{entry.value.zipcode} #{entry.value.city}<br />
+										- if (entry.value.country === "Germany") {
+											|Deutschland
+										- } else {
+											|#{entry.value.country}
+										- }
+								- }
+
+								dt &nbsp;
+								dd
+
+								dt Kategorien
+								dd
+									- for (var c in entry.value.categories) {
+											a(href="/kategorie/#{entry.value.categories[c].key}")
+												|#{entry.value.categories[c].value}<br />
+									- }
+
+								- if (entry.value.subcategories.length > 0) {
+									dt Unterkategorien
+									dd
+										- for (var c in entry.value.subcategories) {
+											a(href="/kategorie/#{entry.value.subcategories[c].key}")
+													|#{entry.value.subcategories[c].value}
+											- if (c != entry.value.subcategories.length-1) {
+												|, 
+											- }
+										- }
+								- }
+
+							p.
+								<a class="pull-left btn btn-default" href="/eintraege/bearbeiten/#{entry.value._id}/">&raquo; Bearbeiten</a> 
+
 						p.
-							<a class="pull-right btn btn-default" href="/eintraege/#{entry.value._id}/">&raquo; Mehr</a> 
+							<a id="#{entry.value._id}" class="btn-mehr pull-right btn btn-default" href="/eintraege/#{entry.value._id}/">&raquo; Mehr</a> 
 			- if (show_last) {
 				div.col-lg-6
 			- }
+
 - else
 	div.row
 		div.col-lg-12

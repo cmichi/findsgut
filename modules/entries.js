@@ -20,15 +20,32 @@ exports.init = function(_app, _db, _layout, _cache, _email, _model, _umkreissuch
 exports.all = function(req, res) {
 	cache.getEntries(function (res_entries) {
 		var entries = res_entries;
+		//var coords = 'var coords = {';
+		var coords = [];
 
-		for (var e in entries) 
+		for (var e in entries) {
 			entries[e].value = layout.prepareDoc(entries[e].value);
+			var doc = entries[e].value;
+
+			doc.categories = parse(model.categories, doc.categories);
+			doc.subcategories = parseSub(doc.subcategories);
+			doc.classifications = parse(model.classifications, doc.classifications);
+
+			entries[e].value = doc;
+
+			if (doc.coords)
+				coords.push({id: doc._id, coords: doc.coords});
+				//coords += '"' + doc._id + '": [' + doc.coords + '],';
+		}
+		//coords += "}";
+		//console.log(coords);
 
 		entries = orderBy("created_at", entries);
 
 		var params = {
 			list: entries
 			, entries_count: entries.length /* immediate update */
+			, coords: coords
 
 			/* default: show all */
 			/* changing search semantic to semantic1, commenting this out
@@ -283,7 +300,8 @@ exports.get = function(req, res) {
 		var ps = layout.get_vars('entries_all', additional_params)
 
 		// db will not yet be updated, but already show an
-		// incremented counter if (success_creation) 
+		// incremented counter 
+		if (success_creation) 
 			ps.count_entries = ps.count_entries + 1;
 
 		res.render('entries/detail', ps);
@@ -451,6 +469,14 @@ exports.search = function(req, res) {
 		if (additional_params.list.length === 1)
 			additional_params.show_last = true;
 
+		var coords = [];
+		for (var l in additional_params.list) {
+			var doc = additional_params.list[l];
+			if (doc.coords)
+				coords.push({id: doc._id, coords: doc.coords});
+		}
+		additional_params.coords = coords;
+
 		if (ajax === true) {
 			if (req.param("jumbotron") === "true")
 				res.render('entries/ajax-search-jumbotron', layout.get_vars('entries_all', additional_params));
@@ -571,9 +597,25 @@ function executeSearch(opts, online, local, bio, used, fair, regional, umkreissu
 			additional_params.list = searchresults;
 			if (searchresults.length === 1)
 				additional_params.show_last = true;
+
+			var coords = [];
+			console.log(searchresults.length + "!");
+			for (var i in searchresults) {
+				var doc = searchresults[i].value;
+
+				doc.categories = parse(model.categories, doc.categories);
+				doc.subcategories = parseSub(doc.subcategories);
+				doc.classifications = parse(model.classifications, doc.classifications);
+
+				console.log(doc.coords);
+				if (doc.coords)
+					coords.push({id: doc._id, coords: doc.coords});
+			}
+			additional_params.coords = coords;
 		} else {
 			additional_params.list = undefined;
 		}
+
 
 		//console.log("searchres: \n" + JSON.stringify(additional_params.list));
 		//console.log("")

@@ -57,6 +57,7 @@ exports.prepareDoc = function(doc) {
 	//doc.name = doc.name.replace("&amp;", "&");
 	doc.name = underscore.unescape(doc.name);
 	doc.uri = underscore.unescape(doc.uri);
+	if (doc.uri === "http://") doc.uri = "";
 
 	/* set the 'local' fields to "". otherwise the input fields
 	in the edit/new entry mask will output 'undefined' */
