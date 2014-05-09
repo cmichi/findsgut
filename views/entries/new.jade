@@ -111,55 +111,59 @@ block content
 					label.col-lg-2.control-label(for="classifications") Einordnung
 
 					div.col-lg-5
-						- if (values["fair"] === true)
-							input(name="fair", type="checkbox", checked="checked")
-						- else
-							input(name="fair", type="checkbox")
-						- endif
-							span.
-								&nbsp; &uuml;berwiegend fair
+						div.pull-left
+							- if (values["fair"] === true)
+								input(name="fair", type="checkbox", checked="checked")
+							- else
+								input(name="fair", type="checkbox")
+							- endif
+								span.
+									&nbsp; &uuml;berwiegend fair
 
 
-						a(href="#",data-toggle="popover").btn.btn-large.btn-default.pull-right#popfair.
-							Info
+						a(href="#",data-toggle="popover").pull-left#popfair
+							img(src="/img/info.png",style="width:25px;margin-top:1px;margin-left:10px;")
 
 					div.col-lg-5
-						- if (values["bio"] === true)
-							input(name="bio", type="checkbox", checked="checked")
-						- else
-							input(name="bio", type="checkbox")
-						- endif
-							span.
-								&nbsp; überwiegend biologisch
+						div.pull-left
+							- if (values["bio"] === true)
+								input(name="bio", type="checkbox", checked="checked")
+							- else
+								input(name="bio", type="checkbox")
+							- endif
+								span.
+									&nbsp; überwiegend biologisch
 
-						a(href="#",data-toggle="popover").btn.btn-large.btn-default.pull-right#popbio.
-							Info
+						a(href="#",data-toggle="popover").pull-left#popbio
+							img(src="/img/info.png",style="width:25px;margin-top:1px;margin-left:10px;")
 
 				div.row
 					label.col-lg-2.control-label(for="") &nbsp;
 					div.col-lg-5
-						- if (values["regional"] === true)
-							input(name="regional", type="checkbox", checked="checked")
-						- else
-							input(name="regional", type="checkbox").
-						- endif
-							span.
-								&nbsp; überwiegend regional
+						div.pull-left
+							- if (values["regional"] === true)
+								input(name="regional", type="checkbox", checked="checked")
+							- else
+								input(name="regional", type="checkbox").
+							- endif
+								span.
+									&nbsp; überwiegend regional
 
-						a(href="#",data-toggle="popover").btn.btn-large.btn-default.pull-right#popregional.
-							Info
+						a(href="#",data-toggle="popover").pull-left#popregional
+							img(src="/img/info.png",style="width:25px;margin-top:1px;margin-left:10px;")
 
 					div.col-lg-5
-						- if (values["used"] === true)
-							input(name="used", type="checkbox", checked="checked")
-						- else
-							input(name="used", type="checkbox").
-						- endif
-							span.
-								&nbsp; überwiegend gebraucht
+						div.pull-left
+							- if (values["used"] === true)
+								input(name="used", type="checkbox", checked="checked")
+							- else
+								input(name="used", type="checkbox").
+							- endif
+								span.
+									&nbsp; überwiegend gebraucht
 
-						a(href="#",data-toggle="popover").btn.btn-large.btn-default.pull-right#popused.
-							Info
+						a(href="#",data-toggle="popover").pull-left#popused
+							img(src="/img/info.png",style="width:25px;margin-top:1px;margin-left:10px;")
 
 				div.row
 					&nbsp;
@@ -270,7 +274,7 @@ block content
 						-endif
 
 						span.
-							&nbsp; Nach meiner Kenntniss entpsricht dieser Eintrag der <a target="_blank" href='/idee'>Idee</a> von findsgut.
+							&nbsp; Nach meiner Kenntniss entspricht dieser Eintrag der <a target="_blank" href='/idee'>Idee</a> von findsgut.
 
 				div.form-group
 					label.col-lg-2.control-label(for="agb") &nbsp;
