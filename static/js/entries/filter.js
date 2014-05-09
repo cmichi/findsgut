@@ -1,8 +1,5 @@
 var updateList = function() { 
 	//console.log("update");
-	$("#list").html("Deine Suche wird ausgef&uuml;hrt&hellip;");
-	$(".jumbotron").html("<div class='container'><h1>Deine Suche wird ausgef&uuml;hrt&hellip;</h1></div>");
-
 	var local = $("form[id=filter] input[name=lokal]").prop("checked");
 	if (local === true) local = "on";
 	else local = "";
@@ -28,6 +25,14 @@ var updateList = function() {
 	var distance = $("form[id=filter] input[name=distance]").val();
 	var umkreis = $("form[id=filter] input[name=umkreis]").val();
 	//console.log("umkreis " + umkreis)
+
+	// do not search when default stuff is entered
+	if (local === "" && online === "" && regional === "" && bio === "" 
+		&& fair === "" && distance === "50" && umkreis === "" && term === "")
+		return;
+
+	$("#list").html("Deine Suche wird ausgef&uuml;hrt&hellip;");
+	$(".jumbotron").html("<div class='container'><h1>Deine Suche wird ausgef&uuml;hrt&hellip;</h1></div>");
 
 	var uri = "/suche/?ajax=true" 
 		+ "&local=" + local 
@@ -77,14 +82,14 @@ function loadContent(id) {
 		$("#panel_" + id).css("height", "auto");
 
 		$("#content_small_" + id).hide();
-		$("#" + id).html("&raquo; Weniger");
+		$("#" + id).html("&raquo; Weniger anzeigen");
 		$("#content_large_" + id).show();
 		visibility[id] = "large";
 	} else {
 		$("#panel_" + id).css("height", "150px");
 
 		$("#content_small_" + id).show();
-		$("#" + id).html("&raquo; Mehr");
+		$("#" + id).html("&raquo; Mehr anzeigen");
 		$("#content_large_" + id).hide();
 		visibility[id] = "small";
 	}

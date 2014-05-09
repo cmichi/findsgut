@@ -471,11 +471,13 @@ exports.search = function(req, res) {
 
 		var coords = [];
 		for (var l in additional_params.list) {
-			var doc = additional_params.list[l];
+			var doc = additional_params.list[l].value;
 
 			doc.categories = parse(model.categories, doc.categories);
 			doc.subcategories = parseSub(doc.subcategories);
 			doc.classifications = parse(model.classifications, doc.classifications);
+
+			additional_params.list[l].value = doc;
 
 			if (doc.coords)
 				coords.push({id: doc._id, coords: doc.coords});
@@ -612,6 +614,8 @@ function executeSearch(opts, online, local, bio, used, fair, regional, umkreissu
 				doc.categories = parse(model.categories, doc.categories);
 				doc.subcategories = parseSub(doc.subcategories);
 				doc.classifications = parse(model.classifications, doc.classifications);
+
+				searchresults[i].value = doc;
 
 				if (doc.coords)
 					coords.push({id: doc._id, coords: doc.coords});
