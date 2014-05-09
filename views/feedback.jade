@@ -12,7 +12,7 @@ block content
 	div.row
 		div.col-lg-4.col-lg-offset-0
 			h4
-				a.btn.btn-default.btn-lg(href="#anregungen",style="width:90%").
+				a.btn.btn-scroll.btn-default.btn-lg(href="#anregungen",style="width:90%").
 					<img src="/img/waben/gelb.png" style="height:22px;margin-right:10px;margin-top:4px;float:left;" />
 					Deine Anregungen
 
@@ -26,7 +26,7 @@ block content
 	div.row
 		div.col-lg-4.col-lg-offset-0
 			h4
-				a.btn.btn-default.btn-lg(href="#unterstuetzung",style="width:90%").
+				a.btn.btn-scroll.btn-default.btn-lg(href="#unterstuetzung",style="width:90%").
 					<img src="/img/waben/rot.png" style="height:22px;margin-right:10px;margin-top:4px;float:left;" />
 					Deine Unterst&uuml;tzung
 
@@ -39,7 +39,7 @@ block content
 	div.row
 		div.col-lg-4.col-lg-offset-0
 			h4
-				a.btn.btn-default.btn-lg(href="#anregungen",style="width:90%").
+				a.btn.btn-scroll.btn-default.btn-lg(href="#fragen",style="width:90%").
 					<img src="/img/waben/blau.png" style="height:22px;margin-right:10px;margin-top:4px;float:left;" />
 					Deine pers&ouml;nlichen Fragen
 
@@ -48,6 +48,18 @@ block content
 			p.
 				Hier kannst du uns eine persönliche Mitteilung schreiben,
 				die wir gerne baldmöglichst beantworten.
+
+	div.row &nbsp;<br/> &nbsp;<br/> 
+	hr
+	div.row &nbsp;<br/> &nbsp;<br/>
+
+	div.row
+		div.col-lg-12
+			h2#anregungen Anregungen
+
+	div.row
+		div.col-lg-12
+			Lorem Ipsum
 
 	div.row &nbsp;<br/> &nbsp;<br/> 
 	hr
@@ -150,7 +162,7 @@ block content
 
 	div.row
 		div.col-lg-12
-			h2#anregungen Deine pers&ouml;nlichen Fragen
+			h2#fragen Deine pers&ouml;nlichen Fragen
 
 	div.row
 		div.col-lg-12
@@ -197,3 +209,23 @@ block content
 			- endif
 
 		div.row &nbsp;<br/> &nbsp;<br/> 
+
+block scripts
+	script(type='text/javascript').
+		function scrollToAnchor(aid){
+			var aTag = $("h2[id='"+ aid +"']");
+			$('html,body').animate({scrollTop: aTag.offset().top},'slow');
+		}
+
+		$(function() {
+			//console.log('k');
+			$('.btn-scroll').each(function(el) {
+				//console.log('a');
+				//console.log( $(this).attr("href") );
+
+				$(this).click(function(event) {
+					event.preventDefault();
+					scrollToAnchor( $(this).attr("href").replace("#","") );
+				});
+			});
+		});
