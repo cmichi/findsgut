@@ -44,3 +44,7 @@ body {
 .active a {
 	text-decoration: underline;
 }
+
+.popover {
+	width: 350px !important;
+}

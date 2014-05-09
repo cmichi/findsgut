@@ -41,7 +41,7 @@ div.row
 													|Online-Angebote
 								div.row
 										div.col-lg-3
-											div.checkbox
+											div.checkbox.pull-left
 												label
 													- if (fair === true)
 														input(type="checkbox",name="fair",checked="checked")
@@ -49,13 +49,11 @@ div.row
 														input(type="checkbox",name="fair")
 													- endif
 													|faire Produkte
-											//div.alert.alert-info(style="margin-top:10px;margin-bottom:0px;") 
-											//include ../classifications/fair
-											a(href="#",data-toggle="popover").btn.btn-large.btn-default#popfair.
-												Info
+											a(href="#",data-toggle="popover").pull-left#popfair
+												img(src="/img/info.png",style="width:25px;margin-top:9px;margin-left:10px;")
 
 										div.col-lg-3
-											div.checkbox
+											div.checkbox.pull-left
 												label
 													- if (bio === true)
 														input(type="checkbox",name="bio",checked="checked")
@@ -63,13 +61,12 @@ div.row
 														input(type="checkbox",name="bio")
 													- endif
 													|biologische Produkte
-											a(href="#",data-toggle="popover").btn.btn-large.btn-default#popbio.
-												Info
-											//div.alert.alert-info(style="margin-top:10px;margin-bottom:0px;") 
-											//include ../classifications/bio
+
+											a(href="#",data-toggle="popover").pull-left#popbio
+												img(src="/img/info.png",style="width:25px;margin-top:9px;margin-left:10px;")
 
 										div.col-lg-3
-											div.checkbox
+											div.checkbox.pull-left
 												label
 													- if (regional === true)
 														input(type="checkbox",name="regional",checked="checked")
@@ -78,13 +75,11 @@ div.row
 													- endif
 													|regionale Produkte
 
-											//div.alert.alert-info(style="margin-top:10px;margin-bottom:0px;") 
-											//include ../classifications/regional
-											a(href="#",data-toggle="popover").btn.btn-large.btn-default#popregional.
-												Info
+											a(href="#",data-toggle="popover").pull-left#popregional
+												img(src="/img/info.png",style="width:25px;margin-top:9px;margin-left:10px;")
 
 										div.col-lg-3
-											div.checkbox
+											div.checkbox.pull-left
 												label
 													- if (used === true)
 														input(type="checkbox",name="used",checked="checked")
@@ -93,10 +88,8 @@ div.row
 													- endif
 													|gebrauchte Produkte
 
-											//div.alert.alert-info(style="margin-top:10px;margin-bottom:0px;") 
-											//include ../classifications/used
-											a(href="#",data-toggle="popover").btn.btn-large.btn-default#popused.
-												Info
+											a(href="#",data-toggle="popover").pull-left#popused
+												img(src="/img/info.png",style="width:25px;margin-top:9px;margin-left:10px;")
 
 									div.row
 										div.col-lg-12
