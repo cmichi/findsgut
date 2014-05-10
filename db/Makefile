@@ -8,7 +8,7 @@ initdb:
 	make push
 
 push:
-	couchapp push findsgut_dev
+	couchapp push findsgut
 
 productive:
 	couchapp push productive

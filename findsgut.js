@@ -12,9 +12,12 @@ var http = require('http');
 
 var cradle = require('cradle');
 var dbname = process.env.DBNAME || 'findsgut';
-var db = new(cradle.Connection)('127.0.0.1', 5985, {
+var dbport = process.env.DBPORT || 5984;
+var obj = {
       auth: { username: 'admin', password: 'wirel' }
-}).database(dbname);
+};
+if (dbport === 5984) obj = {};
+var db = new(cradle.Connection)('127.0.0.1', dbport, obj).database(dbname);
 
 var email = require('./modules/email');
 
@@ -49,7 +52,7 @@ app.configure(function () {
 var server = require('http').createServer(app);
 server.listen(process.env.PORT || 5001, function() {
 	console.log('Listening on port ' + server.address().port 
-		+ ' using db ' + dbname);
+		+ ' using db ' + dbname + ":" + dbport);
 });
 
 app.get('/', function(req, res) {

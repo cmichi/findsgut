@@ -45,6 +45,7 @@ Engine](http://jade-lang.com/reference/).
 	# variables: 
 	# $ export PORT=5001
 	# $ export DBNAME="findsgut"
+	# $ export DBPORT=5985
 
 	# if used in production don't forget to set NODE_ENV,
 	# otherwise no caching will take place.
