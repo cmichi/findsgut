@@ -195,7 +195,11 @@ exports.refresh = function() {
 }
 
 function cp(obj) {
-	return eval(JSON.stringify(obj));
+	//console.log(JSON.stringify(obj));
+	if (obj)
+		return JSON.parse(JSON.stringify(obj));
+	else
+		return undefined;
 }
 
 exports.getEntries = function(cb) {
@@ -217,7 +221,7 @@ exports.getCountCategories = function(cb) {
 }
 
 exports.getCountSubCategories = function(cb) {
-	var count_subcategories_copy = cp(count_subcategories_copy);
+	var count_subcategories_copy = cp(count_subcategories);
 	if (cb) cb(count_subcategories_copy);
 	else return count_subcategories_copy;
 }
