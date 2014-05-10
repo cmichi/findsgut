@@ -1,17 +1,19 @@
 $(function() {
 	var title = "Was hei&szlig;t das?";
-	var fair = 'Die Produkte/Leistungen&hellip;<ul>' 
-	+ '<li>haben ein Siegel: das Fair-Trade-Siegel nach den Kriterien der FLO oder vergleichbare.</li>'
+	var fair = 'Die meisten Produkte des Anbieters&hellip;<ul>' 
+	+ '<li>haben das Fair-Trade-Siegel nach den Kriterien der FLO oder vergleichbare.</li>'
 	+ '<li>haben kein Siegel: der Anbieter versichert jedoch nachvollziehbar, dass vergleichbare '
 	+ 'Standards wie bei den oben genannten Siegeln eingehalten werden.</li></ul>'
 
-	var bio = 'Die Produkte/Leistungen&hellip;<ul>' 
-	+ '<li>haben ein Siegel: im Nahrungsmittelbereich mindestens das Bio-Siegel nach EG-ÖKO-Verordnung oder strenger (z.B. Demeter, Bioland, Naturland) im Textilbereich mindestens IVN, GOTS oder vergleichbar</li>'
+	var bio = 'Die meisten Produkte des Anbieters&hellip;<ul>' 
+	+ '<li>haben ein Siegel: im Nahrungsmittelbereich mindestens das Bio-Siegel nach EG-ÖKO-Verordnung oder strenger (z.B. Demeter, Bioland, Naturland), im Textilbereich mindestens IVN, GOTS oder vergleichbar</li>'
 	+ '<li>haben kein Siegel: der Anbieter versichert jedoch nachvollziehbar, dass vergleichbare Standards wie bei den oben genannten Siegeln eingehalten werden</li></ul>'
 
-	var regional = 'die Hauptbestandteile der angebotenen Produkte werden in einem nahen Umkreis vom Verkaufsort erzeugt und verarbeitet.'
+	var regional = 'Die Hauptbestandteile der angebotenen Produkte werden in einem nahen Umkreis '
+	+ 'vom Verkaufsort erzeugt und verarbeitet.<br/><br/>Was für dich  “regional” bedeutet, kannst du selbst mit der Umkreissuche festlegen.';
 
-	var used = '&hellip;wenn die Produkte gebraucht sind.'
+	var used = 'Die meisten Produkte des Anbieters sind gebraucht.<br/><br/>Technische Großgeräte '
+	+ '(Autos, Waschmaschinen, &hellip;) bitte nicht eintragen.';
 
 
 	$('#popfair').popover({html: true, content: fair, title: title, placement: 'bottom'});
