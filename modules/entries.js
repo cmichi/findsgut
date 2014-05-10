@@ -814,7 +814,8 @@ function validate(body) {
 
 	chk_cnt = chk._errors.length;
 
-	var chk = validator.check(body.agb, "Bitte akzeptiere die AGB.").equals("on");
+	var chk = validator.check(body.agb, "Bitte überprüfe ob dieser "
+		+ "Eintrag der Idee von findsgut entspricht.").equals("on");
 	if (chk._errors.length > chk_cnt)
 		error_fields.agb = "has-error";
 	else
