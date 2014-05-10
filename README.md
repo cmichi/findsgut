@@ -50,6 +50,11 @@ Engine](http://jade-lang.com/reference/).
 	# otherwise no caching will take place.
 	# $ export NODE_ENV="production"
 
+
+## Database
+
+The databse
+
 ## Cronjob
 
 Die Produktiv-Instanz generiert woechentlich einen Report:
@@ -61,8 +66,7 @@ Die Produktiv-Instanz generiert woechentlich einen Report:
 
  * The `./lib/badwords/*` list is taken from [shutterstock/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words](https://github.com/shutterstock/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words)
 
-
-# License
+## Code-License
 
 The code is licensed under the MIT license:
 
@@ -88,3 +92,35 @@ The code is licensed under the MIT license:
 	LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 	OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 	WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+## Datenbank
+
+### Lizenzierung
+
+	Die findsgut Datenbank steht unter einer CC0 1.0 Universal (CC0 1.0) 
+	Lizenz. Weiterverwendung, Vervielfältigung und Weiterverbreitung 
+	unterliegen somit keinerlei Bedingungen. 
+
+	http://creativecommons.org/publicdomain/zero/1.0/
+
+### Zugriff
+
+Die findsgut Datensammlung ist in der NoSQL-Datenbank CouchDB abgelegt.
+Der Zugriff ist über die URI 
+[http://findsgut.de:5985/_utils/index.html](http://findsgut.de:5985/_utils/index.html)
+möglich. Der Zugriff ist auf Lesezugriff beschränkt. Falls du Interesse
+hast auf unseren Daten aufbauend eine Anwendung zu entwickeln oder eine
+andere Idee zu verwirklichen, macht es vermutlich am meisten Sinn wenn
+du CouchDB bei dir installierst und unsere Datenbank replizierst.
+Ist das einmal gemacht, hast du die komplette Datenbank bei dir lokal
+und kannst sie jederzeit wieder auf den neuesten findsgut-Stand bringen.
+Wie so eine Replikation genau funktioniert wird im 
+[CouchDB-Guide](http://guide.couchdb.org/editions/1/de/tour.html#replication) 
+anschaulich erläutert.
+
+Am Liebsten wäre es uns wenn du dich entscheidest mit Erweiterungen oder 
+neuen Datensätzen zu unserer Plattform beizutragen, wir wollen weitere 
+mögliche Verwendungen aber nicht ausschließen und haben uns deswegen 
+entschlossen die Datenbank und den Quelltext frei zur Verfügung zu
+stellen.
