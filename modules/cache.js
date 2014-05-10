@@ -14,12 +14,13 @@ exports.searchTerm = function(foo, opts, cb) {
 
 	//console.log(search_words);
 	if (search_words.length === 0 || term.replace(/\s*/g, "").length === 0) {
-		cb(null, entries);
+		cb(null, cp(entries));
 		return;
 	}
 
+	var entries_cp = cp(entries);
 	for (var e in entries) {
-		var entry = entries[e].value;
+		var entry = entries_cp[e].value;
 		var searchTxt = assembleSearchTxt(entry);
 		var matched = false;
 
@@ -39,7 +40,7 @@ exports.searchTerm = function(foo, opts, cb) {
 		}
 
 		if (matched) 
-			results.push(entries[e]);
+			results.push(entries_cp[e]);
 	}
 
 	cb(null, results);
