@@ -210,13 +210,13 @@ exports.getAllEntriesCoords = function(cb) {
 }
 
 exports.getCountCategories = function(cb) {
-	var count_categories_copy = cp(entries_categories_copy);
+	var count_categories_copy = cp(count_categories);
 	if (cb) cb(count_categories_copy);
 	else return count_categories_copy;
 }
 
 exports.getCountSubCategories = function(cb) {
-	var count_subcategories_copy = cp(entries_subcategories_copy);
+	var count_subcategories_copy = cp(count_subcategories_copy);
 	if (cb) cb(count_subcategories_copy);
 	else return count_subcategories_copy;
 }

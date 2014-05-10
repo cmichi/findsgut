@@ -85,5 +85,5 @@ $("form[id=filter] input[name=umkreis]").keyup(chg);
 // all results and not the ones of the clicked filters. so to prevent this
 // we will update the results page once the page is loaded.
 $(function() {
-	updateList();
+	//updateList();
 })
