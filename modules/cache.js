@@ -193,24 +193,32 @@ exports.refresh = function() {
 	refreshAllEntriesCoords();
 }
 
+function cp(obj) {
+	return eval(JSON.stringify(obj));
+}
+
 exports.getEntries = function(cb) {
-	if (cb) cb(entries);
-	else return entries;
+	var entries_copy = cp(entries);
+	if (cb) cb(entries_copy);
+	else return entries_copy;
 }
 
 exports.getAllEntriesCoords = function(cb) {
-	if (cb) cb(entries_coords);
-	else return entries_coords;
+	var entries_coords_copy = cp(entries_coords);
+	if (cb) cb(entries_coords_copy);
+	else return entries_coords_copy;
 }
 
 exports.getCountCategories = function(cb) {
-	if (cb) cb(count_categories);
-	else return count_categories;
+	var count_categories_copy = cp(entries_categories_copy);
+	if (cb) cb(count_categories_copy);
+	else return count_categories_copy;
 }
 
 exports.getCountSubCategories = function(cb) {
-	if (cb) cb(count_subcategories);
-	else return count_subcategories;
+	var count_subcategories_copy = cp(entries_subcategories_copy);
+	if (cb) cb(count_subcategories_copy);
+	else return count_subcategories_copy;
 }
 
 exports.init = function(_db, _model) {

@@ -20,12 +20,11 @@ exports.init = function(_app, _db, _layout, _cache, _email, _model, _umkreissuch
 exports.all = function(req, res) {
 	cache.getEntries(function (res_entries) {
 		var entries = res_entries;
-		//var coords = 'var coords = {';
 		var coords = [];
 
 		for (var e in entries) {
-			entries[e].value = layout.prepareDoc(entries[e].value);
 			var doc = entries[e].value;
+			doc = layout.prepareDoc(doc);
 
 			doc.categories = parse(model.categories, doc.categories);
 			doc.subcategories = parseSub(doc.subcategories);
@@ -35,10 +34,7 @@ exports.all = function(req, res) {
 
 			if (doc.coords)
 				coords.push({id: doc._id, coords: doc.coords});
-				//coords += '"' + doc._id + '": [' + doc.coords + '],';
 		}
-		//coords += "}";
-		//console.log(coords);
 
 		entries = orderBy("created_at", entries);
 
