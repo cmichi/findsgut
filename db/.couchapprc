@@ -4,10 +4,10 @@
 	    "db" : "http://localhost:5984/findsgut_dev"
 	}
 	, "productive" : {
-		"db" : "http://admin:wirel@localhost:5498/findsgut"
+		"db" : "http://admin:wirel@localhost:5598/findsgut"
 	}
 	, "productive_dev" : {
-		"db" : "http://admin:wirel@localhost:5498/findsgut_dev"
+		"db" : "http://admin:wirel@localhost:5598/findsgut_dev"
 	}
   }
 }

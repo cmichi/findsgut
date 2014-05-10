@@ -12,7 +12,7 @@ var http = require('http');
 
 var cradle = require('cradle');
 var dbname = process.env.DBNAME || 'findsgut';
-var db = new(cradle.Connection)('127.0.0.1', 5984).database(dbname);
+var db = new(cradle.Connection)('127.0.0.1', 5985).database(dbname);
 
 var email = require('./modules/email');
 
