@@ -7,52 +7,60 @@ block jumbotron
 
 block content
 	div.row
-		div.col-lg-6
+		div.col-lg-12
 			div.row
 				div.col-lg-12
 					label.col-lg-12.control-label(for="subcategories") 
-						h3
-							a(href="/kategorie/product") Produkte (#{count_categories["product"]})
+						h3 Produkte
+							//a(href="/kategorie/product") Produkte (#{count_categories["product"]})
 
-			div.row
 				div.col-lg-11.col-lg-offset-1
-					each subcategory in subcategories["products"]
-						div.row
-							div.col-lg-12
-								//a(href="/kategorie/#{subcategory.key}") #{subcategory.title}
-								h4 #{subcategory.title}
+					div.row
+						each subcategory in subcategories["products"]
+							div.col-lg-6
+								- if (subcategory.list.length > 1) {
+									//a(href="/kategorie/#{subcategory.key}") #{subcategory.title}
+									h4 #{subcategory.title}
 
-						div.row
-							div.col-lg-11(id="subcategory_group_#{subcategory.key}").col-lg-offset-1
-								each sub in subcategory.list
-									div.col-lg-6
-										a(href="/kategorie/#{sub.key}") #{sub.value} (#{count_subcategories[sub.key]})
+									div.col-lg-12(id="subcategory_group_#{subcategory.key}").col-lg-offset-0
+										each sub in subcategory.list
+											div.col-lg-6
+												a(href="/kategorie/#{sub.key}") #{sub.value} (#{count_subcategories[sub.key]})
+								- } else {
+									h4 
+										a(href="/kategorie/#{subcategory.list[0].key}") 
+											|#{subcategory.title} 
+											|(#{count_subcategories[ subcategory.list[0].key ]})
+								- }
 
-						div.col-lg-12(style="clear:both").
-							&nbsp;
+							- if (subcategory.title === "Spielzeug & Musikinstrumente") {
+								div.col-lg-6
+									h4 &nbsp;
+							- }
 
 
-		div.col-lg-6
+						//div.col-lg-12(style="clear:both")  &nbsp;
+
+
+	div.row
+		div.col-lg-12(style="clear:both").
+			&nbsp;
+	div.row
+		div.col-lg-12
 			div.row
 				div.col-lg-12
 					label.col-lg-12.control-label(for="subcategories") 
-						h3
-							a(href="/kategorie/service") Dienstleistungen (#{count_categories["service"]})
+						h3 Dienstleistungen
+							//a(href="/kategorie/service") Dienstleistungen (#{count_categories["service"]})
 
 			div.row
 				div.col-lg-12
 					each subcategory in subcategories["services"]
-						div.row
-							div.col-lg-12
-								h4 &nbsp;
-						div.row
-							div.col-lg-11(id="subcategory_group_#{subcategory.key}").col-lg-offset-1
-								each sub in subcategory.list
-									div.col-lg-6
-										a(href="/kategorie/#{sub.key}") #{sub.value}
-											#{sub.value} (#{count_subcategories[sub.key]})
-						div.col-lg-12(style="clear:both").
-							&nbsp;
+						div.col-lg-11(id="subcategory_group_#{subcategory.key}").col-lg-offset-1
+							each sub in subcategory.list
+								div.col-lg-3
+									a(href="/kategorie/#{sub.key}") #{sub.value}
+										#{sub.value} (#{count_subcategories[sub.key]})
 
 
 //script(src='/js/entries/new.js') 
