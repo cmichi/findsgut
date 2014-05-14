@@ -67,21 +67,35 @@ block content
 					div.col-lg-8
 						each subcategory in subcategories["products"]
 							div.col-lg-12.selectAll
-								div.col-lg-3
+								div.col-lg-4
 									strong #{subcategory.title}
-									br
-									a(href="#") alle ausw&auml;hlen
+									- if (subcategory.list.length > 1) {
+										br
+										a(href="#") alle ausw&auml;hlen
+									- }
 
-								div.col-lg-9(id="subcategory_group_#{subcategory.key}")
-									each sub in subcategory.list
-										div.col-lg-6
-											- if (values["subcategory_" + sub.key] === true)
-												input(name="subcategory_#{sub.key}", type="checkbox", checked="checked") 
-											- else
-												input(name="subcategory_#{sub.key}", type="checkbox") 
-											- endif
-											span.
-												&nbsp; #{sub.value}
+								div.col-lg-8(id="subcategory_group_#{subcategory.key}")
+										- if (subcategory.list.length === 1) {
+												div.col-lg-12
+													- if (values["subcategory_" + subcategory.list[0].key] === true)
+														input(name="subcategory_#{subcategory.list[0].key}", type="checkbox", checked="checked") 
+													- else
+														input(name="subcategory_#{subcategory.list[0].key}", type="checkbox") 
+													- endif
+													span
+														|&nbsp; ausw&auml;hlen
+														//&nbsp; #{subcategory.list[0].value}
+										- } else {
+											each sub in subcategory.list
+												div.col-lg-6
+													- if (values["subcategory_" + sub.key] === true)
+														input(name="subcategory_#{sub.key}", type="checkbox", checked="checked") 
+													- else
+														input(name="subcategory_#{sub.key}", type="checkbox") 
+													- endif
+													span.
+														&nbsp; #{sub.value}
+										- }
 							div.col-lg-12(style="clear:both").
 								&nbsp;
 
