@@ -59,7 +59,7 @@ block content
 						div.col-lg-11(id="subcategory_group_#{subcategory.key}").col-lg-offset-1
 							each sub in subcategory.list
 								div.col-lg-3
-									a(href="/kategorie/#{sub.key}") #{sub.value}
+									a(href="/kategorie/#{sub.key}").
 										#{sub.value} (#{count_subcategories[sub.key]})
 
 
