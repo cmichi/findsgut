@@ -1,5 +1,4 @@
-// when updating this var do not forget to also update `db/views/search/map.js`
-// and `db/views/categories/map.js`!
+// when changing this var: also update `db/views/categories/map.js`!
 exports.classifications = [
 	{
 		key: "bio"
@@ -19,8 +18,7 @@ exports.classifications = [
 	}
 ];
 
-// when updating this var do not forget to also update `db/views/search/map.js`
-// and `db/views/categories/map.js`!
+// when changing this var: also update `db/views/categories/map.js`!
 exports.categories = [
 	{
 		key: "product"
@@ -32,8 +30,7 @@ exports.categories = [
 	}
 ];
 
-// when updating this var do not forget to also update `db/views/search/map.js`
-// and `db/views/categories/map.js`!
+// when changing this var: also update `db/views/categories/map.js`!
 exports.subcategories = {
 	products: [
 		{

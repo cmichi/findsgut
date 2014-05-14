@@ -29,108 +29,54 @@ var categories = [
 var subcategories = {
 	products: [
 		{
-			title: "Büro & Schreibwaren"
-			, list: [
-				{
-					key: "schreibwaren"
-					, value: "Schreibwaren"
-				}
-				, {
-					key: "bastelbedarf"
-					, value: "Bastelbedarf"
-				}
-			]
+			title: "Schreibwaren & Bastelbedarf & Bücher"
+			, list: [{
+				key: "schreibwaren_bastelbedarf_buecher"
+				, value: "Schreibwaren & Bastelbedarf & Bücher"
+			}]
 		}
 		, {
-			title: "Haus & Garten"
-			, list: [
-				{
-					key: "moebel"
-					, value: "Möbel"
-				}
-				, {
-					key: "kueche_bad"
-					, value: "Küche & Bad"
-				}
-				, {
-					key: "werkzeug_zubehoer"
-					, value: "Werkzeug & Zubehör"
-				}
-				, {
-					key: "baumaterialien_farbe"
-					, value: "Baumaterialien & Farbe"
-				}
-				, {
-					key: "pflanzen"
-					, value: "Pflanzen"
-				}
-				, {
-					key: "tierbedarf"
-					, value: "Tierbedarf"
-				}
-				, {
-					key: "dekoration"
-					, value: "Dekoration"
-				}
-			]
-		}
-		
-		, {
-			title: "Elektronik"
-			, list: [
-				{
-					key: "computer"
-					, value: "Computer"
-				}
-				, {
-					key: "foto_video_audio_tv"
-					, value: "Foto, Video, Audio, TV"
-				}
-				, {
-					key: "handy_kommunikation"
-					, value: "Handy & Kommunikation"
-				}
-			]
+			  title: "Haus & Garten"
+			, list: [{
+				  key: "haus_garten"
+				  , value: "Haus & Garten"
+			}]
 		}
 		, {
-			title: "Drogerie"
-			, list: [
-				{
-					key: "schoenheit"
-					, value: "Schönheit"
-				}
-				, {
-					key: "wellness_gesundheit"
-					, value: "Wellnes & Gesundheit"
-				}
-				, {
-					key: "hygiene"
-					, value: "Hygiene"
-				}
-				, {
-					key: "waschen_reinigen"
-					, value: "Waschen & Reinigen"
-				}
-				, {
-					key: "haushalt"
-					, value: "Haushalt"
-				}
-			]
+			  title: "Klein-Elektronik"
+			, list: [{
+				  key: "klein_elektronik"
+				  , value: "Klein-Elektronik"
+			}]
 		}
 		, {
-			title: "Mode"
+			title: "Drogerie & Kosmetik"
+			, list: [{
+				  key: "drogerie_kosmetik"
+				  , value: "Drogerie & Kosmetik"
+			}]
+		}
+		, {
+			title: "Spielzeug & Musikinstrumente"
+			, list: [{
+				  key: "spielzeug_musikinstrumente"
+				  , value: "Spielzeug & Musikinstrumente"
+			}]
+		}
+		, {
+			  title: "Mode & Textilien"
 			, list: [
 				{
 					key: "damenmode"
-					, value: "Damenmode"
+					, value: "Damen"
 				}
 				, {
 					key: "herrenmode"
-					, value: "Herrenmode"
+					, value: "Herren"
 				}
 				, {
 					key: "kindermode"
-					, value: "Kindermode"
+					, value: "Baby & Kinder"
 				}
 				, {
 					key: "accessoires"
@@ -144,6 +90,14 @@ var subcategories = {
 					key: "schuhe"
 					, value: "Schuhe"
 				}
+				, {
+					key: "stoffe"
+					, value: "Stoffe"
+				}
+				, {
+					key: "mode_textilien_sonstige"
+					, value: "Sonstige"
+				}
 			]
 		}
 		, {
@@ -155,105 +109,27 @@ var subcategories = {
 				}
 				, {
 					key: "milchprodukte"
-					, value: "Milchprodukte"
+					, value: "Milchprodukte & Eier"
 				}
 				, {
 					key: "obst"
-					, value: "Obst"
-				}
-				, {
-					key: "gemuese"
-					, value: "Gemüse"
+					, value: "Obst & Gemüse"
 				}
 				, {
 					key: "getraenke"
-					, value: "Getränke"
-				}
-				, {
-					key: "gewuerze"
-					, value: "Gewürze"
-				}
-				, {
-					key: "brotaufstriche"
-					, value: "Brotaufstriche"
+					, value: "Kaffee & Tee & Getränke"
 				}
 				, {
 					key: "suesses_salziges"
 					, value: "Süßes & Salziges"
 				}
 				, {
-					key: "fleischersatz_tofu"
-					, value: "Fleischersatz & Tofu"
-				}
-				, {
-					key: "eier"
-					, value: "Eier"
-				}
-				, {
-					key: "oele_fette"
-					, value: "Öle & Fette"
-				}
-				, {
-					key: "suppen_soszen"
-					, value: "Suppen & Soßen"
-				}
-				, {
-					key: "nahrungsergaenzungsmittel"
-					, value: "Nahrungsergänzungsmittel"
-				}
-				, {
-					key: "reis_huelsenfruechte"
-					, value: "Reis & Hülsenfrüchte"
-				}
-				, {
 					key: "wurst_fleisch_fisch"
 					, value: "Wurst & Fleisch & Fisch"
 				}
 				, {
-					key: "getreideprodukte"
-					, value: "Getreideprodukte"
-				}
-				, {
-					key: "backen_dessert"
-					, value: "Backen & Dessert"
-				}
-				, {
-					key: "fertigprodukte_konserven"
-					, value: "Fertigprodukte & Konserven"
-				}
-			]
-		}
-		, {
-			title: "Baby & Kind"
-			, list: [
-				{
-					key: "kleidung"
-					, value: "Kleidung"
-				}
-				, {
-					key: "zubehoer"
-					, value: "Zubehör"
-				}
-				, {
-					key: "hygiene"
-					, value: "Hygiene"
-				}
-				, {
-					key: "spielzeug"
-					, value: "Spielzeug"
-				}
-				, {
-					key: "nahrung"
-					, value: "Nahrung"
-				}
-			]
-		}
-		, {
-			title: "Sonstiges"
-			, list: [
-				{
-					key: "sonstige"
-					, value: "Sonstiges"
+					key: "weitere_lebensmittel"
+					, value: "Weitere Lebensmittel"
 				}
 			]
 		}
