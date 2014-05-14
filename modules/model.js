@@ -1,3 +1,5 @@
+var fs = require('fs');
+
 // when changing this var: also update `db/views/categories/map.js`!
 exports.classifications = [
 	{
@@ -148,7 +150,7 @@ exports.subcategories = {
 					, value: "Gastronomie"
 				}
 				, {
-					key: "sonstiges"
+					key: "dienstleistung_sonstiges"
 					, value: "Sonstiges"
 				}
 			]
@@ -176,4 +178,35 @@ exports.getCategoryTitle = function(key) {
 			if (obj_l.key === key) return obj_l.value; 
 		} 
 	}
+}
+
+exports.init = function() {
+	for (var sc in this.subcategories.products) {
+		var obj = this.subcategories[sc];
+		for (var sc_l in this.subcategories.products[sc].list) {
+			var obj_l = this.subcategories.products[sc].list[sc_l];
+			this.subcategories.products[sc].list[sc_l].similar_words = parseFile(obj_l.key);
+		} 
+	} 
+	for (var sc in this.subcategories.services) {
+		var obj = this.subcategories[sc];
+		for (var sc_l in this.subcategories.services[sc].list) {
+			var obj_l = this.subcategories.services[sc].list[sc_l];
+			this.subcategories.services[sc].list[sc_l].similar_words = parseFile(obj_l.key);
+		} 
+	} 
+}
+
+function parseFile(key) {
+	var data = fs.readFileSync('./modules/similar-words/' + key, 'utf8');
+	data = data.toLowerCase().split("\n");
+
+	if (data.length === 1 && data[0] === "") 
+		return;
+
+	if (data.length > 0 && data[data.length-1] === "") 
+		data.splice(data.length-1, 1);
+
+	return data;
+
 }

@@ -143,7 +143,7 @@ var subcategories = {
 					, value: "Gastronomie"
 				}
 				, {
-					key: "sonstiges"
+					key: "dienstleistung_sonstiges"
 					, value: "Sonstiges"
 				}
 			]

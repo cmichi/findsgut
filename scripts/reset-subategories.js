@@ -27,7 +27,10 @@ db.view('db/entries', {reduce: false}, function (err, res) {
 			revisions: []
 			, subcategories: []
 		};
-		//db.merge(entry._id, entry._rev, merge_obj, function (err, res_merge) {
+
+		// REMOVE BREAK ONLY IF YOU ARE SURE
+		break;
+
 		db.merge(entry._id, merge_obj, function (err, res_merge) {
 			if (err) {
 				console.dir("error on merge: " + JSON.stringify(err));
@@ -35,6 +38,5 @@ db.view('db/entries', {reduce: false}, function (err, res) {
 			}
 			console.log( JSON.stringify(res_merge) );
 	      	});
-		break;
 	}
 });

@@ -135,6 +135,7 @@ app.use(function(req,res){
 });
 
 (function initApp() {
+	model.init();
 	layout.init(db, email, cache);
 	entries.init(app, db, layout, cache, email, model, umkreissuche);
 	info.init(app, db, layout);
@@ -145,5 +146,4 @@ app.use(function(req,res){
 		cronjob_geocoding.init(db, model, cache);
 
 	umkreissuche.init(db, model, cache);
-
 })();

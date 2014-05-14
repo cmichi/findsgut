@@ -72,7 +72,7 @@ var assembleSearchTxt = function(doc) {
 		}
 	}
 
-	txt += parseSub(doc.subcategories).join(" ");
+	txt += parseSubStuff(doc.subcategories).join(" ");
 	txt = txt.replace(/\&[A-Za-z]+\;/gi, ' ');
 	txt = txt.replace(/\-/gi, '');
 	txt = txt.replace(/\(/gi, '');
@@ -85,8 +85,7 @@ var assembleSearchTxt = function(doc) {
 	return txt;
 }
 
-/* return subcategories objects which are correct for subcategories_arr */
-function parseSub(subcategories_arr) {
+function parseSubStuff(subcategories_arr) {
 	var arr = [];
 
 	for (var c0 in subcategories_arr) {
@@ -95,8 +94,12 @@ function parseSub(subcategories_arr) {
 				var obj = model.subcategories[c1][c2];
 				for (var c3 in obj.list) {
 					var obj2 = obj.list[c3];
-					if (obj2.key === subcategories_arr[c0])
+					if (obj2.key === subcategories_arr[c0]) {
 						arr.push(obj2.value);
+
+						if (obj2.similar_words) 
+							arr = arr.concat(obj2.similar_words);
+					}
 				}
 			}
 		}
