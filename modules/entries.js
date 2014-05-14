@@ -839,18 +839,24 @@ function validate(body) {
 
 	/* subcategories */
 	var subcats_chosen = [];
+	var subcat_from_products_chosen = false;
+	var subcat_from_services_chosen = false;
 	for (var sc in model.subcategories.products) {
 		for (var scs in model.subcategories.products[sc].list) {
 			var subc = model.subcategories.products[sc].list[scs];
-			if (body["subcategory_" + subc.key] === "on")
+			if (body["subcategory_" + subc.key] === "on") {
 				subcats_chosen.push(subc.key)
+				subcat_from_products_chosen = true;
+			}
 		}
 	}
 	for (var sc in model.subcategories.services) {
 		for (var scs in model.subcategories.services[sc].list) {
 			var subc = model.subcategories.services[sc].list[scs];
-			if (body["subcategory_" + subc.key] === "on")
+			if (body["subcategory_" + subc.key] === "on") {
 				subcats_chosen.push(subc.key)
+				subcat_from_services_chosen = true;
+			}
 		}
 	}
 	//console.log("subcats chosen");
@@ -865,6 +871,25 @@ function validate(body) {
 	} else {
 		for (var sc in subcats_chosen) 
 			values["subcategory_" + subcats_chosen[sc]] = true;
+	}
+
+	// Folgender Fall muss beruecksichtigt werden: Angenommen jemand
+	// waehlt die Kategorien 'Produkte' und 'Dienstleistung', dann muss
+	// jeweils auch eine Unterkategorie aus 'Produkte' und
+	// 'Dienstleistungen' gewaehlt sein.
+	var product_and_service_cat_chosen = 0;
+	for (var s in cats_chosen) {
+		if (cats_chosen[s] === "service" || 
+		    cats_chosen[s] === "product")
+			product_and_service_cat_chosen++;
+	}
+	if (subcats_chosen.length > 0 
+	    && product_and_service_cat_chosen === 2
+	    && (!subcat_from_products_chosen || !subcat_from_services_chosen)
+	) {
+		validator.error("Bitte wähle eine Unterkategorie für "
+			+ "jede Hauptkategorie.");
+		error_fields.subcategories = "has-error";
 	}
 
 	var classifications_chosen = [];
