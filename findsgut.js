@@ -16,7 +16,7 @@ var dbport = process.env.DBPORT || 5984;
 var obj = {
       auth: { username: 'admin', password: 'wirel' }
 };
-if (dbport === 5984) obj = {};
+if (dbport == 5984) obj = {};
 var db = new(cradle.Connection)('127.0.0.1', dbport, obj).database(dbname);
 
 var email = require('./modules/email');
