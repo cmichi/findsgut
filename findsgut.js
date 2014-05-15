@@ -13,11 +13,7 @@ var http = require('http');
 var cradle = require('cradle');
 var dbname = process.env.DBNAME || 'findsgut';
 var dbport = process.env.DBPORT || 5984;
-var obj = {
-      auth: { username: 'admin', password: 'wirel' }
-};
-if (dbport == 5984) obj = {};
-var db = new(cradle.Connection)('127.0.0.1', dbport, obj).database(dbname);
+var db = new(cradle.Connection)('127.0.0.1', dbport, config.dbauth).database(dbname);
 
 var email = require('./modules/email');
 

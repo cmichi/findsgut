@@ -91,6 +91,48 @@ div.row
 											a(href="#",data-toggle="popover").pull-left#popused
 												img(src="/img/info.png",style="width:25px;margin-top:9px;margin-left:10px;")
 
+
+									div.row
+										div.col-lg-12
+											&nbsp;
+									div.row
+										div.col-lg-12
+											h4 Nach Produkten filtern
+
+										div.col-lg-12
+											- var c = 0;
+											each subcategory in subcategories["products"]
+												div.col-lg-3
+													- if (checkboxes_checked_in_view[subcategory.title]) {
+														input(type="checkbox",name="product_subcategory[#{c}]",checked="checked") 
+														span &nbsp;#{subcategory.title} 
+
+													- } else {
+														input(type="checkbox",name="product_subcategory[#{c}]") 
+														span &nbsp;#{subcategory.title} 
+													- }
+													- c++;
+
+									div.row
+										div.col-lg-12
+											h4 Nach Dienstleistungen filtern
+
+										div.col-lg-12
+											- var c = 0;
+											each subcategory in subcategories["services"][0].list
+												div.col-lg-3
+													- if (checkboxes_checked_in_view[subcategory.value]) {
+
+														input(type="checkbox",name="service_subcategory[#{c}]",checked="checked") 
+														span &nbsp;#{subcategory.value} 
+
+													- } else {
+														input(type="checkbox",name="service_subcategory[#{c}]") 
+														span &nbsp;#{subcategory.value} 
+													- }
+													- c++;
+
+
 									div.row
 										div.col-lg-12
 											|&nbsp;<br/>

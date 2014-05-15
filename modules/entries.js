@@ -431,6 +431,73 @@ exports.search = function(req, res) {
 	var searching = false;
 	if (req.param("searching") === "true") searching = true;
 
+	var product_categories_search = false;
+	var service_categories_search = false;
+	var match_on_subcats = {
+		_exceute: false
+	};
+	var checkboxes_checked_in_view = {};
+
+	//console.log(JSON.stringify(req.param("product_subcategory")));
+	if (searching) {
+		if (req.param("product_subcategory")) {
+			product_categories_search = true;
+			//match_on_subcats._execute = true;
+			//console.log(JSON.stringify(req.param("product_subcategory")));
+			var arr = JSON.parse(JSON.stringify(req.param("product_subcategory")));
+
+			for (var c in model.subcategories.products) {
+				if (arr[c] == "on") {
+					var s = model.subcategories.products[c];
+					checkboxes_checked_in_view[s.title] = true;
+					match_on_subcats._execute = true;
+					for (var l in s.list) {
+						var e = s.list[l];
+						match_on_subcats[e.key] = true;
+					}
+				}
+			}
+			//console.log(JSON.stringify(match_on_subcats));
+		}
+
+		if (req.param("service_subcategory")) {
+			service_categories_search = true;
+			arr = JSON.parse(JSON.stringify(req.param("service_subcategory")));
+			//console.log(JSON.stringify(arr));
+
+			for (var c in model.subcategories.services[0].list) {
+				var foo = model.subcategories.services[0].list[c];
+				//console.log(JSON.stringify(foo.value));
+			
+				if (arr[c] == "on") {
+					match_on_subcats._execute = true;
+				//console.log(c);
+					checkboxes_checked_in_view[foo.value] = true;
+					match_on_subcats[foo.key] = true;
+				}
+			}
+		}
+		console.log("match on");
+		console.log(JSON.stringify(match_on_subcats));
+	}
+
+	/*
+	for (var c in req.param("subcategory")) {
+		console.log(c);
+		var foo = req.param("subcategory[" + c + "]")
+		console.log(foo);
+		console.log("--");
+
+		if (foo == "1")
+			categories_search = true;
+	}
+	*/
+
+	//console.log(req.param("subcategory[0]") + "!");
+	//console.log(JSON.stringify(req.param("subcategory")));
+	//console.log(JSON.stringify(req.params));
+	//console.log(req.param("subcategory")[0]);
+
 	var umkreissuche_active = false;
 	var distance = 50;
 	var umkreis = "";
@@ -462,9 +529,12 @@ exports.search = function(req, res) {
 		, distance: distance
 		, umkreissuche_active: umkreissuche_active
 		, searching: searching
+		, subcategories: model.subcategories
+		, checkboxes_checked_in_view: checkboxes_checked_in_view
 	};
 
-	if (term.length === 0 && !online && !local && !bio && !fair && !used && !regional && !umkreissuche_active) {
+	if (term.length === 0 && !online && !local && !bio && !fair && !used && !regional && !umkreissuche_active
+	    && !product_categories_search && !service_categories_search) {
 		additional_params.list = cache.getEntries();
 		if (additional_params.list.length === 1)
 			additional_params.show_last = true;
@@ -505,7 +575,8 @@ exports.search = function(req, res) {
 		console.log("executing umkreissuche");
 		(function(addr, 
 			  opts, online, local, bio, used, fair, regional, umkreissuche_active, 
-			  distance, req, res, additional_params, ajax) {
+			  distance, req, res, additional_params, ajax,
+			  match_on_subcats) {
 
 			nominatim.search({ q: addr }, function(err, _opts, results) {
 				//console.log("searched for " + addr);
@@ -515,23 +586,26 @@ exports.search = function(req, res) {
 				//console.log(JSON.stringify(me_coords, null, "\t"));
 
 				executeSearch(opts, online, local, bio, used, fair, regional, umkreissuche_active, 
-					me_coords, distance, req, res, additional_params, ajax);
+					me_coords, distance, req, res, additional_params, ajax,
+					match_on_subcats);
 			});
 		})(umkreis, opts, online, local, bio, used, fair, regional, umkreissuche_active, 
-		   distance, req, res, additional_params, ajax);
+		   distance, req, res, additional_params, ajax, match_on_subcats);
 	} else {
 		executeSearch(opts, online, local, bio, used, fair, regional, umkreissuche_active, 
-			[], distance, req, res, additional_params, ajax);
+			[], distance, req, res, additional_params, ajax,
+			match_on_subcats);
 	}
 }
 
 function executeSearch(opts, online, local, bio, used, fair, regional, umkreissuche_active, 
-		me_coords, distance, req, res, additional_params, ajax) {
-
+		me_coords, distance, req, res, additional_params, ajax,
+		match_on_subcats) {
 
 	//db.view('db/search', opts, function (err, res_search) {
 (function (opts, online, local, bio, used, fair, regional, umkreissuche_active, 
-		me_coords, distance, req, res, additional_params, ajax) {
+		me_coords, distance, req, res, additional_params, ajax,
+		match_on_subcats) {
 
 		//console.log(umkreissuche_active + " 1");
 	cache.searchTerm('db/search', opts, function (err, res_search) {
@@ -569,6 +643,22 @@ function executeSearch(opts, online, local, bio, used, fair, regional, umkreissu
 
 				if (regional === true && classified(r, "regional") === false)
 					show = false;
+
+				//console.log(": " + JSON.stringify(additional_params.checkboxes_checked_in_view))
+				if (match_on_subcats._execute) {
+					//console.log("se");
+					show = false;
+					for (var s in r.subcategories) {
+						var f = r.subcategories[s];
+						//console.log(JSON.stringify(f));
+						if (match_on_subcats[f]) {
+							show = true;
+							break;
+						}
+					}
+					//console.log(JSON.stringify(match_on_subcats));
+				}
+
 
 				if (umkreissuche_active) {
 					//console.log("umkreissuche_active");
@@ -641,7 +731,8 @@ function executeSearch(opts, online, local, bio, used, fair, regional, umkreissu
 		}
 	})
 	})(opts, online, local, bio, used, fair, regional, umkreissuche_active, 
-	   me_coords, distance, req, res, additional_params, ajax);
+	   me_coords, distance, req, res, additional_params, ajax,
+	   match_on_subcats);
 }
 
 function orderBy(key, arr) {
