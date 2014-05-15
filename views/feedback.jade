@@ -12,12 +12,12 @@ block content
 	div.row
 		div.col-lg-4.col-lg-offset-0
 			h4
-				a.btn.btn-scroll.btn-default.btn-lg(href="#anregungen",style="width:90%").
+				a.btn.btn-scroll.btn-default.btn-lg(href="#nachricht",style="width:90%").
 					<img src="/img/waben/gelb.png" style="height:22px;margin-right:10px;margin-top:4px;float:left;" />
 					Deine Anregungen
 
 		div.col-lg-6
-			p(style="padding-top:0px").
+			p(style="padding-top:10px").
 				Hier ist ein offener Raum für Ideen, Fragen,
 				Anregungen, Rückmeldungen und zum Austausch.
 				So können wir gemeinsam das Projekt weiter
@@ -32,7 +32,7 @@ block content
 
 
 		div.col-lg-6
-			p(style="padding-top:12px").
+			p(style="padding-top:10px").
 				Du findest <i>findsgut</i> echt gut und möchtest das Projekt
 				unterstützen? Hier findest du verschiedene Möglichkeiten.
 
@@ -45,7 +45,7 @@ block content
 
 
 		div.col-lg-6
-			p(style="padding-top:12px").
+			p(style="padding-top:10px").
 				Hier kannst du uns eine persönliche Mitteilung schreiben,
 				die wir gerne baldmöglichst beantworten.
 
@@ -57,10 +57,69 @@ block content
 		div.col-lg-12
 			h2#anregungen Anregungen
 
+	- if (success_anregung === true) {
+		div.row
+			div.col-lg-12
+				div.alert.alert-warning(style="height:auto")
+					img(src="/img/biene.png",align="left",width="100",style="margin:0px 20px 10px 0px;")
+					h4 Dankesch&ouml;n! 
+
+					p.
+						&hellip;dass du mit Anregungen oder Feedback zu diesem Projekt
+						beitr&auml;gst.
+
+	- }
+
 	div.row
 		div.col-lg-12
-			p.
-				In K&uuml;rze wird hier ein Messageboard sein.
+			- if (msgs.length > 0) {
+				table.table.table-striped
+					thead
+						tr 
+							th Benutzer
+							th Nachricht
+					tbody
+						- for (var msg in msgs) 
+							tr
+								td #{msgs[msg].value.name}
+								td 
+									- for (var m in msgs[msg].value.msg) {
+										p.
+											#{msgs[msg].value.msg[m]}
+									- }
+			- } else {
+				p.
+					Noch keine Nachrichten vorhanden.
+			- }
+
+	div.row
+		div.col-lg-12
+			|&nbsp;<br/>
+			h4#nachricht Eine Nachricht absenden?
+			form(role="form",method="POST",action="/feedback/msg").form-horizontal.
+				<div class="form-group">
+					<label for="inputEmail1" class="col-lg-2 control-label">Name</label>
+					<div class="col-lg-10">
+						<input type="text" name="inputName" class="form-control" id="inputName" placeholder="">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputEmail1" class="col-lg-2 control-label">E-Mail</label>
+					<div class="col-lg-10">
+						<input type="email" name="inputEmail" class="form-control" id="inputEmail1" placeholder="">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputMsg" class="col-lg-2 control-label">Deine Nachricht</label>
+					<div class="col-lg-10">
+						<textarea id="inputMsg" name="inputMsg" class="form-control" rows="3"></textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-offset-2 col-lg-10">
+						<button type="submit" class="btn btn-default">Absenden</button>
+					</div>
+				</div>
 
 	div.row &nbsp;<br/> &nbsp;<br/> 
 	hr

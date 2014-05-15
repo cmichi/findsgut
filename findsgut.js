@@ -104,11 +104,25 @@ app.get('/idee', function(req, res) {
 });
 
 app.get('/feedback', function(req, res) {
-	res.render('feedback', layout.get_vars('feedback'));
+	//console.log(JSON.stringify(cache.getMsgs()))
+	var success = false;
+	if (req.param("success")) {
+		if (req.param("success") == "true") 
+			success = true;
+	}
+	var obj = {
+		msgs: cache.getMsgs()
+		, success_anregung: success
+	};
+	res.render('feedback', layout.get_vars('feedback', obj));
 });
 
 app.post('/feedback', function(req, res) {
 	email.feedback(req, res, layout, db);
+});
+
+app.post('/feedback/msg', function(req, res) {
+	layout.messageboard(req, res);
 });
 
 app.get('/info', function(req, res) {

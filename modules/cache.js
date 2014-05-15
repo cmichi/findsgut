@@ -7,6 +7,8 @@ var entries_coords = [];
 var count_categories = { /* key: 0 */ };
 var count_subcategories = { /* key: 0 */ };
 
+var msgs = [];
+
 exports.searchTerm = function(foo, opts, cb) {
 	var term = opts.startkey;
 	var search_words = term.replace(/[!.,;?\r\n\t]+/g," ").toLowerCase().split(" ");
@@ -120,6 +122,27 @@ var refreshAllEntriesCoords = function() {
 	});
 }
 
+exports.refreshMsgs = function(cb) {
+	db.view('db/messageboard', {reduce: false, descending: true}, function (err, res_entries) {
+		if (err) {
+			console.dir(err);
+			return;
+		}
+
+		msgs = res_entries;
+
+		for (var m in msgs) {
+			msgs[m].value.msg = msgs[m].value.msg.split("\r");
+			//msgs[m].value.msg = msgs[m].value.msg.replace("\r", "");
+		}
+		//console.log(JSON.stringify(msgs, null, "\t"));
+		console.log("loaded " + msgs.length + " messages into cache")
+
+		if (cb)
+			cb();
+	});
+}
+
 var refreshEntries = function(cb) {
 	db.view('db/entries', {reduce: false}, function (err, res_entries) {
 		if (err) {
@@ -195,6 +218,7 @@ var pingCache = function() {
 exports.refresh = function() {
 	refreshEntries();
 	refreshAllEntriesCoords();
+	this.refreshMsgs();
 }
 
 function cp(obj) {
@@ -203,6 +227,12 @@ function cp(obj) {
 		return JSON.parse(JSON.stringify(obj));
 	else
 		return undefined;
+}
+
+exports.getMsgs = function(cb) {
+	var msgs_copy = cp(msgs);
+	if (cb) cb(msgs_copy);
+	else return msgs_copy;
 }
 
 exports.getEntries = function(cb) {

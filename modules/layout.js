@@ -90,3 +90,43 @@ exports.error = function(code, err, req, res, params) {
 		if (res) res.render('500', params);
 	}
 }
+
+exports.messageboard = function(req, res) {
+	var name = db.prepare(req.param('inputName'));
+	var mail = db.prepare(req.param('inputEmail'));
+	var msg = db.prepare(req.param('inputMsg'));
+
+	if (name.length === 0 || msg.length === 0) {
+		res.redirect("/feedback#anregungen");
+		return;
+	}
+
+	name = name.replace(" - ", " – ");
+	msg = msg.replace(" - ", " – ");
+
+	var new_obj = {
+		type: "messageboard"
+		, name: name
+		, msg: msg
+		, mail: mail
+		, ts: (new Date()).getTime()
+	};
+
+	db.save(new_obj, function(err, res_created) {
+		if (err) {
+			layout.error(500, err, req, res, layout.get_vars('entries_all'));
+			return;
+		}
+
+		(function(res) {
+			cache.refreshMsgs(function() {
+				res.redirect("/feedback?success=true#anregungen");
+				return;
+
+			});
+		})(res);
+
+		//console.log(JSON.stringify(res_created));
+	});
+
+}
