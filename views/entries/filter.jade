@@ -95,69 +95,86 @@ div.row
 									div.row
 										div.col-lg-12
 											&nbsp;
-									div.row
-										div.col-lg-12
-											h4 Nach Produkten filtern
 
-										div.col-lg-12
-											- var c = 0;
-											each subcategory in subcategories["products"]
-												div.col-lg-3
-													- if (checkboxes_checked_in_view[subcategory.title]) {
-														input(type="checkbox",name="product_subcategory[#{c}]",checked="checked") 
-														span &nbsp;#{subcategory.title} 
+									div.accordion#accordion1
+										div.accordion-group
+												div.row
+													div.col-lg-12
+														div.accordion-heading
+															|<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapseThree">Nach Produkten filtern</a>
+														div(id="collapseThree",class="accordion-body collapse ")
+															div.accordion-inner
+																div.row
+																	div.col-lg-12
+																		- var c = 0;
+																		each subcategory in subcategories["products"]
+																			div.col-lg-3
+																				- if (checkboxes_checked_in_view[subcategory.title]) {
+																					input(type="checkbox",name="product_subcategory[#{c}]",checked="checked") 
+																					span &nbsp;#{subcategory.title} 
 
-													- } else {
-														input(type="checkbox",name="product_subcategory[#{c}]") 
-														span &nbsp;#{subcategory.title} 
-													- }
-													- c++;
+																				- } else {
+																					input(type="checkbox",name="product_subcategory[#{c}]") 
+																					span &nbsp;#{subcategory.title} 
+																				- }
+																				- c++;
 
-									div.row
-										div.col-lg-12
-											h4 Nach Dienstleistungen filtern
+									div.accordion#accordion2
+										div.accordion-group
+												div.row
+													div.col-lg-12
 
-										div.col-lg-12
-											- var c = 0;
-											each subcategory in subcategories["services"][0].list
-												div.col-lg-3
-													- if (checkboxes_checked_in_view[subcategory.value]) {
+														div.accordion-heading
+															|<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">Nach Dienstleistungen filtern</a>
+														div(id="collapseTwo",class="accordion-body collapse ")
+															div.accordion-inner
+																div.row
+																	div.col-lg-12
+																		- var c = 0;
+																		each subcategory in subcategories["services"][0].list
+																			div.col-lg-3
+																				- if (checkboxes_checked_in_view[subcategory.value]) {
 
-														input(type="checkbox",name="service_subcategory[#{c}]",checked="checked") 
-														span &nbsp;#{subcategory.value} 
+																					input(type="checkbox",name="service_subcategory[#{c}]",checked="checked") 
+																					span &nbsp;#{subcategory.value} 
 
-													- } else {
-														input(type="checkbox",name="service_subcategory[#{c}]") 
-														span &nbsp;#{subcategory.value} 
-													- }
-													- c++;
+																				- } else {
+																					input(type="checkbox",name="service_subcategory[#{c}]") 
+																					span &nbsp;#{subcategory.value} 
+																				- }
+																				- c++;
 
 
-									div.row
-										div.col-lg-12
-											|&nbsp;<br/>
-											h4 Umkreissuche
+									div.accordion#accordion3
+										div.accordion-group
+												div.row
+													div.col-lg-12
+														//|&nbsp;<br/>
+														//h4 Umkreissuche
 
-									div.row
-										div.col-lg-5
-											div.input-group 
-												span.input-group-addon
-													span Rund um:
-												- if (umkreis == undefined || umkreis.length === 0)
-													input(type="text",class="form-control",placeholder="Ort",name="umkreis") 
-												- else
-													input(type="text",class="form-control",placeholder="",name="umkreis",value="#{umkreis}") 
-										div.col-lg-3
-											div.input-group 
-												span.input-group-addon Distanz:
-												- if (distance == undefined || distance.length === 0)
-													input(type="text",class="form-control",placeholder="Entfernung",name="distance",value="50") 
-												- else
-													input(type="text",class="form-control",placeholder="",name="distance",value="#{distance}") 
-												span.input-group-addon km
+														div.accordion-heading
+															|<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseOne">Umkreissuche</a>
+														div(id="collapseOne",class="accordion-body collapse ")
+															div.accordion-inner
+																div.row
+																	div.col-lg-5
+																		div.input-group 
+																			span.input-group-addon
+																				span Rund um:
+																			- if (umkreis == undefined || umkreis.length === 0)
+																				input(type="text",class="form-control",placeholder="Ort",name="umkreis") 
+																			- else
+																				input(type="text",class="form-control",placeholder="",name="umkreis",value="#{umkreis}") 
+																	div.col-lg-3
+																		div.input-group 
+																			span.input-group-addon Distanz:
+																			- if (distance == undefined || distance.length === 0)
+																				input(type="text",class="form-control",placeholder="Entfernung",name="distance",value="50") 
+																			- else
+																				input(type="text",class="form-control",placeholder="",name="distance",value="#{distance}") 
+																			span.input-group-addon km
 									div.row
 										div.col-lg-12.
-													&nbsp;<br/>
 													&nbsp;<br/>
 													<button style="width:100%" type= "submit" class="btn btn-default">Suche starten!</button> 
 				hr
