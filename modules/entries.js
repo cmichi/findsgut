@@ -42,6 +42,8 @@ exports.all = function(req, res) {
 			list: entries
 			, entries_count: entries.length /* immediate update */
 			, coords: coords
+			, subcategories: model.subcategories
+			, checkboxes_checked_in_view: {}
 
 			/* default: show all */
 			/* changing search semantic to semantic1, commenting this out

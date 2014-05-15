@@ -16,7 +16,7 @@
 					div.panel-body
 						div.content(id="content_small_#{entry.value._id}")
 							p	
-								a(href="/eintraege/#{entry.value._id}/")
+								a(href="/eintraege/#{entry.value._id}/",id="#{entry.value._id}").btn-mehr-title
 									- if (entry.value.name.length > 56)
 										|#{entry.value.name.substr(0,56)}&hellip;
 									- else
@@ -30,7 +30,7 @@
 
 						div.content(id="content_large_#{entry.value._id}",style="display:none;")
 							p	
-								a(href="/eintraege/#{entry.value._id}/")
+								a(href="/eintraege/#{entry.value._id}/",id="#{entry.value._id}").btn-mehr-title
 									|#{entry.value.name}
 
 							each paragraph in entry.value.description.split("\r\n")

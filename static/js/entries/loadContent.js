@@ -1,10 +1,14 @@
 function initMehrButtons() {
 	$('.btn-mehr').each(function() {
-		//console.log("each " + this.innerHTML);
-		//$(this).attr("href", "#");
-		//console.log("each " + this.href);
-
 		$(this).click(function(event) {
+			event.preventDefault();
+			loadContent(this.id);
+		});
+		//console.log('.btn-mehr-title #' + this.id)
+
+		//$('.btn-mehr-title #' + this.id).html('bar')
+
+		$('.btn-mehr-title[id=' + this.id + ']').click(function(event) {
 			event.preventDefault();
 			loadContent(this.id);
 		});
@@ -18,14 +22,15 @@ function loadContent(id) {
 		$("#panel_" + id).css("height", "auto");
 
 		$("#content_small_" + id).hide();
-		$("#" + id).html("&raquo; Weniger anzeigen");
+		$(".btn-mehr[id=" + id + "]").html("&raquo; Weniger anzeigen");
 		$("#content_large_" + id).show();
 		visibility[id] = "large";
 	} else {
 		$("#panel_" + id).css("height", "150px");
 
 		$("#content_small_" + id).show();
-		$("#" + id).html("&raquo; Mehr anzeigen");
+		$(".btn-mehr[id=" + id + "]").html("&raquo; Mehr anzeigen");
+
 		$("#content_large_" + id).hide();
 		visibility[id] = "small";
 	}
