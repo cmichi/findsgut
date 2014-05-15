@@ -1,6 +1,7 @@
 var db;
 var cache;
 var email;
+var config;
 var underscore = require('underscore');
 
 exports.get_vars = function(navi_key, additional_vars) {
@@ -20,10 +21,11 @@ exports.get_vars = function(navi_key, additional_vars) {
 	return vars;
 }
 
-exports.init = function(d, e, c) {
+exports.init = function(d, e, c, _c) {
 	db = d;
 	email = e;
 	cache = c;
+	config = _c;
 }
 
 function get_navi(k, req) {
@@ -111,6 +113,16 @@ exports.messageboard = function(req, res) {
 		, mail: mail
 		, ts: (new Date()).getTime()
 	};
+
+	email.send({
+		to           : config.mail.feedback_to,
+		subject      : '[findsgut] Anregungsformular',
+		from         : config.mail.feedback_to,
+		text         : "" + JSON.stringify(new_obj, null, "\t")
+	}, function(err, m){
+		console.log(err || m);
+		return;
+	});
 
 	db.save(new_obj, function(err, res_created) {
 		if (err) {

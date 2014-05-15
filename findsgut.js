@@ -146,7 +146,7 @@ app.use(function(req,res){
 
 (function initApp() {
 	model.init();
-	layout.init(db, email, cache);
+	layout.init(db, email, cache, config);
 	entries.init(app, db, layout, cache, email, model, umkreissuche);
 	info.init(app, db, layout);
 
