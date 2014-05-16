@@ -1,6 +1,6 @@
 var updateList = function() { 
 	//console.log("update");
-	var local = $("form[id=filter] input[name=lokal]").prop("checked");
+	var local = $("form[id=filter] input[name=local]").prop("checked");
 	if (local === true) local = "on";
 	else local = "";
 
@@ -28,11 +28,23 @@ var updateList = function() {
 
 	// do not search when default stuff is entered
 	if (local === "" && online === "" && regional === "" && bio === "" 
-		&& fair === "" && distance === "50" && umkreis === "" && term === "")
+		&& fair === "" && distance === "50" && umkreis === "" && term === ""
+		&& $('form#filter :checked').length === 0)
 		return;
 
 	$("#list").html("Deine Suche wird ausgef&uuml;hrt&hellip;");
 	$(".jumbotron").html("<div class='container'><h1>Deine Suche wird ausgef&uuml;hrt&hellip;</h1></div>");
+
+	var subcategories = "";
+	$('input[name^="product_subcategory"]').each(function() {
+		if ($(this).attr("checked") === "checked")
+			subcategories += "&" + $(this).attr("name") + "=on";
+	});
+	$('input[name^="service_subcategory"]').each(function() {
+		if ($(this).attr("checked") == "checked")
+			subcategories += "&" + $(this).attr("name") + "=on";
+	});
+	//console.log(subcategories + "!")
 
 	var uri = "/suche/?ajax=true" 
 		+ "&local=" + local 
@@ -45,6 +57,7 @@ var updateList = function() {
 		+ "&umkreis=" + umkreis
 		+ "&distance=" + distance
 		+ "&searching=true"
+		+ subcategories
 
 	$.ajax({
 		url: uri
@@ -74,10 +87,12 @@ function chg() {
 	to = window.setTimeout("updateList()", 500);
 }
 
-$("form[id=filter]").change(chg);
+//$("form[id=filter]").change(chg);
 $("form[id=filter] input[name=term]").keyup(chg);
 $("form[id=filter] input[name=distance]").keyup(chg);
 $("form[id=filter] input[name=umkreis]").keyup(chg);
+$("form[id=filter] input[type=checkbox]").change(chg);
+//$("form[id=filter] input[type=checkbox]").click(chg);
 
 // this is necessary because: a user may click various filters and then 
 // reload the page. the browser will then keep the checkboxes

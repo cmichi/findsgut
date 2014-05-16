@@ -347,6 +347,7 @@ exports.get_category = function(req, res) {
 			    "list": docs
 			  , category: title
 			  , searching: true
+			  , subcategories: model.subcategories
 		};
 
 		res.render('entries/search', layout.get_vars('rummage', additional_params));
@@ -436,7 +437,7 @@ exports.search = function(req, res) {
 	var product_categories_search = false;
 	var service_categories_search = false;
 	var match_on_subcats = {
-		_exceute: false
+		_execute: false
 	};
 	var checkboxes_checked_in_view = {};
 
@@ -479,8 +480,8 @@ exports.search = function(req, res) {
 				}
 			}
 		}
-		console.log("match on");
-		console.log(JSON.stringify(match_on_subcats));
+		//console.log("match on");
+		//console.log(JSON.stringify(match_on_subcats));
 	}
 
 	/*
