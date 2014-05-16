@@ -425,7 +425,7 @@ exports.search = function(req, res) {
 	if (req.param("fair") === "on") fair = true;
 
 	var used = false;
-	if (req.param("used") === "on") bio = used;
+	if (req.param("used") === "on") used = true;
 
 	var regional = false;
 	if (req.param("regional") === "on") regional = true;
