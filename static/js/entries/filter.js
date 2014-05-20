@@ -8,6 +8,10 @@ var updateList = function() {
 	if (online === true) online = "on";
 	else online = "";
 
+	var brand = $("form[id=filter] input[name=brand]").prop("checked");
+	if (brand === true) brand = "on";
+	else brand = "";
+
 	var bio = $("form[id=filter] input[name=bio]").prop("checked");
 	if (bio === true) bio = "on";
 	else bio = "";
@@ -27,8 +31,9 @@ var updateList = function() {
 	//console.log("umkreis " + umkreis)
 
 	// do not search when default stuff is entered
-	if (local === "" && online === "" && regional === "" && bio === "" 
-		&& fair === "" && distance === "50" && umkreis === "" && term === ""
+	if (local === "" && online === "" && brand === "" && regional === "" 
+		&& bio === "" && fair === "" && distance === "50" 
+		&& umkreis === "" && term === ""
 		&& $('form#filter :checked').length === 0)
 		return;
 
@@ -49,6 +54,7 @@ var updateList = function() {
 	var uri = "/suche/?ajax=true" 
 		+ "&local=" + local 
 		+ "&online=" + online 
+		+ "&brand=" + brand 
 		+ "&bio=" + bio 
 		+ "&fair=" + fair 
 		+ "&regional=" + regional 

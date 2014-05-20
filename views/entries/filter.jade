@@ -39,6 +39,15 @@ div.row
 														input(type="checkbox",name="online")
 													- endif
 													|Online-Angebote
+										div.col-lg-3
+											div.checkbox
+												label
+													- if (brand === true)
+														input(type="checkbox",name="brand",checked="checked")
+													- else
+														input(type="checkbox",name="brand")
+													- endif
+													|Marke
 								div.row
 										div.col-lg-3
 											div.checkbox.pull-left

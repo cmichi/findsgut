@@ -44,16 +44,6 @@ exports.all = function(req, res) {
 			, coords: coords
 			, subcategories: model.subcategories
 			, checkboxes_checked_in_view: {}
-
-			/* default: show all */
-			/* changing search semantic to semantic1, commenting this out
-			, online: true
-			, local: true
-			, fair: true
-			, bio: true
-			, used: true
-			, regional: true
-			*/
 		};
 
 		res.render('entries/all', layout.get_vars('entries_all', params));
@@ -214,6 +204,7 @@ function saveEntry(_id, _rev, res, body, validation_results, doc) {
 		, uri: body.uri
 		, local: body.local
 		, online: body.online
+		, brand: body.brand
 		, categories: validation_results.cats_chosen
 		, subcategories: validation_results.subcats_chosen
 		, classifications: validation_results.classifications_chosen
@@ -416,6 +407,9 @@ exports.search = function(req, res) {
 	var online = false;
 	if (req.param("online") === "on") online = true;
 
+	var brand = false;
+	if (req.param("brand") === "on") brand = true;
+
 	var local = false;
 	if (req.param("local") === "on") local = true;
 
@@ -522,6 +516,7 @@ exports.search = function(req, res) {
 	var additional_params = {
 		  term: term_original
 		, online: online
+		, brand: brand
 		, local: local
 		, fair: fair
 		, used: used
@@ -536,7 +531,8 @@ exports.search = function(req, res) {
 		, checkboxes_checked_in_view: checkboxes_checked_in_view
 	};
 
-	if (term.length === 0 && !online && !local && !bio && !fair && !used && !regional && !umkreissuche_active
+	if (term.length === 0 && !online && !brand && !local && !bio && !fair 
+	    && !used && !regional && !umkreissuche_active
 	    && !product_categories_search && !service_categories_search) {
 		additional_params.list = cache.getEntries();
 		if (additional_params.list.length === 1)
@@ -577,7 +573,7 @@ exports.search = function(req, res) {
 	if (umkreissuche_active && umkreis.length > 2) {
 		console.log("executing umkreissuche");
 		(function(addr, 
-			  opts, online, local, bio, used, fair, regional, umkreissuche_active, 
+			  opts, online, brand, local, bio, used, fair, regional, umkreissuche_active, 
 			  distance, req, res, additional_params, ajax,
 			  match_on_subcats) {
 
@@ -588,25 +584,25 @@ exports.search = function(req, res) {
 				me_coords = [ results[0].lat, results[0].lon ];
 				//console.log(JSON.stringify(me_coords, null, "\t"));
 
-				executeSearch(opts, online, local, bio, used, fair, regional, umkreissuche_active, 
+				executeSearch(opts, online, brand, local, bio, used, fair, regional, umkreissuche_active, 
 					me_coords, distance, req, res, additional_params, ajax,
 					match_on_subcats);
 			});
-		})(umkreis, opts, online, local, bio, used, fair, regional, umkreissuche_active, 
+		})(umkreis, opts, online, brand, local, bio, used, fair, regional, umkreissuche_active, 
 		   distance, req, res, additional_params, ajax, match_on_subcats);
 	} else {
-		executeSearch(opts, online, local, bio, used, fair, regional, umkreissuche_active, 
+		executeSearch(opts, online, brand, local, bio, used, fair, regional, umkreissuche_active, 
 			[], distance, req, res, additional_params, ajax,
 			match_on_subcats);
 	}
 }
 
-function executeSearch(opts, online, local, bio, used, fair, regional, umkreissuche_active, 
+function executeSearch(opts, online, brand, local, bio, used, fair, regional, umkreissuche_active, 
 		me_coords, distance, req, res, additional_params, ajax,
 		match_on_subcats) {
 
 	//db.view('db/search', opts, function (err, res_search) {
-(function (opts, online, local, bio, used, fair, regional, umkreissuche_active, 
+(function (opts, online, brand, local, bio, used, fair, regional, umkreissuche_active, 
 		me_coords, distance, req, res, additional_params, ajax,
 		match_on_subcats) {
 
@@ -628,11 +624,13 @@ function executeSearch(opts, online, local, bio, used, fair, regional, umkreissu
 				var r = res_search[i].value;
 				var show = true;
 
-				// search semantic 1
-				if (online === true && r.online === false)
+				if (online === true && (!r.online || r.online === false))
 					show = false;
 
-				if (local === true && r.local === false)
+				if (brand === true && (!r.brand || r.brand === false))
+					show = false;
+
+				if (local === true && (!r.local || r.local === false))
 					show = false;
 
 				if (bio === true && classified(r, "bio") === false)
@@ -733,7 +731,7 @@ function executeSearch(opts, online, local, bio, used, fair, regional, umkreissu
 			return;
 		}
 	})
-	})(opts, online, local, bio, used, fair, regional, umkreissuche_active, 
+	})(opts, online, brand, local, bio, used, fair, regional, umkreissuche_active, 
 	   me_coords, distance, req, res, additional_params, ajax,
 	   match_on_subcats);
 }
@@ -764,6 +762,7 @@ function newEntry(res, body, validation_results) {
 		, uri: body.uri
 		, local: body.local
 		, online: body.online
+		, brand: body.brand
 		, categories: validation_results.cats_chosen
 		, subcategories: validation_results.subcats_chosen
 		, classifications: validation_results.classifications_chosen
@@ -896,12 +895,17 @@ function validate(body) {
 
 	chk_cnt = chk._errors.length;
 
-	if (body.online !== "on" && body.local !== "on") {
-		validator.error("Bitte gib an, ob das Angebot online oder lokal ist.");
-		error_fields.online_local = "has-error";
+	if (body.online !== "on" && body.local !== "on" && body.brand !== "on") {
+		validator.error("Bitte gib an, ob das Angebot online, lokal oder eine Marke ist.");
+		error_fields.online_local_brand = "has-error";
 	}
+
 	if (body.online === "on") values.online = true;
 	else values.online = false;
+
+	if (body.brand === "on") values.brand = true;
+	else values.brand = false;
+
 
 	if (body.local === "on") values.local = true;
 	else values.local = false;
@@ -1020,7 +1024,7 @@ function get_error_fields() {
 		, uri: ""
 		, categories: ""
 		, classifications: ""
-		, online_local: ""
+		, online_local_brand: ""
 		, street: ""
 		, city: ""
 		, zipcode: ""
@@ -1034,7 +1038,7 @@ function get_global_values() {
 		  name: ""
 		, uri: ""
 		, classifications: ""
-		, online_local: ""
+		, online_local_brand: ""
 		, street: ""
 		, city: ""
 		, zipcode: ""

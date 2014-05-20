@@ -181,8 +181,8 @@ block content
 				div.row
 					&nbsp;
 
-				div(class="form-group #{error_fields.online_local}")
-					label.col-lg-2.control-label(for="online_local") Art des Angebots
+				div(class="form-group #{error_fields.online_local_brand}")
+					label.col-lg-2.control-label(for="online_local_brand") Art des Angebots
 					div.col-lg-2
 						- if (values["online"] === true)
 							input(type="checkbox",name="online",checked="checked") 
@@ -202,6 +202,16 @@ block content
 							input(type="checkbox",name="local") 
 							span.
 								&nbsp; Lokales Angebot
+						- endif
+					div.col-lg-2
+						- if (values["brand"] === true)
+							input(type="checkbox",name="brand",checked="checked") 
+							span.
+								&nbsp; Marke
+						- else
+							input(type="checkbox",name="brand") 
+							span.
+								&nbsp; Marke
 						- endif
 
 				- if (values["local"] === false || values["local"] == undefined)
