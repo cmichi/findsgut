@@ -4,8 +4,8 @@ module.exports.mail = {
 	password: "", 
 	tls: false,
 
-	sender: "Website Feedback <findsgut@marmaro.de>",
-	feedback_to: "findsgut@marmaro.de",
+	sender: "Website Feedback <orga@lists.findsgut.de>",
+	feedback_to: "orga@lists.findsgut.de",
 	admin_mail: "mich@elmueller.net"
 };
 
