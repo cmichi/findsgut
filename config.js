@@ -11,3 +11,7 @@ module.exports.mail = {
 
 // substitute this secret for security reasons with another one
 module.exports.session_secret = '5acfbfe3d02942ecbef51a5d26e08a325c6f0930';
+
+module.exports.dbauth = {
+	auth: { username: 'admin', password: '' }
+};
