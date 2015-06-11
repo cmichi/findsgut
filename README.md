@@ -52,10 +52,6 @@ Engine](http://jade-lang.com/reference/).
 	# $ export NODE_ENV="production"
 
 
-## Database
-
-The databse
-
 ## Cronjob
 
 Die Produktiv-Instanz generiert woechentlich einen Report:
