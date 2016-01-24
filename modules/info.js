@@ -409,7 +409,7 @@ Dies ist ein automatisch generierter Bericht fuer findsgut.\n\
 "In dieser Woche hat sich folgendes getan:\n\
 \n\
 Neue Eintraege: " + obj.week.entries + "\n\
-Aenderungen an Eintraegen: " + obj.week.changes.length + "\n\
+Aenderungen an Eintraegen: " + obj.week.count_changes + "\n\
 Besucher diese Woche: " + obj.week.visits + "\n\
 \n\
 Insgesamt stehen wir damit so da:\n\

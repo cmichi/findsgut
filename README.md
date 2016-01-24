@@ -51,6 +51,9 @@ Engine](http://jade-lang.com/reference/).
 	# otherwise no caching will take place.
 	# $ export NODE_ENV="production"
 
+	node findsgut.js 
+	# or forever start findsgut.js
+
 
 ## Cronjob
 
