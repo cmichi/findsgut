@@ -39,20 +39,21 @@ Engine](http://jade-lang.com/reference/).
 
 	# this will create views, etc..
 	make push
+	cd ../
 
-	# you're done! open http://localhost:5001/ within your browser.
 	# to change the database/port which is used set environment
 	# variables: 
 	# $ export PORT=5001
 	# $ export DBNAME="findsgut"
-	# $ export DBPORT=5985
+	# $ export DBPORT=5984
 
 	# if used in production don't forget to set NODE_ENV,
 	# otherwise no caching will take place.
 	# $ export NODE_ENV="production"
 
 	node findsgut.js 
-	# or forever start findsgut.js
+
+	# you're done! open http://localhost:5001/ within your browser.
 
 
 ## Cronjob
@@ -108,7 +109,7 @@ The code is licensed under the MIT license:
 
 Die findsgut Datensammlung ist in der NoSQL-Datenbank CouchDB abgelegt.
 Der Zugriff ist über die URI 
-[http://findsgut.de:5985/_utils/index.html](http://findsgut.de:5985/_utils/index.html)
+[http://findsgut.de:5984/_utils/index.html](http://findsgut.de:5984/_utils/index.html)
 möglich. Der Zugriff ist auf Lesezugriff beschränkt. Falls du Interesse
 hast auf unseren Daten aufbauend eine Anwendung zu entwickeln oder eine
 andere Idee zu verwirklichen, macht es vermutlich am meisten Sinn wenn
