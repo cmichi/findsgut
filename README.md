@@ -16,6 +16,11 @@ Verzeichnis zum Gelingen dieses Projektes beizutragen.
 
 **Project Status:** Online! [findsgut.de](https://www.findsgut.de).
 
+![Screenshot 1](https://github.com/cmichi/findsgut/raw/master/screenshots/home.jpg | width=800)
+
+![Screenshot 2](https://github.com/cmichi/findsgut/raw/master/screenshots/stoebern.jpg | width=800)
+
+
 ## Aufsetzen einer Instanz
 
 Make sure you have node.js, npm, CouchDB and couchapp installed.
